@@ -2,7 +2,7 @@
 Exercises submitted for Full Stack Open course.
 
 Structure of the repo is as follows:
-
+___
 `part0
 part1
     courseinfo
