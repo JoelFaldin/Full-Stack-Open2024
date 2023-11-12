@@ -1,4 +1,4 @@
-# Full-Stack-Open2023
+# Full-Stack-Open2023 🖥️🚀🌠
 Exercises submitted for Full Stack Open course.
 
 ___
@@ -11,7 +11,5 @@ part1
     unicafe
     anecdotes
 part2
-    courseinfo
-    phonebook
-    countries
+    coming soon(tm)
 ~~~
