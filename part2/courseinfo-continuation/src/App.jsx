@@ -51,9 +51,6 @@ const App = () => {
       {courses.map(cour => {
         return <Course key={`Course${cour.id}`} course={cour} />
       })}
-      {/* <Course course={courses} /> */}
-
-      {/* <Total course={course} /> */}
     </div>
   )
 }
