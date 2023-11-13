@@ -1,6 +1,10 @@
-const Total = (props) => {
+const Total = ({ exercises }) => {
+    let sum = 0
+    exercises.map(quantiy => sum += quantiy.exercises)
+    // console.log(sum)
+
     return (
-        <p>Number of exercises: {props.course.parts[0].exercises + props.course.parts[1].exercises + props.course.parts[2].exercises}</p>
+        <b>Number of exercises: {sum}</b>
     )
 }
 

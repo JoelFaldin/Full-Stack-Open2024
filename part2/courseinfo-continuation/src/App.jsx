@@ -31,11 +31,8 @@ const App = () => {
   return (
     <div>
       <Course course={course} />
-      {/* <Header course={course} />
 
-      <Content course={course} />
-
-      <Total course={course} /> */}
+      {/* <Total course={course} /> */}
     </div>
   )
 }
