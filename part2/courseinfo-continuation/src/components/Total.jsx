@@ -1,7 +1,8 @@
 const Total = ({ exercises }) => {
-    let sum = 0
-    exercises.map(quantiy => sum += quantiy.exercises)
-    // console.log(sum)
+    // Calculating the total exercises using the .reduce() method:
+    let sum = exercises.reduce((accumulator, current) => {
+        return accumulator + current.exercises
+    }, 0)
 
     return (
         <b>Number of exercises: {sum}</b>
