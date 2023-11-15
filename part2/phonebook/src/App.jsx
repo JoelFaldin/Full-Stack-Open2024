@@ -11,8 +11,14 @@ function App() {
     const newPerson = {
       name: newName
     }
-    setPersons(persons.concat(newPerson))
-    setNewName('')
+    if (JSON.stringify(persons[0]) !== JSON.stringify(newPerson)) {
+      setPersons(persons.concat(newPerson))
+      setNewName('')
+    }
+    else {
+      alert(`${newPerson.name} is already added!!!`)
+    }
+    
   }
   const handleChange = (event) => {
     setNewName(event.target.value)
