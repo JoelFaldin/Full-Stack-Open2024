@@ -8,17 +8,18 @@ function App() {
 
   const submitPerson = (event) => {
     event.preventDefault()
-    const newPerson = {
-      name: newName
-    }
-    if (JSON.stringify(persons[0]) !== JSON.stringify(newPerson)) {
-      setPersons(persons.concat(newPerson))
+    const index = persons.findIndex(person => person.name === newName)
+    if (index === -1) {
+      const newPerson = {
+        name: newName
+      }
+      setPersons(oldPersons => [...oldPersons, newPerson])  
       setNewName('')
+    } else {
+      alert(`${newName} is already added to the phonebook!!!`)
     }
-    else {
-      alert(`${newPerson.name} is already added!!!`)
-    }
-    
+
+
   }
   const handleChange = (event) => {
     setNewName(event.target.value)
