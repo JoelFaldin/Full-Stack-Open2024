@@ -10,6 +10,7 @@ function App() {
   const [newName, setNewName] = useState('Enter a name...')
   const [newNumber, setNewNumber] = useState('Enter a number...')
   const [show, setShow] = useState('')
+  const [personsToShow, setPersonsToShow] = useState([...persons])
 
   const submitPerson = (event) => {
     event.preventDefault()
@@ -38,8 +39,7 @@ function App() {
   }
 
   useEffect(() => {
-    const personsToShow = persons.filter(person => person.name.includes(show))
-    setPersons(personsToShow)
+    setPersonsToShow(persons.filter(person => person.name.includes(show)))
     // console.log(personsToShow)
   }, [show])
 
@@ -62,7 +62,7 @@ function App() {
       </form>
 
       <h3>Numbers</h3>
-      {persons.map(person => {
+      {personsToShow.map(person => {
         return (
           <p key={person.id}>{person.name} {person.number}</p>
         )
