@@ -54,7 +54,10 @@ function App() {
       <h1>PhoneBook</h1>
       <Filter change={handleChange} />
 
+      <h2>Add a new person:</h2>
       <AddPeople submitPerson={submitPerson} newName={newName} handleName={handleName} newNumber={newNumber} handleNumber={handleNumber} />
+
+      <h3>People data</h3>
       <RenderList personsToShow={personsToShow} />
     </>
   )
