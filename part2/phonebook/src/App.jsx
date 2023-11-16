@@ -1,4 +1,7 @@
 import { useEffect, useState } from 'react'
+import RenderList from './components/RenderList'
+import AddPeople from './components/AddPeople'
+import Filter from './components/Filter'
 
 function App() {
   const [persons, setPersons] = useState([
@@ -21,7 +24,7 @@ function App() {
         number: newNumber,
         id: persons.length + 1
       }
-      setPersons(oldPersons => [...oldPersons, newPerson])  
+      setPersonsToShow(oldPersons => [...oldPersons, newPerson])  
       setNewName('')
       console.log("Person added!")
     } else {
@@ -38,35 +41,21 @@ function App() {
     setShow(event.target.value)
   }
 
+  const handleTest = () => {
+    console.log('this is a test')
+  }
+
   useEffect(() => {
     setPersonsToShow(persons.filter(person => person.name.includes(show)))
-    // console.log(personsToShow)
   }, [show])
 
   return (
     <>
       <h1>PhoneBook</h1>
+      <Filter change={handleChange} />
 
-      <input placeholder='Enter a person' onChange={handleChange} />
-
-      <h2>Add a new person:</h2>
-      <form onSubmit={submitPerson}>
-        <span htmlFor="name">name:</span>
-        <input placeholder={newName} onChange={handleName} id="name" />
-        <br />
-        <span htmlFor="number">number:</span>
-        <input placeholder={newNumber} onChange={handleNumber} id="number" />
-        <div>
-          <button type='submit'>Add person</button>
-        </div>
-      </form>
-
-      <h3>Numbers</h3>
-      {personsToShow.map(person => {
-        return (
-          <p key={person.id}>{person.name} {person.number}</p>
-        )
-      })}
+      <AddPeople submitPerson={submitPerson} newName={newName} handleName={handleName} newNumber={newNumber} handleNumber={handleNumber} />
+      <RenderList personsToShow={personsToShow} />
     </>
   )
 }
