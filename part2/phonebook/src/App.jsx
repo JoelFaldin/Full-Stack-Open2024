@@ -2,31 +2,35 @@ import { useEffect, useState } from 'react'
 import RenderList from './components/RenderList'
 import AddPeople from './components/AddPeople'
 import Filter from './components/Filter'
+import axios from 'axios'
 
 function App() {
-  const person = [
-    { name: 'Arto Hellas', number: '040-123456', id: 1 },
-    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
-    { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
-    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
-  ]
-  
+  const [persons, setPersons] = useState([])  
   const [newName, setNewName] = useState('Enter a name...')
   const [newNumber, setNewNumber] = useState('Enter a number...')
   const [show, setShow] = useState('')
-  const [personsToShow, setPersonsToShow] = useState([...person])
+
+  useEffect(() => {
+    console.log('effect')
+    axios.get('http://localhost:3001/persons').then(response => {
+      console.log('promise fulfilled!')
+      setPersons(response.data)
+    })
+  },[])
+  console.log('render', persons.length, 'notes')
+
+  const showing = !show ? persons : persons.filter(person => person.name.includes(show))
 
   const submitPerson = (event) => {
     event.preventDefault()
-    const index = person.findIndex(person => person.name === newName)
+    const index = persons.findIndex(person => person.name === newName)
     if (index === -1) {
       const newPerson = {
         name: newName,
         number: newNumber,
-        id: person.length + 1
+        id: persons.length + 1
       }
-      setPersonsToShow(oldPersons => [...oldPersons, newPerson])  
-      setNewName('')
+      setPersons([...persons, newPerson])
       console.log("Person added!")
     } else {
       alert(`${newName} is already added to the phonebook!!!`)
@@ -42,10 +46,6 @@ function App() {
     setShow(event.target.value)
   }
 
-  useEffect(() => {
-    setPersonsToShow(person.filter(person => person.name.includes(show)))
-  }, [show])
-
   return (
     <>
       <h1>PhoneBook</h1>
@@ -55,7 +55,7 @@ function App() {
       <AddPeople submitPerson={submitPerson} newName={newName} handleName={handleName} newNumber={newNumber} handleNumber={handleNumber} />
 
       <h3>People data</h3>
-      <RenderList personsToShow={personsToShow} />
+      <RenderList personsToShow={showing} />
     </>
   )
 }
