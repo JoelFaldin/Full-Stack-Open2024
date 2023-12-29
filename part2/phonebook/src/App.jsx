@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import RenderList from './components/RenderList'
 import AddPeople from './components/AddPeople'
 import Filter from './components/Filter'
-import axios from 'axios'
+import backService from './services/backService'
 
 function App() {
   const [persons, setPersons] = useState([])  
@@ -12,11 +12,13 @@ function App() {
 
   useEffect(() => {
     console.log('effect')
-    axios.get('http://localhost:3001/persons').then(response => {
-      console.log('promise fulfilled!')
-      setPersons(response.data)
-    })
-  },[])
+    backService
+      .getNumbers()
+      .then(numbers => {
+        setPersons(numbers)
+      })
+  }, [])
+
   console.log('render', persons.length, 'notes')
 
   const showing = !show ? persons : persons.filter(person => person.name.includes(show))
@@ -30,14 +32,17 @@ function App() {
         number: newNumber,
         id: persons.length + 1
       }
-      // setPersons([...persons, newPerson])
-      axios.post('http://localhost:3001/persons', newPerson)
-      setPersons(persons.concat(newPerson))
+      backService
+        .addNumber(newPerson)
+        .then(contact => {
+          setPersons(persons.concat(contact))
+        })
       console.log("Person added!")
     } else {
       alert(`${newName} is already added to the phonebook!!!`)
     }
   }
+  
   const handleName = (event) => {
     setNewName(event.target.value)
   }
