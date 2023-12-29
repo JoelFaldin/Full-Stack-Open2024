@@ -39,7 +39,21 @@ function App() {
         })
       console.log("Person added!")
     } else {
-      alert(`${newName} is already added to the phonebook!!!`)
+      if (confirm(`${newName} is already added. Wanna to replace old number with the new one?`)) {
+        const person = persons.find(person => person.name === newName)
+        const newPerson = {
+          name: person.name,
+          number: newNumber,
+          id: person.id
+        }
+        backService
+          .update(person.id, newPerson)
+          backService
+            .getNumbers()
+            .then(list => {
+              setPersons(list)
+            })
+      }
     }
   }
 

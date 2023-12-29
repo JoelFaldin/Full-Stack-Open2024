@@ -11,9 +11,14 @@ const addNumber = (newNumber) => {
     return request.then(res => res.data)
 }
 
+const update = (id, updatedNumber) => {
+    const request = axios.put(`${url}/${id}`, updatedNumber)
+    return request.then(res => res.data)
+}
+
 const remove = (id) => {
     const request = axios.delete(url.concat(`/${id}`))
     return request.then(res => res.data)
 }
 
-export default { getNumbers, addNumber, remove }
+export default { getNumbers, addNumber, remove, update }
