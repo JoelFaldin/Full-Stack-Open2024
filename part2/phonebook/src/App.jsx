@@ -19,7 +19,7 @@ function App() {
       })
   }, [])
 
-  console.log('render', persons.length, 'notes')
+  console.log(`rendering ${persons.length} contacts`)
 
   const showing = !show ? persons : persons.filter(person => person.name.includes(show))
 
@@ -30,7 +30,7 @@ function App() {
       const newPerson = {
         name: newName,
         number: newNumber,
-        id: persons.length + 1
+        id: persons[persons.length - 1].id + 1
       }
       backService
         .addNumber(newPerson)
@@ -42,7 +42,7 @@ function App() {
       alert(`${newName} is already added to the phonebook!!!`)
     }
   }
-  
+
   const handleName = (event) => {
     setNewName(event.target.value)
   }
@@ -51,6 +51,10 @@ function App() {
   }
   const handleChange = (event) => {
     setShow(event.target.value)
+  }
+  const handleUpdate = (event) => {
+    const newList = persons.filter(identifier => identifier.id !== event)
+    setPersons(newList)
   }
 
   return (
@@ -62,7 +66,7 @@ function App() {
       <AddPeople submitPerson={submitPerson} newName={newName} handleName={handleName} newNumber={newNumber} handleNumber={handleNumber} />
 
       <h3>People data</h3>
-      <RenderList personsToShow={showing} />
+      <RenderList personsToShow={showing} update={handleUpdate} />
     </>
   )
 }

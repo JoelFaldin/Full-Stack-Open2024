@@ -1,6 +1,9 @@
-const ShowData = ({ name, number }) => {
+const ShowData = ({ name, number, deleteNumber }) => {
     return (
-        <p>{name} {number}</p>
+        <label style={{display: 'block'}}>
+            <label>{name} {number}</label>
+            <button onClick={deleteNumber}>delete</button>
+        </label>
     )
 }
 
