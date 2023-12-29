@@ -3,12 +3,14 @@ import RenderList from './components/RenderList'
 import AddPeople from './components/AddPeople'
 import Filter from './components/Filter'
 import backService from './services/backService'
+import Success from './components/Success'
 
 function App() {
   const [persons, setPersons] = useState([])  
   const [newName, setNewName] = useState('Enter a name...')
   const [newNumber, setNewNumber] = useState('Enter a number...')
   const [show, setShow] = useState('')
+  const [message, setMessage] = useState(null)
 
   useEffect(() => {
     console.log('effect')
@@ -37,7 +39,12 @@ function App() {
         .then(contact => {
           setPersons(persons.concat(contact))
         })
-      console.log("Person added!")
+        setMessage(`${newName} was succesfully added!`)
+        setTimeout(() => {
+          setMessage(null)
+        }, 5000)
+        
+        console.log("Person added!")
     } else {
       if (confirm(`${newName} is already added. Wanna to replace old number with the new one?`)) {
         const person = persons.find(person => person.name === newName)
@@ -48,11 +55,15 @@ function App() {
         }
         backService
           .update(person.id, newPerson)
-          backService
-            .getNumbers()
-            .then(list => {
-              setPersons(list)
-            })
+        backService
+          .getNumbers()
+          .then(list => {
+            setPersons(list)
+          })
+        setMessage(`${newName}'s name was succesfully updated!`)
+        setTimeout(() => {
+          setMessage(null)
+        }, 5000)
       }
     }
   }
@@ -74,6 +85,8 @@ function App() {
   return (
     <>
       <h1>PhoneBook</h1>
+      <Success msg={message} />
+
       <Filter change={handleChange} />
 
       <h2>Add a new person:</h2>
