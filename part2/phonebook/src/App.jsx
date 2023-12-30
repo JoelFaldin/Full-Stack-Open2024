@@ -4,6 +4,7 @@ import AddPeople from './components/AddPeople'
 import Filter from './components/Filter'
 import backService from './services/backService'
 import Success from './components/Success'
+import Error from './components/Error'
 
 function App() {
   const [persons, setPersons] = useState([])  
@@ -11,6 +12,7 @@ function App() {
   const [newNumber, setNewNumber] = useState('Enter a number...')
   const [show, setShow] = useState('')
   const [message, setMessage] = useState(null)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     console.log('effect')
@@ -55,6 +57,13 @@ function App() {
         }
         backService
           .update(person.id, newPerson)
+          .catch(er => {
+            setError(`${newName}'s information has been deleted from the server.`)
+            setTimeout(() => {
+              setError(null)
+            }, 10000)
+            setMessage(null)
+          })
         backService
           .getNumbers()
           .then(list => {
@@ -86,6 +95,7 @@ function App() {
     <>
       <h1>PhoneBook</h1>
       <Success msg={message} />
+      <Error msg={error} />
 
       <Filter change={handleChange} />
 
