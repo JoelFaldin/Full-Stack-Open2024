@@ -1,13 +1,22 @@
-const CountriesList = ({ countries }) => {
-    if (countries === null) {
+import { useState } from "react"
+import Country from "./Country"
+
+const CountriesList = ({ data }) => {
+    if (data === null) {
         return null
     }
-    // console.log(countries[0].name.common)
+
+    const [content, setContent] = useState(null)
+
+    const handleClick = () => {
+        setContent(data)
+    }
+
     return (
         <div>
-            {countries.map((element, index) => (
-                <p key={index}>{element.name.common}</p>
-            ))}
+            <p style={{display: "inline", marginRight: "5px"}}>{data.name.common}</p>
+            <button onClick={handleClick} style={{display: "inline", marginLeft: "5px"}}>show</button>
+            <Country country={content} />
         </div>
     )
 }

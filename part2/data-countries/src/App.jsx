@@ -31,7 +31,6 @@ function App() {
       setMatching(result)
       setUniqueCountry(null)
     } else if (result.length === 1) {
-      console.log('pog if true')
       setMessage(null)
       setMatching(null)
       setUniqueCountry(result[0])
@@ -48,7 +47,13 @@ function App() {
       <input value={search} onChange={handleSearch} />
 
       <Warning msg={message} />
-      <CountriesList countries={matching} />
+      {
+        matching === null ? '' :
+          matching.map((country, index) => (
+            <CountriesList key={index} data={country} />
+          ))
+          
+      }      
       <Country country={uniqueCountry} />
     </>
   )
