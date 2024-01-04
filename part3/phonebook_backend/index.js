@@ -43,6 +43,18 @@ app.get('/info', (req, res) => {
     console.log(req.headers)
 })
 
+app.get('/api/persons/:id', (req, res) => {
+    const id = Number(req.params.id)
+    const contact = phonebook.find(p => p.id === id)
+    
+    if (contact) {
+        res.json(contact)        
+    } else {
+        res.status(404).end()
+    }
+    
+})
+
 const port = 3001
 app.listen(port, () => {
     console.log('Server up! 🪄')
