@@ -1,0 +1,35 @@
+### Adding a normal contact:
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+    "name": "Dan",
+    "number": "91-010101"
+}
+
+### Adding a contact without name:
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+    "name": "",
+    "number": "91-02020202"
+}
+
+### Adding a contact without number:
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+    "name": "Dan",
+    "number": ""
+}
+
+### Adding a contact with an already existing name:
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+    "name": "Dan Abramov",
+    "number": "92-030303"
+}

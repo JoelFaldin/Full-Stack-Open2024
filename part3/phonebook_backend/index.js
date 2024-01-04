@@ -65,6 +65,20 @@ app.post('/api/persons', (req, res) => {
     const newId = Math.random() * 1000
     const body = req.body
 
+    if (!body.name) {
+        return res.status(400).json({
+            error: 'Name missing!'
+        })
+    } else if (!body.number) {
+        return res.status(400).json({
+            error: 'Number missing!'
+        })
+    } else if (phonebook.find(p => p.name === body.name)) {
+        return res.status(400).json({
+            error: 'Person already added!'
+        })
+    }
+    
     const contact = {
         "id": newId,
         "name": body.name,
