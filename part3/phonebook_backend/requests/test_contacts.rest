@@ -1,5 +1,8 @@
+### Getting all data:
+GET https://phonebook-render-kn2j.onrender.com/api/persons
+
 ### Adding a normal contact:
-POST http://localhost:3001/api/persons
+POST https://phonebook-render-kn2j.onrender.com/api/persons
 Content-Type: application/json
 
 {
@@ -8,7 +11,7 @@ Content-Type: application/json
 }
 
 ### Adding a contact without name:
-POST http://localhost:3001/api/persons
+POST https://phonebook-render-kn2j.onrender.com/api/persons
 Content-Type: application/json
 
 {
@@ -17,7 +20,7 @@ Content-Type: application/json
 }
 
 ### Adding a contact without number:
-POST http://localhost:3001/api/persons
+POST https://phonebook-render-kn2j.onrender.com/api/persons
 Content-Type: application/json
 
 {
@@ -26,7 +29,7 @@ Content-Type: application/json
 }
 
 ### Adding a contact with an already existing name:
-POST http://localhost:3001/api/persons
+POST https://phonebook-render-kn2j.onrender.com/api/persons
 Content-Type: application/json
 
 {
