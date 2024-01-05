@@ -1,0 +1,25 @@
+h1 {
+    color: #0fb591;
+}
+
+.success {
+    color: rgb(0, 57, 0);
+    background-color: #0fb591;
+    font-size: 20px;
+    border-style: solid;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 5px;
+    width: 50vw;
+}
+
+.error {
+    color: rgb(157, 10, 10);
+    background-color: rgb(178, 116, 116);
+    font-size: 20px;
+    border-style: solid;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 5px;
+    width: 50vw;
+}
