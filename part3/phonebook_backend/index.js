@@ -53,29 +53,16 @@ app.get('/api/persons/:id', (req, res) => {
     }
 })
 
-app.delete('/api/persons/:id', (req, res) => {
-    const id = Number(req.params.id)
-    phonebook = phonebook.filter(p => p.id !== id)
-    
-    res.status(204).end()
+app.delete('/api/persons/:id', (req, res, next) => {
+    Contact.findByIdAndDelete(req.params.id)
+        .then(result => {
+            res.status(204).end()
+        })
+        .catch(error => next(error))
 })
 
 app.post('/api/persons', (req, res) => {
     const body = req.body
-
-    // if (!body.name) {
-    //     return res.status(400).json({
-    //         error: 'Name missing!'
-    //     })
-    // } else if (!body.number) {
-    //     return res.status(400).json({
-    //         error: 'Number missing!'
-    //     })
-    // } else if (phonebook.find(p => p.name === body.name)) {
-    //     return res.status(400).json({
-    //         error: 'Person already added!'
-    //     })
-    // }
     
     const contact = new Contact({
         "name": body.name,
