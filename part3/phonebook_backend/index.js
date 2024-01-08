@@ -48,8 +48,6 @@ app.get('/api/persons/:id', (req, res) => {
     
     if (contact) {
         res.json(contact)        
-    } else {
-        res.status(404).end()
     }
 })
 
@@ -74,7 +72,23 @@ app.post('/api/persons', (req, res) => {
     })
 })
 
-const port = process.env.port || 3001
+const formatError = (error, req, res, next) => {
+    console.error(error)
+    if (error.name === 'CastError') {
+        return res.status(400).send({ error: 'Malformatted id!' })
+    }
+    next(error)
+}
+
+app.use(formatError)
+
+const endpointTypo = (req, res) => {
+    res.status(404).send({ error: 'You made a typo in the endpoint.' })
+}
+
+app.use(endpointTypo)
+
+const port = process.env.PORT || 3001
 app.listen(port, () => {
     console.log('Server up! 🪄')
     console.log('http://localhost:3001')
