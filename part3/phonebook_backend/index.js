@@ -43,12 +43,17 @@ app.get('/info', (req, res) => {
 })
 
 app.get('/api/persons/:id', (req, res) => {
-    const id = Number(req.params.id)
-    const contact = phonebook.find(p => p.id === id)
+    const id = req.params.id
     
-    if (contact) {
-        res.json(contact)        
-    }
+    Contact.findById(id)
+        .then(contact => {
+            if (contact) {
+                res.json(contact)
+            } else {
+                console.log('no contact found!')
+                res.status(404).end()
+            }
+        })
 })
 
 app.delete('/api/persons/:id', (req, res, next) => {
