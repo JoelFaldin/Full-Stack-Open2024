@@ -61,17 +61,33 @@ app.delete('/api/persons/:id', (req, res, next) => {
 
 app.post('/api/persons', (req, res) => {
     const body = req.body
+
+    if (!body.content) {
+        return res.status(400).json({ error: 'No content provided' })
+    }
     
     const contact = new Contact({
         "name": body.name,
         "number": body.number
     })
 
-    contact.save().then(saved => {
-        res.json(saved)
-    })
+    contact.save()
+        .then(saved => {
+            res.json(saved)
+        })
 })
 
+app.put('/api/persons/:id', (req, res, next) => {
+    const body = req.body
+
+    Contact.findByIdAndUpdate(req.params.id, { number: req.body.number }, { new: true })
+        .then(updated => {
+            res.json(updated)
+        })
+        .catch(error => next(error))
+})
+
+// Error handling in middlewares:
 const formatError = (error, req, res, next) => {
     console.error(error)
     if (error.name === 'CastError') {
@@ -79,13 +95,11 @@ const formatError = (error, req, res, next) => {
     }
     next(error)
 }
-
 app.use(formatError)
 
 const endpointTypo = (req, res) => {
     res.status(404).send({ error: 'You made a typo in the endpoint.' })
 }
-
 app.use(endpointTypo)
 
 const port = process.env.PORT || 3001
