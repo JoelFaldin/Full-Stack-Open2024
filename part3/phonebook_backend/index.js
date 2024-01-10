@@ -6,8 +6,11 @@ const cors = require('cors')
 const Contact = require('./models/contact')
 const mongoose = require('mongoose')
 
-app.use(express.json())
+// Connecting to MongoDB:
+mongoose.set('strictQuery', false)
+
 app.use(cors())
+app.use(express.json())
 app.use(express.static('dist'))
 app.use(morgan((tokens, req, res) => {
     return [
@@ -19,9 +22,6 @@ app.use(morgan((tokens, req, res) => {
         JSON.stringify(req.body)
     ].join(' ')
 }))
-
-// Connecting to MongoDB:
-mongoose.set('strictQuery', false)
 
 app.get('/', (req, res) => {
     res.send('<h1>Hello there!</h1>')
@@ -40,6 +40,21 @@ app.get('/info', (req, res) => {
         <p>${Date()}</p>`
     )
     console.log(req.headers)
+})
+
+app.post('/api/persons', (req, res, next) => {
+    const body = req.body
+    
+    const contact = new Contact({
+        name: body.name,
+        number: body.number
+    })
+
+    contact.save()
+        .then(saved => {
+            res.json(saved)
+        })
+        .catch(error => next(error))
 })
 
 app.get('/api/persons/:id', (req, res) => {
@@ -64,28 +79,8 @@ app.delete('/api/persons/:id', (req, res, next) => {
         .catch(error => next(error))
 })
 
-app.post('/api/persons', (req, res) => {
-    const body = req.body
-
-    if (!body.content) {
-        return res.status(400).json({ error: 'No content provided' })
-    }
-    
-    const contact = new Contact({
-        "name": body.name,
-        "number": body.number
-    })
-
-    contact.save()
-        .then(saved => {
-            res.json(saved)
-        })
-})
-
 app.put('/api/persons/:id', (req, res, next) => {
-    const body = req.body
-
-    Contact.findByIdAndUpdate(req.params.id, { number: req.body.number }, { new: true })
+    Contact.findByIdAndUpdate(req.params.id, { number: req.body.number }, { new: true, runValidators: true, context: 'query' })
         .then(updated => {
             res.json(updated)
         })
@@ -97,6 +92,8 @@ const formatError = (error, req, res, next) => {
     console.error(error)
     if (error.name === 'CastError') {
         return res.status(400).send({ error: 'Malformatted id!' })
+    } else if (error.name === 'ValidationError') {
+        res.status(400).json({ error: error.errors.name.message })
     }
     next(error)
 }

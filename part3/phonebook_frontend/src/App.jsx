@@ -40,13 +40,18 @@ function App() {
         .addNumber(newPerson)
         .then(contact => {
           setPersons(persons.concat(contact))
-        })
-        setMessage(`${newName} was succesfully added!`)
-        setTimeout(() => {
-          setMessage(null)
-        }, 5000)
-        
+          setMessage(`${newName} was succesfully added!`)
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
         console.log("Person added!")
+        })
+        .catch(error => {
+          setError(error.response.data.error)
+          setTimeout(() => {
+            setError(null)
+          }, 10000)
+        })
     } else {
       if (confirm(`${newName} is already added. Wanna to replace old number with the new one?`)) {
         const person = persons.find(person => person.name === newName)
