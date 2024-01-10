@@ -89,11 +89,16 @@ app.put('/api/persons/:id', (req, res, next) => {
 
 // Error handling in middlewares:
 const formatError = (error, req, res, next) => {
-    console.error(error)
     if (error.name === 'CastError') {
         return res.status(400).send({ error: 'Malformatted id!' })
     } else if (error.name === 'ValidationError') {
-        res.status(400).json({ error: error.errors.name.message })
+        if (error.errors.number) {
+            // console.log(error.errors.number.message)
+            res.status(400).json({ error: error.errors.number.message })
+        } else if (error.errors.name) {
+            // console.log(error.errors.name.message)
+            res.status(400).json({ error: error.errors.name.message })
+        }
     }
     next(error)
 }

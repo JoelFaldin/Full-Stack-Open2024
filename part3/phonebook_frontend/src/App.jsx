@@ -47,10 +47,14 @@ function App() {
         console.log("Person added!")
         })
         .catch(error => {
-          setError(error.response.data.error)
-          setTimeout(() => {
-            setError(null)
-          }, 10000)
+          if (error.response.data.error) {
+            setError(error.response.data.error)
+            setTimeout(() => {
+              setError(null)
+            }, 10000)
+          } else {
+            console.log(error.response.data)
+          }
         })
     } else {
       if (confirm(`${newName} is already added. Wanna to replace old number with the new one?`)) {
