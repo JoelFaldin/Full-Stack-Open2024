@@ -33,18 +33,17 @@ app.get('/api/persons', (req, res) => {
     })
 })
 
-app.get('/info', (req, res) => {
-    const num = phonebook.length
-    res.send(`
-        <p>Phonebook has data for ${num} contacts!</p>
-        <p>${Date()}</p>`
-    )
-    console.log(req.headers)
-})
+// app.get('/info', (req, res) => {
+//     const num = phonebook.length
+//     res.send(`
+//         <p>Phonebook has data for ${num} contacts!</p>
+//         <p>${Date()}</p>`
+//     )
+//     console.log(req.headers)
+// })
 
 app.post('/api/persons', (req, res, next) => {
-    const body = req.body
-    
+    const body = req.body    
     const contact = new Contact({
         name: body.name,
         number: body.number
@@ -73,7 +72,7 @@ app.get('/api/persons/:id', (req, res) => {
 
 app.delete('/api/persons/:id', (req, res, next) => {
     Contact.findByIdAndDelete(req.params.id)
-        .then(result => {
+        .then(() => {
             res.status(204).end()
         })
         .catch(error => next(error))
