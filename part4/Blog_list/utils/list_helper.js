@@ -3,11 +3,11 @@ const dummy = (blogs) => {
 }
 
 const totalLikes = (array) => {
-    let total = 0
+    let newTotal = 0
     array.map(blog => {
-        total += blog.likes
+        newTotal += blog.likes
     })
-    return total
+    return newTotal
 }
 
 module.exports = { dummy, totalLikes }
