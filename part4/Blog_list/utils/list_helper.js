@@ -2,4 +2,12 @@ const dummy = (blogs) => {
     return 1
 }
 
-module.exports = { dummy }
+const totalLikes = (array) => {
+    let total = 0
+    array.map(blog => {
+        total += blog.likes
+    })
+    return total
+}
+
+module.exports = { dummy, totalLikes }
