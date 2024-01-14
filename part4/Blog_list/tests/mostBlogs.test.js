@@ -1,7 +1,7 @@
-const listhelper = require('../utils/list_helper')
+const list_helper = require('../utils/list_helper')
 
-describe('most liked blog', () => {
-    const likedBlog = [
+describe('Most active author', () => {
+    const blogs = [
         {
             _id: '5a422aa71b54a676234d17f8',
             title: 'Go To Statement Considered Harmful',
@@ -28,14 +28,13 @@ describe('most liked blog', () => {
         },
     ]
 
-    const famous = {
-        title: 'Frontend is also important',
-        author: 'Arto Hellas',
-        likes: 39,
+    const mostActive = {
+        author: "Arto Hellas",
+        blogs: 2
     }
 
-    test('the most liked post', () => {
-        const liked = listhelper.favoriteBlog(likedBlog)
-        expect(liked).toEqual(famous)
+    test('the most active author: ', () => {
+        const active = list_helper.mostBlogs(blogs)
+        expect(active).toEqual(mostActive)
     })
 })
