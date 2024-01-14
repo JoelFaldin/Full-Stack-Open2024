@@ -38,4 +38,16 @@ const mostBlogs = (array) => {
     return mostActive
 }
 
-module.exports = { dummy, totalLikes, favoriteBlog, mostBlogs }
+const mostLikes = (array) => {
+    const group = _.groupBy(array, 'author')
+    const likes = _.map(group, (newGroup, author) => ({
+        author: author,
+        likes: _.sumBy(newGroup, 'likes')
+    }))
+    const mostLikes = likes.reduce((prev, current) => {
+        return prev.likes > current.likes ? prev : current
+    })
+    return mostLikes
+}
+
+module.exports = { dummy, totalLikes, favoriteBlog, mostBlogs, mostLikes }
