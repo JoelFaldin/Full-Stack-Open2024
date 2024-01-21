@@ -5,7 +5,6 @@ const logger = require('../utils/logger')
 blogRouter.get('/', async (req, res) => {
     const blogs = await Blog.find({})
     res.status(200).json(blogs)
-
 })
 
 blogRouter.post('/', async (req, res) => {

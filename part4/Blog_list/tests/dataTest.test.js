@@ -1,11 +1,12 @@
 const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
+
 const api = supertest(app)
 
 const Blog = require('../models/blog')
 
-const blogs = [
+const newBlogs = [
     {
         _id: '5a422aa71b54a676234d17f8',
         title: 'Go To Statement Considered Harmful',
@@ -15,7 +16,7 @@ const blogs = [
         __v: 0
     },
     {
-        _id: 'JA2hToTNZrzMKqWThAnkr6i1nbueKPa',
+        _id: '67422aa73b54a101234d17f8',
         title: 'Backend is importat',
         author: 'Arto Hellas',
         url: '',
@@ -25,19 +26,29 @@ const blogs = [
 ]
 
 beforeEach(async () => {
-    await Blog.deleteMany()
-
-    const blogObject = blogs.map(blog => new Blog(blog))
-    const promise = blogObject.map(blog => blog.save)
-    await Promise.all(promise)
-})
+    await Blog.deleteMany({})
+    await Blog.insertMany(newBlogs)
+  })
 
 test('blog list test', async () => {
-    await api
+    const res = await api
         .get('/api/blogs')
         .expect(200)
         .expect('Content-type', /application\/json/)
-}, 10000)
+})
+
+test('verify id existence', async () => {
+    const keyExistence = await api
+        .get('/api/blogs')
+        .expect(200)
+        .expect(res => {
+            const json = JSON.parse(res.text);
+            
+            json.forEach(element => {
+                expect(element.id).toBeDefined()
+            });
+        })
+})
 
 afterAll(async () => {
     await mongoose.connection.close()
