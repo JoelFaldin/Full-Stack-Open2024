@@ -50,6 +50,26 @@ test('verify id existence', async () => {
         })
 })
 
+test('adding a new blog', async () => {
+    const newBlog = {
+        title: 'Testing the backend can be hard',
+        author: 'Daniel L.',
+        url: '',
+        likes: 30,
+        __v: 0
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(201)
+        
+    const blogResponse = await api.get('/api/blogs')
+    const blogArray = blogResponse.body.map(blog => blog.title)
+
+    expect(blogArray).toContain('Testing the backend can be hard')
+})
+
 afterAll(async () => {
     await mongoose.connection.close()
 })
