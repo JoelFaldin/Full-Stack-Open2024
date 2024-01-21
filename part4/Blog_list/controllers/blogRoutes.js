@@ -19,10 +19,16 @@ blogRouter.post('/', async (req, res) => {
 
     if (body.title === '' || body.url === '') {
         res.status(400).json({ message: 'Title and url shouldnt be empty' })
+        return
     }
 
     const blogs = await blog.save()
     res.status(201).json(blogs)
+})
+
+blogRouter.delete('/:id', async (req, res) => {
+    const deletion = await Blog.findByIdAndDelete(req.params.id)
+    res.status(204).json({ message: 'Blog deleted' })
 })
 
 module.exports = blogRouter

@@ -96,7 +96,20 @@ test('testing servers response when url is not provided', async () => {
     await api
         .post('/api/blogs')
         .send(newBlog)
-        .expect(201)
+        .expect(400)
+})
+
+test('deleting a single blog', async () => {
+    const initialBlogs = await Blog.find({})
+    const blogsArray = initialBlogs.map(blog => blog.toJSON())
+    const blogToDelete = blogsArray[0]
+    
+    await api
+        .delete(`/api/blogs/${blogToDelete.id}`)
+        expect(204)
+    
+    const finalBlogs = await Blog.find({})
+    expect(finalBlogs).toHaveLength(newBlogs.length - 1)
 })
 
 afterAll(async () => {
