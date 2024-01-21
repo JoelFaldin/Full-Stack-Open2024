@@ -17,6 +17,10 @@ blogRouter.post('/', async (req, res) => {
         likes: body.likes || 0
     })
 
+    if (body.title === '' || body.url === '') {
+        res.status(400).json({ message: 'Title and url shouldnt be empty' })
+    }
+
     const blogs = await blog.save()
     res.status(201).json(blogs)
 })

@@ -53,7 +53,7 @@ test('adding a new blog', async () => {
     const newBlog = {
         title: 'Testing the backend can be hard',
         author: 'Daniel L.',
-        url: '',
+        url: '/test/url/1',
         likes: 30,
     }
 
@@ -71,8 +71,8 @@ test('adding a new blog', async () => {
 test('checking likes property', async () => {
     const newBlog = {
         title: 'The joy of seeing tests passing',
-        author: 'Daniel L',
-        url: '',
+        author: 'Daniel L.',
+        url: '/test/url/2',
         likes: '',
     }
 
@@ -83,6 +83,20 @@ test('checking likes property', async () => {
 
     const checkingLikes = await api.get('/api/blogs')
     expect(checkingLikes.body[2].likes).toBe(0)
+}, 5000)
+
+test('testing servers response when url is not provided', async () => {
+    const newBlog = {
+        title: 'Testing the backend',
+        author: 'Daniel L.',
+        url: '',
+        likes: 18
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(201)
 })
 
 afterAll(async () => {
