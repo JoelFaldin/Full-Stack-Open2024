@@ -13,7 +13,6 @@ const newBlogs = [
         author: 'Edsger W. Dijkstra',
         url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
         likes: 5,
-        __v: 0
     },
     {
         _id: '67422aa73b54a101234d17f8',
@@ -21,7 +20,7 @@ const newBlogs = [
         author: 'Arto Hellas',
         url: '',
         likes: 22,
-        __v: 0
+    __v: 0
     },
 ]
 
@@ -56,7 +55,6 @@ test('adding a new blog', async () => {
         author: 'Daniel L.',
         url: '',
         likes: 30,
-        __v: 0
     }
 
     await api
@@ -68,6 +66,23 @@ test('adding a new blog', async () => {
     const blogArray = blogResponse.body.map(blog => blog.title)
 
     expect(blogArray).toContain('Testing the backend can be hard')
+})
+
+test('checking likes property', async () => {
+    const newBlog = {
+        title: 'The joy of seeing tests passing',
+        author: 'Daniel L',
+        url: '',
+        likes: '',
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(201)
+
+    const checkingLikes = await api.get('/api/blogs')
+    expect(checkingLikes.body[2].likes).toBe(0)
 })
 
 afterAll(async () => {
