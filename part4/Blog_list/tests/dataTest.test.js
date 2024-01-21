@@ -16,7 +16,7 @@ const newBlogs = [
     },
     {
         _id: '67422aa73b54a101234d17f8',
-        title: 'Backend is importat',
+        title: 'Backend is important',
         author: 'Arto Hellas',
         url: '',
         likes: 22,
@@ -110,6 +110,26 @@ test('deleting a single blog', async () => {
     
     const finalBlogs = await Blog.find({})
     expect(finalBlogs).toHaveLength(newBlogs.length - 1)
+})
+
+test('updating a blog', async () => {
+    const oldBlog = await Blog.find({})
+    const blogToUpdate = oldBlog[1]
+
+    const updatedBlog = {
+        title: blogToUpdate.title,
+        author: blogToUpdate.author,
+        url: blogToUpdate.url,
+        likes: 30
+    }
+
+    await api
+        .put(`/api/blogs/${blogToUpdate.id}`)
+        .send(updatedBlog)
+        .expect(200)
+        
+    const checkingBlog = await api.get('/api/blogs')
+    expect(checkingBlog.body[1].likes).toBe(30)
 })
 
 afterAll(async () => {
