@@ -6,4 +6,5 @@ const logger = require('./utils/logger')
 app.listen(config.PORT, () => {
     logger.data(`Port used: ${config.PORT}`)
     logger.data(`http://localhost:${config.PORT}/api/users`)
+    logger.data(`http://localhost:${config.PORT}/api/blogs`)
 })
