@@ -10,6 +10,12 @@ userRouter.get('/', async (req, res) => {
 userRouter.post('/', async (req, res) => {
     const body = req.body
 
+    // Checking that fields are not empty:
+    if (body.username === '' || body.password === '' || body.name === '') {
+        res.status(400).json({ error: 'You should fill all fields!' })
+        return
+    }
+
     const salt = 10
     const passwordHash = await bcrypt.hash(body.password, salt)
 
@@ -18,15 +24,13 @@ userRouter.post('/', async (req, res) => {
         password: passwordHash,
         name: body.name
     })
-
-    // Checking that fields are not empty:
-    if (body.username === '' || body.password === '' || body.name === '') {
-        res.status(400).json({ error: 'You should fill all fields!' })
-        return
+    
+    try {
+        const request = await user.save()
+        res.status(201).json(request)
+    } catch(error) {
+        res.status(400).json({ error: 'Invalid user!' })
     }
-
-    const request = await user.save()
-    res.status(201).json(request)
 })
 
 module.exports = userRouter
