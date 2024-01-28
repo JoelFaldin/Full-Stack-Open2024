@@ -1,6 +1,6 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjY1YjY3Y2I3NjY0OWJhZmI4YTQ1N2EyZCIsImlhdCI6MTcwNjQ2NzYyN30.P1D5jnhJtqPFXwX7cOLES215HzvLRiw2ZdBK7NPRt1M
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjY1YjY3Y2I3NjY0OWJhZmI4YTQ1N2EyZCIsImlhdCI6MTcwNjQ4MTc4MX0.R1t6FPvKGVtaahXlSRBLgfyv6pTdPymOFU5KPcvEln4
 
 {
     "title": "Frontend is important too!",
