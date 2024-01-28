@@ -5,7 +5,7 @@ const cors = require('cors')
 // Currently using mongoose@7.6.5
 const mongoose = require('mongoose')
 const logger = require('./utils/logger')
-const loginRouter = require('./controllers/login')
+const loginRouter = require('./controllers/loginRouter')
 const blogRouter = require('./controllers/blogRoutes')
 const userRouter = require('./controllers/userRoutes')
 
