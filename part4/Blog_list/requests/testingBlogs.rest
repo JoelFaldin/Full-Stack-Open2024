@@ -3,10 +3,10 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-    "title": "There are relational databases and non-relational databases",
-    "author": "Tom Hills",
-    "url": "",
-    "likes": 1081
+    "title": "Backend is important!",
+    "author": "65b3141c5ee5a9c8104a1729",
+    "url": "testurl.com",
+    "likes": 102
 }
 
 ### Getting all the data

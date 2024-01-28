@@ -27,3 +27,13 @@ Content-Type: application/json
     "password": "anotherpassword",
     "name": "Joe the 2nd"
 }
+
+### Making a new :
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "root",
+    "name": "Superuser",
+    "password": "salainen"
+}
