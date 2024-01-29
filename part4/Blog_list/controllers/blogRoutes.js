@@ -15,24 +15,33 @@ blogRouter.post('/', async (req, res) => {
         return
     }
 
+    const token = req.get('Authorization')
+    if (!token) {
+        return res.status(401).json({ error: 'You should provide a token!' })
+    }
+
     const user = req.user
 
-    const blog = new Blog({
-        title: body.title,
-        author: body.author,
-        url: body.url,
-        likes: body.likes || 0,
-        user: user.id
-    })
-
-    try {
-        const blogs = await blog.save()
-        user.blogs = user.blogs.concat(blogs._id)
-        await user.save()
-
-        res.status(201).json(blogs)
-    } catch(error) {
-        res.status(400).json({ error: 'The blog is not valid!' })
+    if (user) {
+        const blog = new Blog({
+            title: body.title,
+            author: body.author,
+            url: body.url,
+            likes: body.likes || 0,
+            user: user.id
+        })
+    
+        try {
+            const blogs = await blog.save()
+            user.blogs = user.blogs.concat(blogs._id)
+            await user.save()
+    
+            res.status(201).json(blogs)
+        } catch(error) {
+            res.status(401).json({ error: 'The blog is not valid!' })
+        }
+    } else {
+        res.status(401)
     }
 })
 

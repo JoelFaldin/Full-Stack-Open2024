@@ -20,17 +20,25 @@ const newBlogs = [
         author: 'Arto Hellas',
         url: '',
         likes: 22,
-    __v: 0
     },
 ]
 
 beforeEach(async () => {
     await Blog.deleteMany({})
-    await Blog.insertMany(newBlogs)
+
+    const userId1 = '65b3141c5ee5a9c8104a1729'
+    const userId2 = '65b6df85b7495d41f45be97c'
+
+    const blogsWithUsers = [
+        { ...newBlogs[0], user: userId1 },
+        { ...newBlogs[1], user: userId2 }
+    ]
+
+    await Blog.insertMany(blogsWithUsers)
   })
 
 test('blog list test', async () => {
-    const res = await api
+    await api
         .get('/api/blogs')
         .expect(200)
         .expect('Content-type', /application\/json/)
@@ -50,6 +58,16 @@ test('verify id existence', async () => {
 })
 
 test('adding a new blog', async () => {
+    const login = await api
+        .post('/api/login')
+        .send({
+            username: "root II",
+            password: "salainenII"
+        })
+        .expect(200)
+    
+    const token = login.body.token
+    
     const newBlog = {
         title: 'Testing the backend can be hard',
         author: 'Daniel L.',
@@ -59,6 +77,7 @@ test('adding a new blog', async () => {
 
     await api
         .post('/api/blogs')
+        .set('Authorization', `Bearer ${token}`)
         .send(newBlog)
         .expect(201)
         
@@ -69,6 +88,16 @@ test('adding a new blog', async () => {
 })
 
 test('checking likes property', async () => {
+    const login = await api
+        .post('/api/login')
+        .send({
+            "username": "root II",
+            "password": "salainenII"
+        })
+        .expect(200)
+
+    const token = login.body.token
+    
     const newBlog = {
         title: 'The joy of seeing tests passing',
         author: 'Daniel L.',
@@ -78,6 +107,7 @@ test('checking likes property', async () => {
 
     await api
         .post('/api/blogs')
+        .set('Authorization', `Bearer ${token}`)
         .send(newBlog)
         .expect(201)
 
@@ -102,11 +132,22 @@ test('testing servers response when url is not provided', async () => {
 test('deleting a single blog', async () => {
     const initialBlogs = await Blog.find({})
     const blogsArray = initialBlogs.map(blog => blog.toJSON())
-    const blogToDelete = blogsArray[0]
+    const blogToDelete = blogsArray[1]
+
+    const login = await api
+        .post('/api/login')
+        .send({
+            "username": "root II",
+            "password": "salainenII"
+        })
+        .expect(200)
+
+    const token = login.body.token
     
     await api
         .delete(`/api/blogs/${blogToDelete.id}`)
-        expect(204)
+        .set('Authorization', `Bearer ${token}`)
+        .expect(204)
     
     const finalBlogs = await Blog.find({})
     expect(finalBlogs).toHaveLength(newBlogs.length - 1)
@@ -130,6 +171,30 @@ test('updating a blog', async () => {
         
     const checkingBlog = await api.get('/api/blogs')
     expect(checkingBlog.body[1].likes).toBe(30)
+})
+
+test('failing with status code 401 when trying to add a new blog without token', async () => {
+    // const login = await api
+    //     .post('/api/login')
+    //     .send({
+    //         username: "root II",
+    //         password: "salainenII"
+    //     })
+    //     .expect(200)
+    
+    // const token = login.body.token
+    
+    const newBlog = {
+        title: 'Testing the backend can be hard',
+        author: 'Daniel L.',
+        url: '/test/url/1',
+        likes: 30
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(401)
 })
 
 afterAll(async () => {
