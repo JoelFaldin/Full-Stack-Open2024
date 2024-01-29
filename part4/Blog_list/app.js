@@ -8,7 +8,10 @@ const logger = require('./utils/logger')
 const loginRouter = require('./controllers/loginRouter')
 const blogRouter = require('./controllers/blogRoutes')
 const userRouter = require('./controllers/userRoutes')
+
+// Middlewares:
 const { getToken } = require('./middleware/tokenMiddleware')
+const { getUser } = require('./middleware/userMiddleware')
 
 const mongoURL = config.MONGODB_URI
 mongoose.set('strictQuery', false)
@@ -25,6 +28,7 @@ app.use(cors())
 app.use(express.json())
 
 app.use(getToken)
+app.use(getUser)
 
 app.use('/api/login', loginRouter)
 app.use('/api/blogs', blogRouter)
