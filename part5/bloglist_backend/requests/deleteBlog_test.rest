@@ -1,0 +1,11 @@
+### Deleting a blog:
+DELETE http://localhost:3003/api/blogs/65b6f3573a0ac1c2d212eeca
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjY1YjY3Y2I3NjY0OWJhZmI4YTQ1N2EyZCIsImlhdCI6MTcwNjQ5MjQyNX0.989MSGw3lsZzLN6Y1H4WJhfiwejkWyRikKJJJo19grU
+### This succesfully deletes the blog!!! (with the correct token)
+
+### Trying to delete a blog as not the blog creator:
+DELETE http://localhost:3003/api/blogs/65b7024fac972fda3a3d50d7
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QgSUkiLCJpZCI6IjY1YjZkZjg1Yjc0OTVkNDFmNDViZTk3YyIsImlhdCI6MTcwNjQ5MjUyMH0.C2egc_7Vdjr2W54zMEqjohipKPyxQxlNqGBnEuY1f7M
+### Here, I got "message": "You are not the creator of the blog!" (Which is what I've been expecting :D)
