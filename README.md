@@ -11,5 +11,18 @@ part1
     unicafe
     anecdotes
 part2
-    coming soon(tm)
+    courseinfo-continuation
+    data-countries
+    phonebook
+part3
+    phonebook_backend
+    phonebook_frontend
+part4
+    Blog_list
+part5
+    bloglist_backend
+    bloglist_frontend
+
+
+coming soontmtm
 ~~~
