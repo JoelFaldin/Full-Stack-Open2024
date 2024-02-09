@@ -9,7 +9,6 @@ blogRouter.get('/', async (req, res) => {
 
 blogRouter.post('/', async (req, res) => {
     const body = req.body
-    
     if (body.title === '' || body.url === '') {
         res.status(400).json({ message: 'Title and url shouldnt be empty' })
         return
@@ -36,7 +35,7 @@ blogRouter.post('/', async (req, res) => {
             user.blogs = user.blogs.concat(blogs._id)
             await user.save()
     
-            res.status(201).json(blogs)
+            res.status(201).json({ message: 'Blog added!', blogs})
         } catch(error) {
             res.status(401).json({ error: 'The blog is not valid!' })
         }

@@ -17,6 +17,8 @@ const Login = ({ userMethod }) => {
         try {
             const request = await loginService.login(username, password)
             window.localStorage.setItem('loggedUser', JSON.stringify(request))
+            window.localStorage.setItem('loggedName', request.name)
+            window.localStorage.setItem('loggedToken', request.token)
             userMethod(request.name, request.token)
         } catch (error) {
             alert('There was an error D:')
