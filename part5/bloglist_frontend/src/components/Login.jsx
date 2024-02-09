@@ -16,6 +16,7 @@ const Login = ({ userMethod }) => {
     const handleSubmit = async () => {
         try {
             const request = await loginService.login(username, password)
+            window.localStorage.setItem('loggedUser', JSON.stringify(request))
             userMethod(request.name, request.token)
         } catch (error) {
             alert('There was an error D:')

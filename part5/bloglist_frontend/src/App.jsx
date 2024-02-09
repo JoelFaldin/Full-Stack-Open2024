@@ -5,7 +5,7 @@ import Login from './components/Login'
 
 const App = () => {
   const [name, setName] = useState(null)
-  const [user, setUser] = useState('')
+  const [user, setUser] = useState()
   const [blogs, setBlogs] = useState([])
 
   useEffect(() => {
@@ -14,9 +14,26 @@ const App = () => {
     )  
   }, [])
 
+  useEffect(() => {
+    const loggedUserJSON = localStorage.getItem('loggedUser')
+    if (loggedUserJSON) {
+      setName(loggedUserJSON.name)
+      setUser(loggedUserJSON.token)
+    } else {
+      setName(null)
+      setUser('')
+    }
+  }, [])
+
   const loginUser = (user, token) => {
     setName(user)
     setUser(token)
+  }
+
+  const handleLogout = () => {
+    window.localStorage.clear()
+    setName(null)
+    setUser('')
   }
 
   if (name === null) {
@@ -30,6 +47,9 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
+      <button onClick={handleLogout}>
+        Log out
+      </button>
       <p>{name} logged in</p>
       { blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
