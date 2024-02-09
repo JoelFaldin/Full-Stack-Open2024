@@ -1,0 +1,25 @@
+.message {
+    color: green;
+    background-color: rgb(140, 235, 164);
+    font-size: 20px;
+    border-style: solid;
+    padding: 5px;
+    margin-bottom: 10px;
+    width: fit-content;
+    border-radius: 5px;
+}
+
+.errorMessage {
+    color: red;
+    background-color: rgb(235, 140, 140);
+    font-size: 20px;
+    border-style: solid;
+    padding: 5px;
+    margin-bottom: 10px;
+    width: fit-content;
+    border-radius: 5px;
+}
+
+.text {
+    margin: 5px;
+}

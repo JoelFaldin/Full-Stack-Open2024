@@ -1,7 +1,7 @@
 import { useState } from "react"
 import blogService from '../services/blogs'
 
-const newUser = () => {
+const newUser = ({ handleMessages }) => {
     const [title, setTitle] = useState('')
     const [author, setAuthor] = useState('')
     const [url, setUrl] = useState('')
@@ -18,12 +18,14 @@ const newUser = () => {
         setUrl(event.target.value)
     }
 
-    const handleCreate = async () => {
+    const handleCreate = async (event) => {
+        event.preventDefault()
         try {
             const token = localStorage.getItem('loggedToken')
-            await blogService.newBlog(title, author, url, token)
+            const create = await blogService.newBlog(title, author, url, token)
+            handleMessages(create, 'success')
         } catch (error) {
-            console.log(error)
+            handleMessages(error, 'error')
         }
     }
 

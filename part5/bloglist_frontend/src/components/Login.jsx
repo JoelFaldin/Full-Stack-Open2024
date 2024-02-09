@@ -1,7 +1,7 @@
 import { useState } from "react"
 import loginService from '../services/login'
 
-const Login = ({ userMethod }) => {
+const Login = ({ userMethod, handleMessages }) => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
@@ -20,9 +20,9 @@ const Login = ({ userMethod }) => {
             window.localStorage.setItem('loggedName', request.name)
             window.localStorage.setItem('loggedToken', request.token)
             userMethod(request.name, request.token)
+            handleMessages(request, 'success')
         } catch (error) {
-            alert('There was an error D:')
-            console.log(error)
+            handleMessages(error, 'error')
         }
     }
     
