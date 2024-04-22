@@ -23,3 +23,14 @@
 .text {
     margin: 5px;
 }
+
+.details {
+    border: 1px solid black;
+    margin: 10px 0;
+    padding: 5px;
+    width: fit-content;
+}
+
+.details > p {
+    margin: 0 0;
+}
