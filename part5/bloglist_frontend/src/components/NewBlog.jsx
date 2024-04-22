@@ -7,18 +7,6 @@ const newBlog = ({ handleMessages }) => {
     const [url, setUrl] = useState('')
     const [isVisible, setIsVisible] = useState(false)
 
-    const handleTitle = (event) => {
-        setTitle(event.target.value)
-    }
-
-    const handleAuthor = (event) => {
-        setAuthor(event.target.value)
-    }
-
-    const handleUrl = (event) => {
-        setUrl(event.target.value)
-    }
-
     const handleCreate = async (event) => {
         event.preventDefault()
         try {
@@ -39,7 +27,7 @@ const newBlog = ({ handleMessages }) => {
                     <input
                         id="title"
                         type="text"
-                        onChange={handleTitle}
+                        onChange={event => setTitle(event.target.value)}
                     />
                 </div>
 
@@ -48,7 +36,7 @@ const newBlog = ({ handleMessages }) => {
                     <input
                         id="author"
                         type="text"
-                        onChange={handleAuthor}
+                        onChange={event => setAuthor(event.target.value)}
                     />
                 </div>
 
@@ -57,7 +45,7 @@ const newBlog = ({ handleMessages }) => {
                     <input
                         id="url"
                         type="text"
-                        onChange={handleUrl}
+                        onChange={event => setUrl(event.target.value)}
                     />
                 </div>
                 <button onClick={handleCreate}>
