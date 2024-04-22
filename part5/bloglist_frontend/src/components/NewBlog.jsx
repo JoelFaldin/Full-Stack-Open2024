@@ -1,10 +1,11 @@
 import { useState } from "react"
 import blogService from '../services/blogs'
 
-const newUser = ({ handleMessages }) => {
+const newBlog = ({ handleMessages }) => {
     const [title, setTitle] = useState('')
     const [author, setAuthor] = useState('')
     const [url, setUrl] = useState('')
+    const [isVisible, setIsVisible] = useState(false)
 
     const handleTitle = (event) => {
         setTitle(event.target.value)
@@ -29,7 +30,7 @@ const newUser = ({ handleMessages }) => {
         }
     }
 
-    return (
+    return isVisible ? (
         <>
             <h1>Create a new user</h1>
             <form>
@@ -63,8 +64,13 @@ const newUser = ({ handleMessages }) => {
                     Create
                 </button>
             </form>
+            <button onClick={() => setIsVisible(false)}>cancel</button>
         </>
+    ) : (
+        <div>
+            <button onClick={() => setIsVisible(true)}>new note</button>
+        </div>
     )
 }
 
-export default newUser
+export default newBlog

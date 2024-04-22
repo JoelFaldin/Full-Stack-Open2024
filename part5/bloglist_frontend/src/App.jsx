@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import Login from './components/Login'
-import NewUser from './components/NewBlog'
+import NewBlog from './components/NewBlog'
 
 const App = () => {
   const [name, setName] = useState(null)
@@ -15,9 +15,7 @@ const App = () => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
     )
-  }, [])
 
-  useEffect(() => {
     const loggedUserJSON = localStorage.getItem('loggedUser')
     if (loggedUserJSON) {
       const name = localStorage.getItem('loggedName')
@@ -96,7 +94,7 @@ const App = () => {
         Log out
       </button>
 
-      <NewUser handleMessages={handleMessages} />
+      <NewBlog handleMessages={handleMessages} />
 
       { blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
