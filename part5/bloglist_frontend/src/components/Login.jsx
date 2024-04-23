@@ -1,5 +1,6 @@
-import { useState } from "react"
+import { useState } from 'react'
 import loginService from '../services/login'
+import PropTypes from 'prop-types'
 
 const Login = ({ userMethod, handleMessages }) => {
     const [username, setUsername] = useState('')
@@ -25,7 +26,7 @@ const Login = ({ userMethod, handleMessages }) => {
             handleMessages(error, 'error')
         }
     }
-    
+
     return (
         <>
             <h1>Log in the app</h1>
@@ -58,6 +59,11 @@ const Login = ({ userMethod, handleMessages }) => {
             </form>
         </>
     )
+}
+
+Login.propTypes = {
+    userMethod: PropTypes.func.isRequired,
+    handleMessages: PropTypes.func.isRequired
 }
 
 export default Login

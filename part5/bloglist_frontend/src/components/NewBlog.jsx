@@ -1,7 +1,8 @@
-import { useState } from "react"
+import { useState } from 'react'
 import blogService from '../services/blogs'
+import PropTypes from 'prop-types'
 
-const newBlog = ({ handleMessages }) => {
+const NewBlog = ({ handleMessages }) => {
     const [title, setTitle] = useState('')
     const [author, setAuthor] = useState('')
     const [url, setUrl] = useState('')
@@ -61,4 +62,8 @@ const newBlog = ({ handleMessages }) => {
     )
 }
 
-export default newBlog
+NewBlog.propTypes = {
+    handleMessages: PropTypes.func.isRequired
+}
+
+export default NewBlog
