@@ -31,7 +31,7 @@ const App = () => {
   // Function to rerender the list:
   const rerender = () => {
     blogService.getAll().then(blogs =>
-      setBlogs( blogs )
+      setBlogs(blogs)
     )
   }
 
@@ -97,7 +97,7 @@ const App = () => {
       <NewBlog handleMessages={handleMessages} />
 
       { blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} userName={name} blogs={blogs} setBlogs={setBlogs} />
       )}
     </div>
   )

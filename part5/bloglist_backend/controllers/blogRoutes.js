@@ -59,16 +59,23 @@ blogRouter.delete('/:id', async (req, res) => {
 blogRouter.put('/:id', async (req, res) => {
     const body = req.body
 
-    const blog = new Blog({
-        _id: req.params.id,
-        title: body.title,
-        author: body.author,
-        url: body.url,
-        likes: body.likes || 0
-    })
+    const searchBlog = await Blog.findById(req.params.id)
+    if (searchBlog) {
+        const blog = new Blog({
+            _id: req.params.id,
+            title: body.title,
+            author: body.author,
+            url: body.url,
+            likes: body.likes || 0
+        })
+    
+        const result = await Blog.findByIdAndUpdate(req.params.id, blog, { new: true })
+        res.status(200).json(result)
+    } else {
+        res.status(404).json({ message: 'Wrong blog identifier!' })
+    }
 
-    const result = await Blog.findByIdAndUpdate(req.params.id, blog, { new: true })
-    res.status(200).json(result)
+    
 })
 
 module.exports = blogRouter
