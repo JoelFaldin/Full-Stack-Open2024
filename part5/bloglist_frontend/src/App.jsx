@@ -97,8 +97,16 @@ const App = () => {
       <NewBlog handleMessages={handleMessages} />
 
       { blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} userName={name} blogs={blogs} setBlogs={setBlogs} />
+        <Blog key={blog.id} blog={blog} userName={name} blogs={blogs} setBlogs={setBlogs} handleMessages={handleMessages} />
       )}
+      {
+        errorMessage !== ''
+        ? (
+          <div className='errorMessage'>
+            <p className='text'>{errorMessage}</p>
+          </div>
+        ) : ''
+      }
     </div>
   )
 }

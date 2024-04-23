@@ -53,7 +53,7 @@ blogRouter.delete('/:id', async (req, res) => {
         await Blog.findByIdAndDelete(req.params.id)
         res.status(204).json({ message: 'BLog deleted!' })
     } else {
-        res.status(401).json({ message: 'You are not the creator of the blog!' })
+        res.status(401).json({ error: 'You are not the creator of the blog!' })
     }
 })
 
@@ -75,8 +75,6 @@ blogRouter.put('/:id', async (req, res) => {
     } else {
         res.status(404).json({ message: 'Wrong blog identifier!' })
     }
-
-    
 })
 
 module.exports = blogRouter
