@@ -20,7 +20,7 @@ const newBlog = ({ handleMessages }) => {
 
     return isVisible ? (
         <>
-            <h1>Create a new user</h1>
+            <h1>Create a new blog:</h1>
             <form>
                 <div>
                     <label htmlFor="title">Title:</label>
@@ -56,7 +56,7 @@ const newBlog = ({ handleMessages }) => {
         </>
     ) : (
         <div>
-            <button onClick={() => setIsVisible(true)}>new note</button>
+            <button onClick={() => setIsVisible(true)}>new blog</button>
         </div>
     )
 }

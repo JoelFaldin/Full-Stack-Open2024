@@ -4,6 +4,7 @@ const logger = require('../utils/logger')
 
 blogRouter.get('/', async (req, res) => {
     const blogs = await Blog.find({}).populate('user', { username: 1, name: 1, id: 1 })
+    blogs.sort((a, b) => b.likes - a.likes)
     res.status(200).json(blogs)
 })
 
