@@ -61,8 +61,12 @@ const Blog = ({ blog, userName, blogs, setBlogs, handleMessages }) => {
         <button onClick={() => updateLikes()}>like</button>
       </p>
       <p>{blog.author}</p>
-      <button onClick={handleDelete}>delete blog</button><br />
-      <button onClick={() => setViewDetails(false)}>hide details</button>
+      <button onClick={() => setViewDetails(false)}>hide details</button><br />
+      {
+        userName === blog.user.name ? (
+          <button onClick={handleDelete}>delete blog</button>
+        ) : ('')
+      }
     </div>
   )
 }
