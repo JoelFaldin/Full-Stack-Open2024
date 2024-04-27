@@ -16,13 +16,12 @@ const Blog = ({ blog, userName, blogs, setBlogs, handleMessages }) => {
             }
         })
 
-        setBlogs(updatedBlogs)
-
         try {
             const likesRequest = await blogService.addLike(blog.id, userName, blog.likes + 1, blog.author, blog.title, blog.url, token)
             if (likesRequest !== 200) {
                 throw new Error('There was a problem updating the likes.')
             }
+            setBlogs(updatedBlogs)
         } catch (error) {
             setBlogs(blogs)
         }
@@ -65,7 +64,7 @@ const Blog = ({ blog, userName, blogs, setBlogs, handleMessages }) => {
             <p className="blog-url">{blog.url}</p>
             <p>
                 <span className="blog-likes">{blog.likes} likes</span>
-                <button onClick={() => updateLikes()}>like</button>
+                <button className="like-button" onClick={() => updateLikes()}>like</button>
             </p>
             <button onClick={() => setViewDetails(false)}>hide details</button><br />
             {
