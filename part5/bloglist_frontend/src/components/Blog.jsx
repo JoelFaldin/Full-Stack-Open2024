@@ -50,18 +50,23 @@ const Blog = ({ blog, userName, blogs, setBlogs, handleMessages }) => {
 
     return !viewDetails ? (
         <div>
-            {blog.title}
+            <span className="blog-title">{blog.title} </span>
+            -
+            <span className="blog-author"> {blog.author}</span>
             <button onClick={() => setViewDetails(true)}>show details</button>
         </div>
     ) : (
         <div className="details">
-            <p>{blog.title}</p>
-            <p>{blog.url}</p>
             <p>
-                {blog.likes} likes
+                <span className="blog-title">{blog.title}</span>
+                -
+                <span className="blog-author">{blog.author}</span>
+            </p>
+            <p className="blog-url">{blog.url}</p>
+            <p>
+                <span className="blog-likes">{blog.likes} likes</span>
                 <button onClick={() => updateLikes()}>like</button>
             </p>
-            <p>{blog.author}</p>
             <button onClick={() => setViewDetails(false)}>hide details</button><br />
             {
                 userName === blog.user.name ? (
