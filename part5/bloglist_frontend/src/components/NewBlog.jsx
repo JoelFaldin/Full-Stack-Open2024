@@ -29,6 +29,7 @@ const NewBlog = ({ handleMessages }) => {
                         id="title"
                         type="text"
                         onChange={event => setTitle(event.target.value)}
+                        placeholder="Blog title"
                     />
                 </div>
 
@@ -38,6 +39,7 @@ const NewBlog = ({ handleMessages }) => {
                         id="author"
                         type="text"
                         onChange={event => setAuthor(event.target.value)}
+                        placeholder="Blog author"
                     />
                 </div>
 
@@ -47,6 +49,7 @@ const NewBlog = ({ handleMessages }) => {
                         id="url"
                         type="text"
                         onChange={event => setUrl(event.target.value)}
+                        placeholder="Blog url"
                     />
                 </div>
                 <button onClick={handleCreate}>
@@ -57,7 +60,7 @@ const NewBlog = ({ handleMessages }) => {
         </>
     ) : (
         <div>
-            <button onClick={() => setIsVisible(true)}>new blog</button>
+            <button className="showForm" onClick={() => setIsVisible(true)}>new blog</button>
         </div>
     )
 }

@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Blog from './Blog'
-import * as blogService from '../services/blogs'
 
 test('renders blog title and author', async () => {
     const blogData = {
@@ -45,7 +44,6 @@ test('renders blog url and number of likes when clicking on "show details"', asy
     }
 
     const mockhandler = vi.fn()
-
 
     const { container } = render(<Blog blog={blogData} userName='' blogs={[blogData]} setBlogs={mockhandler} handleMessages={mockhandler} />)
 
