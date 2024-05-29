@@ -13,8 +13,7 @@ beforeEach(async () => {
     await User.deleteMany()
     console.log('cleared')
 
-    const userObject = helper.newUsers.map(user => new User(user))
-    const promiseArray = userObject.map(user => user.save())
+    const promiseArray = helper.newUsers.map(user => api.post('/api/users').send(user))
     await Promise.all(promiseArray)
 
     console.log('done')
