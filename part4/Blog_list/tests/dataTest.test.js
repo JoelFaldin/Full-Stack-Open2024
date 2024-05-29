@@ -264,6 +264,23 @@ test('adding a new blog', async () => {
     assert.strictEqual(response.length, helper.newBlogs.length + 1)
 })
 
+test('checking likes property', async () => {
+    const newBlog = {
+        title: 'Node:test is interesting',
+        author: 'Joel F',
+        url: 'blogs.com'
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(201)
+        .expect('Content-Type', /application\/json/)
+
+    const result = await Blog.find({ title: 'Node:test is interesting' })
+    assert.strictEqual(result[0].likes, 0)
+})
+
 after(async () => {
     await mongoose.connection.close()
 })
