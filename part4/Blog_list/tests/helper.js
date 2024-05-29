@@ -22,4 +22,17 @@ const blogsInDb = async () => {
     return blogs.map(blog => blog.toJSON)
 }
 
-module.exports = { newBlogs, blogsInDb }
+const newUsers = [
+    {
+        username: 'Joe II',
+        password: 'joepassword',
+        name: 'Joe the 2nd'
+    },
+    {
+        username: 'Aldo Hellers',
+        password: 'aldopass',
+        name: 'Aldo'
+    }
+]
+
+module.exports = { newBlogs, blogsInDb, newUsers }

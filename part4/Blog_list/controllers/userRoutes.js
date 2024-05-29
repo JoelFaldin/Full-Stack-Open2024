@@ -12,8 +12,7 @@ userRouter.post('/', async (req, res) => {
 
     // Checking that fields are not empty:
     if (body.username === '' || body.password === '' || body.name === '') {
-        res.status(400).json({ error: 'You should fill all fields!' })
-        return
+        return res.status(400).json({ error: 'You should fill all fields!' })
     }
 
     const salt = 10
@@ -27,9 +26,9 @@ userRouter.post('/', async (req, res) => {
     
     try {
         const request = await user.save()
-        res.status(201).json(request)
+        return res.status(201).json(request)
     } catch(error) {
-        res.status(400).json({ error: 'Invalid user!' })
+        return res.status(400).json({ error: 'Invalid user!' })
     }
 })
 
