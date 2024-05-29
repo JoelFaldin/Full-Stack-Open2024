@@ -224,10 +224,13 @@ beforeEach(async () => {
     console.log('done')
 })
 
-test('returns correct amount', async () => {
-    const result = await helper.blogsInDb()
+test('returns correct amount in correct format', async () => {
+    const result = await api
+        .get('/api/blogs')
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
 
-    assert.strictEqual(result.length, helper.newBlogs.length)
+    assert.strictEqual(result.body.length, helper.newBlogs.length)
 })
 
 after(async () => {
