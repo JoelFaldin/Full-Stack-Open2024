@@ -320,6 +320,27 @@ test('deleting a specific blog', async () => {
     assert(content.length, blogsAtStart - 1)
 })
 
+test('udpate a blog', async () => {
+    const initialBlogs = await Blog.find({})
+    const blogToUpdate = initialBlogs[0]
+    
+    const updatedBlog = {
+        _id: blogToUpdate._id,
+        title: blogToUpdate.title,
+        author: blogToUpdate.author,
+        url: blogToUpdate.url,
+        likes: blogToUpdate.likes + 1
+    }
+
+    await api
+        .put(`/api/blogs/${blogToUpdate.id}`)
+        .send(updatedBlog)
+        .expect(200)
+
+    const updatedBlogs = await Blog.find({})
+    assert(updatedBlogs[0].likes, initialBlogs[0].likes + 1)
+})
+
 after(async () => {
     await mongoose.connection.close()
 })
