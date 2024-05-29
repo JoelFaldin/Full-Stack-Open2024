@@ -233,6 +233,19 @@ test('returns correct amount in correct format', async () => {
     assert.strictEqual(result.body.length, helper.newBlogs.length)
 })
 
+test('verify unique identifier', async () => {
+    await api
+        .get('/api/blogs')
+        .expect(200)
+        .expect(result => {
+            const json = JSON.parse(result.text)
+            
+            json.forEach(element => {
+                assert('id' in element)
+            })
+        })
+})
+
 after(async () => {
     await mongoose.connection.close()
 })
