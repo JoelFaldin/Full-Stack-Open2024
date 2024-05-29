@@ -246,6 +246,24 @@ test('verify unique identifier', async () => {
         })
 })
 
+test('adding a new blog', async () => {
+    const newBlog = {
+        title: 'Node:test is interesting',
+        author: 'Joel F',
+        likes: 2,
+        url: 'blogs.com'
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(201)
+        .expect('Content-Type', /application\/json/)
+    
+    const response = await helper.blogsInDb()
+    assert.strictEqual(response.length, helper.newBlogs.length + 1)
+})
+
 after(async () => {
     await mongoose.connection.close()
 })
