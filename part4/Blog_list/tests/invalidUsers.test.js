@@ -1,23 +1,38 @@
+const { test, describe, after, beforeEach } = require('node:test')
+const assert = require('node:assert')
 const mongoose = require('mongoose')
+const User = require('../models/user')
+const helper = require('./helper')
+
 const supertest = require('supertest')
 const app = require('../app')
 
 const api = supertest(app)
 
-const User = require('../models/user')
+beforeEach(async () => {
+    await User.deleteMany()
+    console.log('cleared')
+
+    const promiseArray = helper.newUsers.map(user => api.post('/api/users').send(user))
+    await Promise.all(promiseArray)
+
+    console.log('done')
+})
 
 describe('Creating new users tests', () => {
-    test('Passing a number as the username', async () => {
+    test('sending an username with 2 characters', async () => {
         const user = {
             username: "as",
-            password: "dfjknv723",
-            name: "Test"
+            password: "strongpassword123",
+            mame: "tester"
         }
 
-        const response = await api.post('/api/users').send(user)
+        const response = await api
+            .post('/api/users')
+            .send(user)
+            .expect(400)
 
-        expect(response.status).toBe(400)
-        expect(response.body.error).toBe('Invalid user!')
+        assert.strictEqual(response.body.error, 'Invalid user!')
     })
 
     test('Sending an empty string as a required value', async () => {
@@ -27,22 +42,30 @@ describe('Creating new users tests', () => {
             name: "New Test"
         }
 
-        const response = await api.post('/api/users').send(user)
+        const response = await api
+            .post('/api/users')
+            .send(user)
+            .expect(400)
 
-        expect(response.status).toBe(400)
-        expect(response.body.error).toBe('You should fill all fields!')
+        assert.strictEqual(response.body.error, 'You should fill all fields!')
     })
 
-    test('Sending an already existing user', async () => {
+    test('Sending an already existing user', async () => {        
         const user = {
             username: "Joe II",
             password: "newtestpassword2873",
             name: "Joe the 2nd"
         }
 
-        const response = await api.post('/api/users').send(user)
+        const response = await api
+            .post('/api/users')
+            .send(user)
+            .expect(400)
 
-        expect(response.status).toBe(400)
-        expect(response.body.error).toBe('Invalid user!')
+        assert.strictEqual(response.body.error, 'Invalid user!')
     })
+})
+
+after(async () => {
+    await mongoose.connection.close()
 })

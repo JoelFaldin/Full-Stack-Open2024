@@ -1,4 +1,6 @@
-const list_helper = require('../utils/list_helper')
+const { test, describe } = require('node:test')
+const assert = require('node:assert')
+const listhelper = require('../utils/list_helper')
 
 describe('Most liked author', () => {
     const blogs = [
@@ -28,13 +30,13 @@ describe('Most liked author', () => {
         },
     ]
 
-    const result = {
+    const author = {
         author: "Arto Hellas",
         likes: 61
     }
     
     test('The author with the most liked blog', () => {
-        const author = list_helper.mostLikes(blogs)
-        expect(author).toEqual(result)
+        const result = listhelper.mostLikes(blogs)
+        assert.deepStrictEqual(result, author)
     })
 })

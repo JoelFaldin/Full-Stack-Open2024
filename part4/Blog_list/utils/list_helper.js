@@ -13,9 +13,9 @@ const totalLikes = (array) => {
 }
 
 const favoriteBlog = (array) => {
-     const mostLiked = array.reduce((prev, current) => {
+    const mostLiked = array.reduce((prev, current) => {
         return prev.likes > current.likes ? prev : current
-     })
+    })
     return {
         title: mostLiked.title,
         author: mostLiked.author,

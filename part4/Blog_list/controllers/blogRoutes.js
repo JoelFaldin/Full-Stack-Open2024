@@ -10,12 +10,12 @@ blogRouter.get('/', async (req, res) => {
 blogRouter.post('/', async (req, res) => {
     const body = req.body
     
-    if (body.title === '' || body.url === '') {
+    if (!body.title || !body.url) {
         res.status(400).json({ message: 'Title and url shouldnt be empty' })
         return
     }
 
-    const token = req.get('Authorization')
+    const token = req.token
     if (!token) {
         return res.status(401).json({ error: 'You should provide a token!' })
     }
