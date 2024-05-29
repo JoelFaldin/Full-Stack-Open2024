@@ -15,7 +15,7 @@ blogRouter.post('/', async (req, res) => {
         return
     }
 
-    const token = req.get('Authorization')
+    const token = req.token
     if (!token) {
         return res.status(401).json({ error: 'You should provide a token!' })
     }
