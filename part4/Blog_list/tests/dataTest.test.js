@@ -281,6 +281,30 @@ test('checking likes property', async () => {
     assert.strictEqual(result[0].likes, 0)
 })
 
+test('testing servers response when url or title are not provided', async () => {
+    const noTitleBlog = {
+        author: 'Aldo Hellers',
+        url: 'interestingurl.com',
+        likes: 21
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(noTitleBlog)
+        .expect(400)
+
+    const noUrlBlog = {
+        title: 'Testing is important',
+        author: 'Aldo Hellers',
+        likes: 22
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(noUrlBlog)
+        .expect(400)
+})
+
 after(async () => {
     await mongoose.connection.close()
 })
