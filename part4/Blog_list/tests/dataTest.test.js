@@ -305,6 +305,21 @@ test('testing servers response when url or title are not provided', async () => 
         .expect(400)
 })
 
+test('deleting a specific blog', async () => {
+    const blogsAtStart = await Blog.find({})
+    const blogToDelete = await blogsAtStart[0]
+
+    await api
+        .delete(`/api/blogs/${blogToDelete.id}`)
+        .expect(204)
+    
+    const blogsAtEnd = await helper.blogsInDb()
+    const content = blogsAtEnd.map(element => element.title)
+    
+    assert(!content.includes(blogToDelete.title))
+    assert(content.length, blogsAtStart - 1)
+})
+
 after(async () => {
     await mongoose.connection.close()
 })
