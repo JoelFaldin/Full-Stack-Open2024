@@ -43,7 +43,7 @@ const Login = ({ userMethod, handleMessages }) => {
                 <div>
                     <label htmlFor="password">Password:</label>
                     <input
-                        id="pasword"
+                        id="password"
                         type="password"
                         onChange={handlePassword}
                     />
