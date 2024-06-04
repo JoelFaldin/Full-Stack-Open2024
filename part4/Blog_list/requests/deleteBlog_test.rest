@@ -1,7 +1,7 @@
 ### Deleting a blog:
-DELETE http://localhost:3003/api/blogs/65b6f3573a0ac1c2d212eeca
+DELETE http://localhost:3003/api/blogs/66575bb9bf3e45cc381a77c7
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjY1YjY3Y2I3NjY0OWJhZmI4YTQ1N2EyZCIsImlhdCI6MTcwNjQ5MjQyNX0.989MSGw3lsZzLN6Y1H4WJhfiwejkWyRikKJJJo19grU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkpvZSBJSSIsImlkIjoiNjViMzE0MWM1ZWU1YTljODEwNGExNzI5IiwiaWF0IjoxNzE3MDAxMjMzfQ.h0aaBYe_5WqC4kcJ537ZvJ-r5wGqWsQHETTjxq9YrDM
 ### This succesfully deletes the blog!!! (with the correct token)
 
 ### Trying to delete a blog as not the blog creator:
