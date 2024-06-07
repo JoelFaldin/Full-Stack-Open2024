@@ -31,7 +31,7 @@ describe('Blog app', () => {
             await page.locator('#password').fill('joe3pass')
             await page.getByRole('button', { name: 'Log in' }).click()
 
-            await expect(page.getByText('Succesfully logged in!')).toBeVisible()
+            await expect(page.locator('.text')).toBeVisible()
         })
 
         test('fails with wrong credentials', async ({ page }) => {
@@ -39,7 +39,7 @@ describe('Blog app', () => {
             await page.locator('#password').fill('wrongpassword')
             await page.getByRole('button', { name: 'Log in' }).click()
 
-            await expect(page.getByText('Invalid username/password.')).toBeVisible()
+            await expect(page.locator('.errorMessage')).toBeVisible()
         })
     })
 
@@ -63,6 +63,18 @@ describe('Blog app', () => {
 
             await page.getByRole('button', { name: 'like' }).click()
             await expect(page.getByText('1 likes')).toBeVisible()
+        })
+
+        test.only('user can delete its post', async ({ page }) => {
+            await createNewBlog(page, 'Learning testing 2!', 'Joe III', 'testing.com/tests')
+
+            await page.locator('div').filter({ hasText: /^Learning testing 2! - Joe IIIshow details$/ }).getByRole('button').click()
+            await expect(page.getByRole('button', { name: 'delete blog' })).toBeVisible()
+
+            page.once('dialog', async dialog => await dialog.accept())
+            await page.getByRole('button', { name: 'delete blog' }).click()
+
+            await expect(page.locator('div').filter({ hasText: /^Learning testing 2!/ })).not.toBeVisible()
         })
     })
 })

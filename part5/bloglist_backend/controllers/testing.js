@@ -9,4 +9,10 @@ router.delete('/reset', async (req, res) => {
     res.status(204).end()
 })
 
+router.delete('/delete/blogs', async (req, res) => {
+    await Blog.deleteMany()
+    
+    res.status(204).end()
+})
+
 module.exports = router

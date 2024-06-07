@@ -60,7 +60,7 @@ const NewBlog = ({ handleMessages }) => {
         </>
     ) : (
         <div>
-            <button className="showForm" onClick={() => setIsVisible(true)}>new blog</button>
+            <button className="showForm" id="showForm" onClick={() => setIsVisible(true)}>new blog</button>
         </div>
     )
 }
