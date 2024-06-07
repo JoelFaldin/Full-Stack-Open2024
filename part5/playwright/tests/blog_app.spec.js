@@ -65,7 +65,7 @@ describe('Blog app', () => {
             await expect(page.getByText('1 likes')).toBeVisible()
         })
 
-        test.only('user can delete its post', async ({ page }) => {
+        test('user can delete its post', async ({ page }) => {
             await createNewBlog(page, 'Learning testing 2!', 'Joe III', 'testing.com/tests')
 
             await page.locator('div').filter({ hasText: /^Learning testing 2! - Joe IIIshow details$/ }).getByRole('button').click()
