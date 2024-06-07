@@ -76,5 +76,14 @@ describe('Blog app', () => {
 
             await expect(page.locator('div').filter({ hasText: /^Learning testing 2!/ })).not.toBeVisible()
         })
+
+        test.only('user creator can see delete button', async ({ page }) => {       
+            await createNewBlog(page, 'Learning testing 2!', 'Joe III', 'testing.com/tests')
+    
+            await expect(page.locator('.text')).toBeVisible()
+            await page.getByRole('button', { name: 'show details' }).click()
+            await expect(page.getByRole('button', { name: 'delete blog' })).toBeVisible()
+        })
     })
+
 })
