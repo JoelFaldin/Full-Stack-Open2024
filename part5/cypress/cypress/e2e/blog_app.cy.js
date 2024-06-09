@@ -39,4 +39,25 @@ describe('Blog app', () => {
             cy.get('.errorMessage').should('have.css', 'color', 'rgb(255, 0, 0)')
         })
     })
+
+    describe('when logged in', () => {
+        beforeEach(() => {
+            cy.get('#username-label').type('Joe III')
+            cy.get('#password-label').type('joe3pass')
+            cy.get('button').click()
+        })
+
+        it('a blog can be created!', () => {
+            cy.contains('new blog').click()
+
+            cy.get('#title').type('1st blog')
+            cy.get('#author').type('Joe III')
+            cy.get('#url').type('testingCypress.com')
+
+            cy.get('button').contains('Create').click()
+            cy.get('button').contains('cancel').click()
+
+            cy.contains('1st blog - Joe III')
+        })
+    })
 })
