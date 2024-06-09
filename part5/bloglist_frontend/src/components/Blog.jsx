@@ -63,7 +63,7 @@ const Blog = ({ blog, userName, blogs, setBlogs, handleMessages }) => {
             </p>
             <p className="blog-url">{blog.url}</p>
             <p>
-                <span className="blog-likes">{blog.likes} likes</span>
+                <span className="blog-likes"><span id="like-number">{blog.likes}</span> likes</span>
                 <button className="like-button" onClick={() => updateLikes()}>like</button>
             </p>
             <button onClick={() => setViewDetails(false)}>hide details</button><br />
