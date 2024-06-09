@@ -36,6 +36,7 @@ describe('Blog app', () => {
             cy.get('button').click()
 
             cy.contains('Invalid username/password.')
+            cy.get('.errorMessage').should('have.css', 'color', 'rgb(255, 0, 0)')
         })
     })
 })
