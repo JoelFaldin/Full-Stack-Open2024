@@ -22,18 +22,14 @@ describe('Blog app', () => {
 
     describe('login', () => {
         it('success with correct credentials', () => {
-            cy.get('#username-label').type('Joe III')
-            cy.get('#password-label').type('joe3pass')
-            cy.get('button').click()
+            cy.login({ username: 'Joe III', password: 'joe3pass' })
 
             cy.contains('Succesfully logged in!')
             cy.contains('Joe the 3rd logged in')
         })
 
         it('fails with wrong credentials', () => {
-            cy.get('#username-label').type('Joe III')
-            cy.get('#password-label').type('wrongpassword')
-            cy.get('button').click()
+            cy.login({ username: 'Joe III', password: 'wrongpassword' })
 
             cy.contains('Invalid username/password.')
             cy.get('.errorMessage').should('have.css', 'color', 'rgb(255, 0, 0)')
@@ -42,49 +38,26 @@ describe('Blog app', () => {
 
     describe('when logged in', () => {
         beforeEach(() => {
-            cy.get('#username-label').type('Joe III')
-            cy.get('#password-label').type('joe3pass')
-            cy.get('button').click()
+            cy.login({ username: 'Joe III', password: 'joe3pass' })
         })
 
         it('a blog can be created!', () => {
-            cy.contains('new blog').click()
-
-            cy.get('#title').type('1st blog')
-            cy.get('#author').type('Joe III')
-            cy.get('#url').type('testingCypress.com')
-
-            cy.get('button').contains('Create').click()
-            cy.get('button').contains('cancel').click()
+            cy.newBlog({ title: '1st blog', author: 'Joe III', url: 'testingCypress.com' })
 
             cy.contains('1st blog - Joe III')
         })
 
         it('user can like a blog', () => {
-            cy.contains('new blog').click()
-
-            cy.get('#title').type('1st blog')
-            cy.get('#author').type('Joe III')
-            cy.get('#url').type('testingCypress.com')
-
-            cy.get('button').contains('Create').click()
-            cy.get('button').contains('cancel').click()
-
+            cy.newBlog({ title: '1st blog', author: 'Joe III', url: 'testingCypress.com' })
+            
             cy.contains('show details').click()
             cy.get('button').contains('like').click()
             
             cy.contains('1 likes')
         })
 
-        it.only('user can delete its blog', () => {
-            cy.contains('new blog').click()
-
-            cy.get('#title').type('1st blog')
-            cy.get('#author').type('Joe III')
-            cy.get('#url').type('testingCypress.com')
-
-            cy.get('button').contains('Create').click()
-            cy.get('button').contains('cancel').click()
+        it('user can delete its blog', () => {
+            cy.newBlog({ title: '1st blog', author: 'Joe III', url: 'testingCypress.com' })
 
             cy.contains('show details').click()
             cy.contains('delete blog').click()
