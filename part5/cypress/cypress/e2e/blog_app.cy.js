@@ -66,7 +66,7 @@ describe('Blog app', () => {
             cy.contains('1st blog - Joe III').should('not.exist')
         })
 
-        it.only('only blog creator can see delete button', () => {
+        it('only blog creator can see delete button', () => {
             cy.newBlog({ title: '2nd blog', author: 'Joe III', url: 'testingCypress2.com' })
 
             cy.get('button').contains('show details').click()
@@ -85,6 +85,38 @@ describe('Blog app', () => {
             cy.get('button').contains('show details').click()
 
             cy.get('button').contains('delete blog').should('not.exist')
+        })
+
+        it.only('blogs are ordered by likes', () => {
+            cy.newBlog({ title: '1st blog', author: 'Joe III', url: 'testingCypress1.com' })
+            cy.newBlog({ title: '2nd blog', author: 'Joe III', url: 'testingCypress2.com' })
+            cy.newBlog({ title: '3rd blog', author: 'Joe III', url: 'testingCypress3.com' })
+            cy.newBlog({ title: '4st blog', author: 'Joe III', url: 'testingCypress4.com' })
+
+            // Liking a blog multiple times:
+            for (let i = 0; i < 4; i++) {
+                cy.get('.blog').eq(i).contains('show details').click()
+                for (let k = 0; k < i; k++) {
+                    cy.get('button').contains('like').click()
+                }
+                cy.get('button').contains('hide details').click()
+            }
+                
+            // Checking if blogs are in order:
+            cy.visit('http://localhost:5173')
+
+            const likes = []
+            for (let i = 0; i < 4; i++) {
+                cy.get('.blog').contains('show details').click()
+                cy.get('.details').find('#like-number').invoke('text').then(text => {
+                    likes.push(parseInt(text))
+                })
+                cy.get('button').contains('hide details').click()
+            }
+
+            const sortedLikes = [...likes].sort((a, b) => b - a)
+
+            expect(likes).to.deep.equal(sortedLikes)
         })
     })
 })
