@@ -32,7 +32,7 @@ const Login = ({ userMethod, handleMessages }) => {
             <h1>Log in the app</h1>
             <form>
                 <div>
-                    <label htmlFor="username">Username:</label>
+                    <label htmlFor="username" id="username-label">Username:</label>
                     <input
                         id="username"
                         type="text"
@@ -41,7 +41,7 @@ const Login = ({ userMethod, handleMessages }) => {
                 </div>
 
                 <div>
-                    <label htmlFor="password">Password:</label>
+                    <label htmlFor="password" id="password-label">Password:</label>
                     <input
                         id="password"
                         type="password"

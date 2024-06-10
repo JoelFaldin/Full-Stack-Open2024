@@ -48,7 +48,7 @@ const Blog = ({ blog, userName, blogs, setBlogs, handleMessages }) => {
     }
 
     return !viewDetails ? (
-        <div>
+        <div className="blog">
             <span className="blog-title">{blog.title} </span>
             -
             <span className="blog-author"> {blog.author}</span>
