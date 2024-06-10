@@ -31,7 +31,7 @@ Cypress.Commands.add('login', ({ username, password }) => {
 })
 
 Cypress.Commands.add('newBlog', ({ title, author, url }) => {
-    cy.contains('new blog').click()
+    cy.get('button').contains('new blog').click()
 
     cy.get('#title').type(title)
     cy.get('#author').type(author)

@@ -65,5 +65,26 @@ describe('Blog app', () => {
 
             cy.contains('1st blog - Joe III').should('not.exist')
         })
+
+        it.only('only blog creator can see delete button', () => {
+            cy.newBlog({ title: '2nd blog', author: 'Joe III', url: 'testingCypress2.com' })
+
+            cy.get('button').contains('show details').click()
+            cy.get('button').contains('delete blog')
+            cy.get('button').contains('Log out').click()
+
+            const newUser = {
+                username: "Joe IV",
+                name: "Joe the 4th",
+                password: "joe4pass"
+            }
+            
+            cy.request('POST', 'http://localhost:3003/api/users', newUser)
+
+            cy.login({ username: 'Joe IV', password: 'joe4pass' })
+            cy.get('button').contains('show details').click()
+
+            cy.get('button').contains('delete blog').should('not.exist')
+        })
     })
 })
