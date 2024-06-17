@@ -1,5 +1,5 @@
 # Full-Stack-Open2023 🖥️🚀🌠
-Exercises submitted for [Full Stack Open course](https://fullstackopen.com/en/).
+Exercises submitted for [Full Stack Open course](https://fullstackopen.com/en/)!
 
 ___
 
@@ -22,7 +22,8 @@ part4
 part5
     bloglist_backend
     bloglist_frontend
+part6
+    unicafe-redux
 
 
-coming soontmtm
 ~~~
