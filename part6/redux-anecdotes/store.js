@@ -11,5 +11,3 @@ export const store = configureStore({
         notification: notificationReducer
     }
 })
-
-console.log(store.getState())
