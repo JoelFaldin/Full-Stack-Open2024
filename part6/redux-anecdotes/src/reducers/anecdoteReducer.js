@@ -25,7 +25,7 @@ const anecdoteSlice = createSlice({
             return [...updatedState].sort((a, b) => b.votes - a.votes)
         },
         appendAnecdote(state, action) {
-            return action.payload
+            state.push(action.payload)
         },
         setAnecdotes(state, action) {
             return action.payload
@@ -39,6 +39,13 @@ export const initializeAnecdotes = () => {
     return async dispatch => {
         const anecdotes = await anecdoteService.getData()
         dispatch(setAnecdotes(anecdotes))
+    }
+}
+
+export const createAnecdote = (content) => {
+    return async dispatch => {
+        const newAnecdote = await anecdoteService.createAnecdote(content)
+        return dispatch(appendAnecdote(newAnecdote))
     }
 }
 
