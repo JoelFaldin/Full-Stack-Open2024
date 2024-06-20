@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux"
 import { addAnecdote } from "../reducers/anecdoteReducer"
-import anecdoteService from '../../services/anecdotes'
+import anecdoteService from "../services/anecdoteService"
 
 const AnecdoteForm = () => {
     const dispatch = useDispatch()
