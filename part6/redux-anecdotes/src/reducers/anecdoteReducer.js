@@ -42,11 +42,10 @@ const anecdoteSlice = createSlice({
             }
 
             const updatedState = state.map(anecdote => anecdote.id === id ? updatedAnecdote : anecdote)
-            return updatedState.sort((a, b) => b.votes - a.votes)
+            return [...updatedState].sort((a, b) => b.votes - a.votes)
         }
     }
 })
 
 export const { addAnecdote, voteAnecdote } = anecdoteSlice.actions
 export default anecdoteSlice.reducer
-
