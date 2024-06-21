@@ -7,23 +7,28 @@ const AnecdoteForm = () => {
   const notifDispatch = useNotifDispatch()
 
   const newAnecdoteMutation = useMutation({
-    mutationFn: addAnecdote,
-    onSuccess: (newAnecdote) => {
-        const anecdotes = queryClient.getQueryData(['anecdotes'])
-        queryClient.setQueryData(['anecdotes'], anecdotes.concat(newAnecdote))
-
-        notifDispatch({ type: 'added', anecdote: newAnecdote.content })
-        setTimeout(() => {
-            notifDispatch({ type: 'reset' })
-        }, 5000)
-    }
+      mutationFn: addAnecdote,
+      onSuccess: (newAnecdote) => {
+          const anecdotes = queryClient.getQueryData(['anecdotes'])
+          queryClient.setQueryData(['anecdotes'], anecdotes.concat(newAnecdote))
+      
+          notifDispatch({ type: 'added', anecdote: newAnecdote.content })
+          setTimeout(() => {
+              notifDispatch({ type: 'reset' })
+          }, 5000)
+      },
+      onError: () => {
+          notifDispatch({ type: 'error' })
+          setTimeout(() => {
+              notifDispatch({ type: 'reset' })
+          }, 5000);
+      }
   })
 
   const onCreate = (event) => {
     event.preventDefault()
     const content = event.target.anecdote.value
     event.target.anecdote.value = ''
-
     newAnecdoteMutation.mutate({ content })
   }
 
