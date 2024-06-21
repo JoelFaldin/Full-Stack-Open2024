@@ -3,9 +3,11 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import AnecdoteForm from './components/AnecdoteForm'
 import Notification from './components/Notification'
 import { getAnecdotes, udpateAnecdote } from './services/anecdoteService'
+import { useNotifDispatch } from './context/NotifContext'
 
 const App = () => {
   const queryClient = useQueryClient()
+  const notifDispatch = useNotifDispatch()
 
   const result = useQuery({
     queryKey: ['anecdotes'],
@@ -19,6 +21,11 @@ const App = () => {
       const anecdotes = queryClient.getQueryData(['anecdotes'])
       const updatedAnecdotes = anecdotes.map(anecdote => anecdote.id === votedAnecdote.id ? votedAnecdote : anecdote)
       queryClient.setQueryData(['anecdotes'], updatedAnecdotes)
+
+      notifDispatch({ type: 'voted', anecdote: votedAnecdote.content })
+      setTimeout(() => {
+        notifDispatch({ type: 'reset' })
+      }, 5000)
     }
   })
 
@@ -38,6 +45,7 @@ const App = () => {
   }
     
   const anecdotes = result.data
+
 
   return (
     <div>
