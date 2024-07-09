@@ -6,7 +6,7 @@ import CreateNew from './CreateNew'
 import About from './About'
 import Anecdote from "./Anecdote"
 
-const Menu = ({ anecdotes, addNew }) => {
+const Menu = ({ anecdotes, addNew, handleNotification }) => {
     const match = useMatch('/anecdotes/:id')
     const anecdote = match ? anecdotes.find(item => item.id === Number(match.params.id)) : null
     
@@ -21,7 +21,7 @@ const Menu = ({ anecdotes, addNew }) => {
     
             <Routes>
                 <Route path="/" element={<AnecdoteList anecdotes={anecdotes} />} />
-                <Route path="/create" element={<CreateNew addNew={addNew} />} />
+                <Route path="/create" element={<CreateNew addNew={addNew} handleNotification={handleNotification} />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/anecdotes/:id" element={<Anecdote anecdote={anecdote} />} />
             </Routes>

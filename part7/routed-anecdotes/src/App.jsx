@@ -47,7 +47,13 @@ const App = () => {
   return (
     <div>
       <h1>Software anecdotes</h1>
-      <Menu anecdotes={anecdotes} addNew={addNew} />
+      {notification ? (
+        <p>{notification}</p>
+      ) : (
+        <>
+        </>
+      )}
+      <Menu anecdotes={anecdotes} addNew={addNew} handleNotification={setNotification} />
       <Footer />
     </div>
   )

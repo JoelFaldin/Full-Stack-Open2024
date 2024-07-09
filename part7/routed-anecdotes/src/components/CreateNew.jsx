@@ -1,21 +1,25 @@
 /* eslint-disable react/prop-types */
 
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
-const CreateNew = (props) => {
+const CreateNew = ({ addNew, handleNotification }) => {
     const [content, setContent] = useState('')
     const [author, setAuthor] = useState('')
     const [info, setInfo] = useState('')
-  
+
+    const navigate = useNavigate()
   
     const handleSubmit = (e) => {
       e.preventDefault()
-      props.addNew({
+      addNew({
         content,
         author,
         info,
         votes: 0
       })
+      handleNotification(`New anecdote: "${content}" added!`)
+      navigate('/')
     }
   
     return (
