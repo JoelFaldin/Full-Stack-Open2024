@@ -3,6 +3,7 @@
 
 import { useState } from 'react'
 import Menu from './components/Menu'
+import Footer from './components/Footer'
 
 const App = () => {
   const [anecdotes, setAnecdotes] = useState([
@@ -47,6 +48,7 @@ const App = () => {
     <div>
       <h1>Software anecdotes</h1>
       <Menu anecdotes={anecdotes} addNew={addNew} />
+      <Footer />
     </div>
   )
 }
