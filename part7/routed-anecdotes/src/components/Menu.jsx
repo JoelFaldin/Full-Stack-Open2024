@@ -13,6 +13,7 @@ const Menu = ({ anecdotes, addNew, handleNotification }) => {
     const padding = {
       paddingRight: 5
     }
+
     return (
         <div>
             <Link style={padding} to="/" >anecdotes</Link>
