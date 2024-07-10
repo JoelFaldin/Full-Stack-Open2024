@@ -21,6 +21,13 @@ const CreateNew = ({ addNew, handleNotification }) => {
       handleNotification(`New anecdote: "${content.value}" added!`)
       navigate('/')
     }
+
+    const handleReset = (event) => {
+        event.preventDefault()
+        content.reset()
+        author.reset()
+        info.reset()
+    }
   
     return (
       <div>
@@ -39,6 +46,7 @@ const CreateNew = ({ addNew, handleNotification }) => {
             <input {...info} />
           </div>
           <button>create</button>
+          <button onClick={event => handleReset(event)}>reset</button>
         </form>
       </div>
     )
