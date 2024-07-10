@@ -4,9 +4,15 @@ import { useNavigate } from 'react-router-dom'
 import { useField } from '../hooks'
 
 const CreateNew = ({ addNew, handleNotification }) => {
-    const content = useField('text')
-    const author = useField('text')
-    const info = useField('text')
+    const contentHook = useField('text')
+    const content = { type: contentHook.type, value: contentHook.value, onChange: contentHook.onChange }
+
+    const authorHook = useField('text')
+    const author = { type: authorHook.type, value: authorHook.value, onChange: authorHook.onChange }
+
+    const infoHook = useField('text')
+    const info = { type: infoHook.type, value: infoHook.value, onChange: infoHook.onChange }
+
 
     const navigate = useNavigate()
   
@@ -24,9 +30,9 @@ const CreateNew = ({ addNew, handleNotification }) => {
 
     const handleReset = (event) => {
         event.preventDefault()
-        content.reset()
-        author.reset()
-        info.reset()
+        contentHook.reset()
+        authorHook.reset()
+        infoHook.reset()
     }
   
     return (
