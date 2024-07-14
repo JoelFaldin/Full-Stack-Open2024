@@ -39,9 +39,15 @@ blogRouter.post("/", async (req, res) => {
       const blogs = await blog.save();
       user.blogs = user.blogs.concat(blogs._id);
       await user.save();
+      const finalBlogs = await Blog.findById(blogs.id).populate("user", {
+        username: 1,
+        name: 1,
+        id: 1,
+      });
 
-      res.status(201).json({ newblog: blogs });
+      res.status(201).json({ newblog: finalBlogs });
     } catch (error) {
+      console.log(error);
       res.status(401).json({ error: "The blog is not valid!" });
     }
   } else {

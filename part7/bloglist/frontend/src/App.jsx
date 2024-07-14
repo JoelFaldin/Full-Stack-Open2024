@@ -2,69 +2,37 @@ import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 
-import { newNotif } from "./reducers/notificationReducer"
-import { newErrorNotif } from "./reducers/errNotifReducer";
-import { initializeBlogs } from "./reducers/blogReducer";
-
 import Blog from "./components/Blog";
 import Login from "./components/Login";
 import NewBlog from "./components/NewBlog";
 import Notification from "./components/Notification";
 import ErrorNotification from "./components/ErrorNotification";
+import { logOutUser, setUserData } from "./reducers/userReducer";
+import { initializeBlogs } from "./reducers/blogReducer";
 
 const App = () => {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user)
   const blogs = useSelector((state) => state.blogs)
-  console.log(blogs)
-
-  const [name, setName] = useState(null);
-  const [user, setUser] = useState();
 
   useEffect(() => {
     dispatch(initializeBlogs())
 
-    const loggedUserJSON = localStorage.getItem("loggedUser");
+    const loggedUserJSON = JSON.parse(localStorage.getItem("loggedUser"))
     if (loggedUserJSON) {
-      const name = localStorage.getItem("loggedName");
-      const token = localStorage.getItem("loggedToken");
-      setName(name);
-      setUser(token);
-    } else {
-      setName(null);
-      setUser("");
+      dispatch(setUserData(loggedUserJSON))
     }
   }, [dispatch]);
 
-  // Function to rerender the list:
-  const rerender = () => {
-    dispatch(initializeBlogs())
-  };
-
-  const loginUser = (user, token) => {
-    setName(user);
-    setUser(token);
-  };
-
   const handleLogout = () => {
-    window.localStorage.clear();
-    setName(null);
-    setUser("");
+    dispatch(logOutUser());
+    localStorage.removeItem("loggedUser");
   };
 
-  const handleMessages = (object, type) => {
-    if (type === "success") {
-      dispatch(newNotif(object.message, 5000));
-    } else if (type === "error") {
-      dispatch(newErrorNotif(object.response.data.error, 5000));
-    }
-
-    rerender();
-  };
-
-  if (name === null) {
+  if (!user) {
     return (
       <>
-        <Login userMethod={loginUser} handleMessages={handleMessages} />
+        <Login />
         <ErrorNotification />
       </>
     );
@@ -76,19 +44,18 @@ const App = () => {
 
       <Notification />
 
-      <p>{name} logged in</p>
+      <p>{user.name} logged in</p>
       <button onClick={handleLogout}>Log out</button>
 
-      <NewBlog handleMessages={handleMessages} />
+      <NewBlog />
 
       {blogs.map((blog) => (
         <Blog
           key={blog.id}
           blog={blog}
-          userName={name}
+          userName={user.name}
           blogs={blogs}
           setBlogs={() => null}
-          handleMessages={handleMessages}
         />
       ))}
       <ErrorNotification />

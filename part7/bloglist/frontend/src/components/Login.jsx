@@ -1,29 +1,24 @@
 import { useState } from "react";
-import loginService from "../services/login";
-import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
 
-const Login = ({ userMethod, handleMessages }) => {
+import { loginUser } from "../reducers/userReducer";
+import { newNotif } from "../reducers/notificationReducer";
+import { newErrorNotif } from "../reducers/errNotifReducer";
+
+const Login = () => {
+  const dispatch = useDispatch();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleUsername = (event) => {
-    setUsername(event.target.value);
-  };
-
-  const handlePassword = (event) => {
-    setPassword(event.target.value);
-  };
-
   const handleSubmit = async () => {
     try {
-      const request = await loginService.login(username, password);
+      const request = await dispatch(loginUser(username, password));
+
       window.localStorage.setItem("loggedUser", JSON.stringify(request));
-      window.localStorage.setItem("loggedName", request.name);
-      window.localStorage.setItem("loggedToken", request.token);
-      userMethod(request.name, request.token);
-      handleMessages(request, "success");
+      dispatch(newNotif(request.message, 5000));
     } catch (error) {
-      handleMessages(error, "error");
+      dispatch(newErrorNotif(error, 5000))
     }
   };
 
@@ -35,14 +30,14 @@ const Login = ({ userMethod, handleMessages }) => {
           <label htmlFor="username" id="username-label">
             Username:
           </label>
-          <input id="username" type="text" onChange={handleUsername} />
+          <input id="username" type="text" onChange={(event) => setUsername(event.target.value)} />
         </div>
 
         <div>
           <label htmlFor="password" id="password-label">
             Password:
           </label>
-          <input id="password" type="password" onChange={handlePassword} />
+          <input id="password" type="password" onChange={(event) => setPassword(event.target.value)} />
         </div>
 
         <button type="button" onClick={handleSubmit}>
@@ -51,11 +46,6 @@ const Login = ({ userMethod, handleMessages }) => {
       </form>
     </>
   );
-};
-
-Login.propTypes = {
-  userMethod: PropTypes.func.isRequired,
-  handleMessages: PropTypes.func.isRequired,
 };
 
 export default Login;

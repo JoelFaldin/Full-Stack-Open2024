@@ -1,21 +1,21 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
-import blogService from "../services/blogs";
 import { addLike, deleteBlog } from "../reducers/blogReducer";
 import { newErrorNotif } from "../reducers/errNotifReducer";
 import { newNotif } from "../reducers/notificationReducer";
 
-const Blog = ({ blog, userName, blogs, setBlogs, handleMessages }) => {
+const Blog = ({ blog, blogs }) => {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
 
   const [viewDetails, setViewDetails] = useState(false);
 
   const updateLikes = async () => {
     try {
-      const token = localStorage.getItem("loggedToken");
-      await dispatch(addLike(blog.id, blogs, userName, token));
+      await dispatch(addLike(blog.id, blogs, user.username, user.token));
     } catch (error) {
       dispatch(newErrorNotif(error, 5000))
     }
@@ -24,8 +24,7 @@ const Blog = ({ blog, userName, blogs, setBlogs, handleMessages }) => {
   const handleDelete = async () => {
     if (confirm(`Do you want to remove this blog? "${blog.title}"`)) {
       try {
-        const token = localStorage.getItem("loggedToken");
-        await dispatch(deleteBlog(blog.id, token));
+        await dispatch(deleteBlog(blog.id, user.token));
 
         dispatch(newNotif("Blog deleted!", 5000))
       } catch (error) {
@@ -57,7 +56,7 @@ const Blog = ({ blog, userName, blogs, setBlogs, handleMessages }) => {
       </p>
       <button onClick={() => setViewDetails(false)}>hide details</button>
       <br />
-      {userName === blog.user.name ? (
+      {user.username === blog.user.name ? (
         <button onClick={handleDelete}>delete blog</button>
       ) : (
         ""
@@ -68,10 +67,7 @@ const Blog = ({ blog, userName, blogs, setBlogs, handleMessages }) => {
 
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
-  userName: PropTypes.string.isRequired,
   blogs: PropTypes.array.isRequired,
-  setBlogs: PropTypes.func.isRequired,
-  handleMessages: PropTypes.func.isRequired,
 };
 
 export default Blog;

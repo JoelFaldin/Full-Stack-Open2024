@@ -1,6 +1,5 @@
 import { useState } from "react";
-import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { createBlog } from "../reducers/blogReducer";
 import { newErrorNotif } from "../reducers/errNotifReducer";
@@ -8,6 +7,7 @@ import { newNotif } from "../reducers/notificationReducer";
 
 const NewBlog = () => {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user)
 
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
@@ -17,8 +17,7 @@ const NewBlog = () => {
   const handleCreate = async (event) => {
     event.preventDefault();
     try {
-      const token = localStorage.getItem("loggedToken");
-      await dispatch(createBlog(title, author, url, token));
+      await dispatch(createBlog(title, author, url, user.token));
       dispatch(newNotif(`Blog "${title}" was successfully added!`, 5000));
 
       setTitle("");
@@ -78,10 +77,6 @@ const NewBlog = () => {
       </button>
     </div>
   );
-};
-
-NewBlog.propTypes = {
-  handleMessages: PropTypes.func.isRequired,
 };
 
 export default NewBlog;
