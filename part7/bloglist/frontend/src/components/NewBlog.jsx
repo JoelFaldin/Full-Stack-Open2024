@@ -20,6 +20,7 @@ const NewBlog = () => {
       const token = localStorage.getItem("loggedToken");
       await dispatch(createBlog(title, author, url, token));
       dispatch(newNotif(`Blog "${title}" was successfully added!`, 5000));
+
       setTitle("");
       setAuthor("");
       setUrl("");

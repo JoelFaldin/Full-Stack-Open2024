@@ -1,56 +1,35 @@
 import { useState } from "react";
-import blogService from "../services/blogs";
 import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
+
+import blogService from "../services/blogs";
+import { addLike, deleteBlog } from "../reducers/blogReducer";
+import { newErrorNotif } from "../reducers/errNotifReducer";
+import { newNotif } from "../reducers/notificationReducer";
 
 const Blog = ({ blog, userName, blogs, setBlogs, handleMessages }) => {
+  const dispatch = useDispatch();
+
   const [viewDetails, setViewDetails] = useState(false);
 
   const updateLikes = async () => {
-    const token = localStorage.getItem("loggedToken");
-
-    const updatedBlogs = blogs.map((object) => {
-      if (object.id === blog.id) {
-        return { ...object, likes: object.likes + 1 };
-      } else {
-        return object;
-      }
-    });
-
     try {
-      const likesRequest = await blogService.addLike(
-        blog.id,
-        userName,
-        blog.likes + 1,
-        blog.author,
-        blog.title,
-        blog.url,
-        token,
-      );
-      if (likesRequest !== 200) {
-        throw new Error("There was a problem updating the likes.");
-      }
-      setBlogs(updatedBlogs);
+      const token = localStorage.getItem("loggedToken");
+      await dispatch(addLike(blog.id, blogs, userName, token));
     } catch (error) {
-      setBlogs(blogs);
+      dispatch(newErrorNotif(error, 5000))
     }
   };
 
   const handleDelete = async () => {
     if (confirm(`Do you want to remove this blog? "${blog.title}"`)) {
-      const token = localStorage.getItem("loggedToken");
       try {
-        const removeRequest = await blogService.removeBlog(blog.id, token);
-        if (removeRequest.status !== 204) {
-          throw new Error("test");
-        }
+        const token = localStorage.getItem("loggedToken");
+        await dispatch(deleteBlog(blog.id, token));
 
-        const updatedBlogs = blogs.filter((object) => {
-          return object.id !== blog.id;
-        });
-
-        setBlogs(updatedBlogs);
+        dispatch(newNotif("Blog deleted!", 5000))
       } catch (error) {
-        handleMessages(error, "error");
+        dispatch(newErrorNotif(error, 5000))
       }
     }
   };
