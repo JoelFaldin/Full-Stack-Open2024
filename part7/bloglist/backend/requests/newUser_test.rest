@@ -1,0 +1,39 @@
+### Sending too few characters in username:
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "jo",
+    "password": "testpassword",
+    "name": "Joe"
+}
+
+### Sending an empty value in a required field:
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "Joe III",
+    "password": "",
+    "name": "Joe"
+}
+
+### Sending an already existing user in the database:
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "Joe II",
+    "password": "anotherpassword",
+    "name": "Joe the 2nd"
+}
+
+### Making a new :
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "root II",
+    "name": "Superuser 2nd",
+    "password": "salainenII"
+}
