@@ -1,8 +1,14 @@
 import { useState } from "react";
-import blogService from "../services/blogs";
 import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
 
-const NewBlog = ({ handleMessages }) => {
+import { createBlog } from "../reducers/blogReducer";
+import { newErrorNotif } from "../reducers/errNotifReducer";
+import { newNotif } from "../reducers/notificationReducer";
+
+const NewBlog = () => {
+  const dispatch = useDispatch();
+
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
@@ -12,10 +18,14 @@ const NewBlog = ({ handleMessages }) => {
     event.preventDefault();
     try {
       const token = localStorage.getItem("loggedToken");
-      const create = await blogService.newBlog(title, author, url, token);
-      handleMessages(create, "success");
+      await dispatch(createBlog(title, author, url, token));
+      dispatch(newNotif(`Blog "${title}" was successfully added!`, 5000));
+      setTitle("");
+      setAuthor("");
+      setUrl("");
+      setIsVisible(false);
     } catch (error) {
-      handleMessages(error, "error");
+      dispatch(newErrorNotif(error.message, 5000));
     }
   };
 

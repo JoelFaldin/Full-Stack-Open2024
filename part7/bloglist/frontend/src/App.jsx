@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 import { newNotif } from "./reducers/notificationReducer"
 import { newErrorNotif } from "./reducers/errNotifReducer";
+import { initializeBlogs } from "./reducers/blogReducer";
 
 import Blog from "./components/Blog";
-import blogService from "./services/blogs";
 import Login from "./components/Login";
 import NewBlog from "./components/NewBlog";
 import Notification from "./components/Notification";
@@ -13,13 +14,14 @@ import ErrorNotification from "./components/ErrorNotification";
 
 const App = () => {
   const dispatch = useDispatch();
+  const blogs = useSelector((state) => state.blogs)
+  console.log(blogs)
 
   const [name, setName] = useState(null);
   const [user, setUser] = useState();
-  const [blogs, setBlogs] = useState([]);
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs));
+    dispatch(initializeBlogs())
 
     const loggedUserJSON = localStorage.getItem("loggedUser");
     if (loggedUserJSON) {
@@ -31,11 +33,11 @@ const App = () => {
       setName(null);
       setUser("");
     }
-  }, []);
+  }, [dispatch]);
 
   // Function to rerender the list:
   const rerender = () => {
-    blogService.getAll().then((blogs) => setBlogs(blogs));
+    dispatch(initializeBlogs())
   };
 
   const loginUser = (user, token) => {
@@ -63,13 +65,6 @@ const App = () => {
     return (
       <>
         <Login userMethod={loginUser} handleMessages={handleMessages} />
-        {/* {errorMessage !== "" ? (
-          <div className="errorMessage">
-            <p className="text">{errorMessage}</p>
-          </div>
-        ) : (
-          ""
-        )} */}
         <ErrorNotification />
       </>
     );
@@ -92,17 +87,10 @@ const App = () => {
           blog={blog}
           userName={name}
           blogs={blogs}
-          setBlogs={setBlogs}
+          setBlogs={() => null}
           handleMessages={handleMessages}
         />
       ))}
-      {/* {errorMessage !== "" ? (
-        <div className="errorMessage">
-          <p className="text">{errorMessage}</p>
-        </div>
-      ) : (
-        ""
-      )} */}
       <ErrorNotification />
     </div>
   );
