@@ -1,15 +1,22 @@
 import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+
+import { newNotif } from "./reducers/notificationReducer"
+import { newErrorNotif } from "./reducers/errNotifReducer";
+
 import Blog from "./components/Blog";
 import blogService from "./services/blogs";
 import Login from "./components/Login";
 import NewBlog from "./components/NewBlog";
+import Notification from "./components/Notification";
+import ErrorNotification from "./components/ErrorNotification";
 
 const App = () => {
+  const dispatch = useDispatch();
+
   const [name, setName] = useState(null);
   const [user, setUser] = useState();
   const [blogs, setBlogs] = useState([]);
-  const [message, setMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
@@ -44,29 +51,26 @@ const App = () => {
 
   const handleMessages = (object, type) => {
     if (type === "success") {
-      setMessage(object.message);
+      dispatch(newNotif(object.message, 5000));
     } else if (type === "error") {
-      setErrorMessage(object.response.data.error);
+      dispatch(newErrorNotif(object.response.data.error, 5000));
     }
 
     rerender();
-    setTimeout(() => {
-      setMessage("");
-      setErrorMessage("");
-    }, 5000);
   };
 
   if (name === null) {
     return (
       <>
         <Login userMethod={loginUser} handleMessages={handleMessages} />
-        {errorMessage !== "" ? (
+        {/* {errorMessage !== "" ? (
           <div className="errorMessage">
             <p className="text">{errorMessage}</p>
           </div>
         ) : (
           ""
-        )}
+        )} */}
+        <ErrorNotification />
       </>
     );
   }
@@ -75,13 +79,7 @@ const App = () => {
     <div>
       <h2>blogs</h2>
 
-      {message !== "" ? (
-        <div className="message">
-          <p className="text">{message}</p>
-        </div>
-      ) : (
-        ""
-      )}
+      <Notification />
 
       <p>{name} logged in</p>
       <button onClick={handleLogout}>Log out</button>
@@ -98,13 +96,14 @@ const App = () => {
           handleMessages={handleMessages}
         />
       ))}
-      {errorMessage !== "" ? (
+      {/* {errorMessage !== "" ? (
         <div className="errorMessage">
           <p className="text">{errorMessage}</p>
         </div>
       ) : (
         ""
-      )}
+      )} */}
+      <ErrorNotification />
     </div>
   );
 };
