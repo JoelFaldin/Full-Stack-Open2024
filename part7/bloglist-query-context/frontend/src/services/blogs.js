@@ -15,7 +15,7 @@ const newBlog = async ({ title, author, url, token }) => {
   return response.data;
 };
 
-const addLike = async (blogId, user, likes, author, title, url, token) => {
+const addLike = async ({ blogId, user, likes, author, title, url, token }) => {
   const response = await axios.put(
     `${baseUrl}/${blogId}`,
     { user, likes, author, title, url },
@@ -24,7 +24,7 @@ const addLike = async (blogId, user, likes, author, title, url, token) => {
   return response.status;
 };
 
-const removeBlog = async (blogId, token) => {
+const removeBlog = async ({ blogId, token }) => {
   const response = await axios.delete(`${baseUrl}/${blogId}`, {
     headers: { Authorization: `Bearer ${token}` },
   });

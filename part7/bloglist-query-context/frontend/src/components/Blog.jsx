@@ -2,50 +2,53 @@ import { useState } from "react"
 import blogService from "../services/blogs"
 import PropTypes from "prop-types"
 import { setErrorNotif, setSuccessNotif } from "../actions/notificationActions"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 const Blog = ({ dispatch, blog, userName, blogs, setBlogs }) => {
+  const queryClient = useQueryClient()
+
   const [viewDetails, setViewDetails] = useState(false)
+
+  const deleteBlogMutation = useMutation({
+    mutationFn: blogService.removeBlog,
+    onSuccess: () => {
+      const blogs = queryClient.getQueryData(["blogs"])
+      queryClient.setQueryData(["blogs"], blogs.filter(item => item.id !== blog.id))
+
+      setSuccessNotif(dispatch, "Blog removed!", 5000)
+    },
+    onError: () => {
+      setErrorNotif(dispatch, "Couldnt delete the blog", 5000)
+    }
+  })
+
+  const addLikeMutation = useMutation({
+    mutationFn: blogService.addLike,
+    onSuccess: () => {
+      const blogs = queryClient.getQueryData(["blogs"])
+      const updatedBlogs = blogs.map(object => {
+        if (object.id === blog.id) {
+          return { ...object, likes: object.likes + 1 }
+        } else return object
+      })
+
+      queryClient.setQueryData(["blogs"], updatedBlogs)
+    },
+    onError: () => {
+      queryClient.setQueryData(["blogs"], blogs)
+      setErrorNotif(dispatch, "There was an error trying to like the blog.", 5000)
+    }
+  })
 
   const updateLikes = async () => {
     const token = localStorage.getItem("loggedToken")
-
-    const updatedBlogs = blogs.map(object => {
-      if (object.id === blog.id) {
-        return { ...object, likes: object.likes + 1 }
-      } else {
-        return object
-      }
-    })
-
-    try {
-      const likesRequest = await blogService.addLike(blog.id, userName, blog.likes + 1, blog.author, blog.title, blog.url, token)
-      if (likesRequest !== 200) {
-        throw new Error("There was a problem updating the likes.")
-      }
-      setBlogs(updatedBlogs)
-    } catch (error) {
-      setBlogs(blogs)
-    }
+    addLikeMutation.mutate({ blogId: blog.id, userName, likes: blog.likes + 1, author: blog.author, title: blog.title, url: blog.url, token })
   }
 
   const handleDelete = async () => {
     if (confirm(`Do you want to remove this blog? "${blog.title}"`)) {
       const token = localStorage.getItem("loggedToken")
-      try {
-        const removeRequest = await blogService.removeBlog(blog.id, token)
-        if (removeRequest.status !== 204) {
-          throw new Error("test")
-        }
-
-        const updatedBlogs = blogs.filter(object => {
-          return object.id !== blog.id
-        })
-
-        setBlogs(updatedBlogs)
-        setSuccessNotif(dispatch, "Blog removed!", 5000)
-      } catch (error) {
-        setErrorNotif(dispatch, "Couldnt delete the blog.", "error")
-      }
+      deleteBlogMutation.mutate({ blogId: blog.id, token })
     }
   }
 

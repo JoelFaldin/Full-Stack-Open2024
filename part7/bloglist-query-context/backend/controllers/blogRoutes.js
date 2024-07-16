@@ -39,10 +39,16 @@ blogRouter.post("/", async (req, res) => {
       const blogs = await blog.save();
       user.blogs = user.blogs.concat(blogs._id);
       await user.save();
+      const finalBlogs = await Blog.findById(blogs.id).populate("user", {
+        username: 1,
+        name: 1,
+        id: 1,
+      });
 
-      res
-        .status(201)
-        .json({ message: `The blog '${blog.title}' was added!`, blog });
+      res.status(201).json({
+        message: `The blog '${blog.title}' was added!`,
+        blog: finalBlogs,
+      });
     } catch (error) {
       res.status(401).json({ error: "The blog is not valid!" });
     }

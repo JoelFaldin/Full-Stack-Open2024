@@ -35,13 +35,6 @@ const App = () => {
     return <div>Loading data...</div>
   }
 
-  // Function to rerender the list:
-  // const rerender = () => {
-  //   blogService.getAll().then(blogs =>
-  //     setBlogs(blogs)
-  //   )
-  // }
-
   const loginUser = (user, token) => {
     setName(user)
   }
@@ -57,8 +50,6 @@ const App = () => {
     } else if (type === "error") {
       setErrorNotif(dispatch, object.response.data.error, 5000)
     }
-
-    // rerender()
   }
 
   if (name === null) {
