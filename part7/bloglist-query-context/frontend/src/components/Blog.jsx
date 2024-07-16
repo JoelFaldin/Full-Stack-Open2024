@@ -82,8 +82,6 @@ Blog.propTypes = {
   blog: PropTypes.object.isRequired,
   userName: PropTypes.string.isRequired,
   blogs: PropTypes.array.isRequired,
-  setBlogs: PropTypes.func.isRequired,
-  handleMessages: PropTypes.func.isRequired
 }
 
 export default Blog

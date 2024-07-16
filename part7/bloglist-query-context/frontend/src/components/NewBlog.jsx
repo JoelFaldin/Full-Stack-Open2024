@@ -1,22 +1,40 @@
 import { useState } from "react"
 import blogService from "../services/blogs"
 import PropTypes from "prop-types"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { useNotification } from "../context/notificationContext"
+import { setErrorNotif, setSuccessNotif } from "../actions/notificationActions"
 
-const NewBlog = ({ handleMessages }) => {
+const NewBlog = () => {
+  const queryClient = useQueryClient()
+  const { dispatch } = useNotification()
+
   const [title, setTitle] = useState("")
   const [author, setAuthor] = useState("")
   const [url, setUrl] = useState("")
   const [isVisible, setIsVisible] = useState(false)
 
-  const handleCreate = async (event) => {
+  const newBlogMutation = useMutation({
+    mutationFn: blogService.newBlog,
+    onSuccess: (newBlog) => {
+      const blogs = queryClient.getQueryData(["blogs"])
+      queryClient.setQueryData(["blogs"], blogs.concat(newBlog.blog))
+
+      setSuccessNotif(dispatch, newBlog.message, 5000)
+      setTitle("")
+      setAuthor("")
+      setUrl("")
+      setIsVisible(false)
+    },
+    onError: () => {
+      setErrorNotif(dispatch, "there was an error when saving the blog.", 5000)
+    },
+  })
+
+  const handleCreate = (event) => {
     event.preventDefault()
-    try {
-      const token = localStorage.getItem("loggedToken")
-      const create = await blogService.newBlog(title, author, url, token)
-      handleMessages(create, "success")
-    } catch (error) {
-      handleMessages(error, "error")
-    }
+    const token = localStorage.getItem("loggedToken")
+    newBlogMutation.mutate({ title, author, url, token })
   }
 
   return isVisible ? (
@@ -52,7 +70,7 @@ const NewBlog = ({ handleMessages }) => {
             placeholder="Blog url"
           />
         </div>
-        <button onClick={handleCreate}>
+        <button onClick={event => handleCreate(event)}>
           Create
         </button>
       </form>
