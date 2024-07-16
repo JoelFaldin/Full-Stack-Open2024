@@ -31,9 +31,9 @@ const App = () => {
 
   const handleVote = (anecdote) => {
     const newAnecdote = {
-        content: anecdote.content,
-        votes: anecdote.votes + 1,
-        id: anecdote.id
+      content: anecdote.content,
+      votes: anecdote.votes + 1,
+      id: anecdote.id
     }
     addVoteMutation.mutate(newAnecdote)
   }
@@ -43,17 +43,17 @@ const App = () => {
   } else if (result.isError) {
     return <div>anecdote service not available due to problems in server</div>
   }
-    
+
   const anecdotes = result.data
 
 
   return (
     <div>
       <h3>Anecdote app</h3>
-    
+
       <Notification />
       <AnecdoteForm />
-    
+
       {anecdotes.map(anecdote =>
         <div key={anecdote.id}>
           <div>

@@ -1,0 +1,10 @@
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjY1YjY3Y2I3NjY0OWJhZmI4YTQ1N2EyZCIsImlhdCI6MTcwNjQ5MjQ4NH0.123_7iPRngVxxaxLeLyFgs-8fPKftEqnrDwmZqc8Ilo
+
+{
+    "title": "Frontend is important too!",
+    "author": "65b3141c5ee5a9c8104a1729",
+    "url": "newurl.com",
+    "likes": 113
+}

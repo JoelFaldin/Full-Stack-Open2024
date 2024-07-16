@@ -7,9 +7,9 @@ import { NotifContextProvider } from './context/NotifContext'
 const client = new QueryClient()
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-    <NotifContextProvider>
-        <QueryClientProvider client={client}>
-            <App />
-        </QueryClientProvider>
-    </NotifContextProvider>
+  <NotifContextProvider>
+    <QueryClientProvider client={client}>
+      <App />
+    </QueryClientProvider>
+  </NotifContextProvider>
 )

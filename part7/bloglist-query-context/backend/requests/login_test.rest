@@ -1,0 +1,17 @@
+### Logging as the creator of the blog:
+POST http://localhost:3003/api/login
+Content-Type: application/json
+
+{
+    "username": "Joe2",
+    "password": "joe2pass"
+}
+
+### Loging as a random user:
+POST http://localhost:3003/api/login
+Content-Type: application/json
+
+{
+    "username": "root II",
+    "password": "salainenII"
+}
