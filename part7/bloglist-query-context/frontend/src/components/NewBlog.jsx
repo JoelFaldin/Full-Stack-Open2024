@@ -33,8 +33,8 @@ const NewBlog = () => {
 
   const handleCreate = (event) => {
     event.preventDefault()
-    const token = localStorage.getItem("loggedToken")
-    newBlogMutation.mutate({ title, author, url, token })
+    const user = JSON.parse(localStorage.getItem("loggedUser"))
+    newBlogMutation.mutate({ title, author, url, token: user.token })
   }
 
   return isVisible ? (

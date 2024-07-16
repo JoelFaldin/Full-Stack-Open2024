@@ -4,7 +4,7 @@ import PropTypes from "prop-types"
 import { setErrorNotif, setSuccessNotif } from "../actions/notificationActions"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 
-const Blog = ({ dispatch, blog, userName, blogs, setBlogs }) => {
+const Blog = ({ dispatch, blog, userName, blogs }) => {
   const queryClient = useQueryClient()
 
   const [viewDetails, setViewDetails] = useState(false)
@@ -15,7 +15,7 @@ const Blog = ({ dispatch, blog, userName, blogs, setBlogs }) => {
       const blogs = queryClient.getQueryData(["blogs"])
       queryClient.setQueryData(["blogs"], blogs.filter(item => item.id !== blog.id))
 
-      setSuccessNotif(dispatch, "Blog removed!", 5000)
+      setSuccessNotif(dispatch, `Blog "${blog.title}" removed!`, 5000)
     },
     onError: () => {
       setErrorNotif(dispatch, "Couldnt delete the blog", 5000)
@@ -41,14 +41,14 @@ const Blog = ({ dispatch, blog, userName, blogs, setBlogs }) => {
   })
 
   const updateLikes = async () => {
-    const token = localStorage.getItem("loggedToken")
-    addLikeMutation.mutate({ blogId: blog.id, userName, likes: blog.likes + 1, author: blog.author, title: blog.title, url: blog.url, token })
+    const user = JSON.parse(localStorage.getItem("loggedUser"))
+    addLikeMutation.mutate({ blogId: blog.id, userName, likes: blog.likes + 1, author: blog.author, title: blog.title, url: blog.url, token: user.token })
   }
 
   const handleDelete = async () => {
     if (confirm(`Do you want to remove this blog? "${blog.title}"`)) {
-      const token = localStorage.getItem("loggedToken")
-      deleteBlogMutation.mutate({ blogId: blog.id, token })
+      const user = JSON.parse(localStorage.getItem("loggedUser"))
+      deleteBlogMutation.mutate({ blogId: blog.id, token: user.token })
     }
   }
 

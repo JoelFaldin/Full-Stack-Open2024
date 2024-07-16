@@ -6,10 +6,13 @@ import Blog from "./components/Blog"
 import Login from "./components/Login"
 import NewBlog from "./components/NewBlog"
 import { useNotification } from "./context/notificationContext"
+import { useAuth } from "./context/AuthContext"
 import { setErrorNotif, setSuccessNotif } from "./actions/notificationActions"
+import { clearUserData, setUserData } from "./actions/authActions"
 
 const App = () => {
   const { state, dispatch } = useNotification();
+  const { authState, authDispatch } = useAuth()
 
   const result = useQuery({
     queryKey: ["blogs"],
@@ -19,29 +22,21 @@ const App = () => {
 
   const blogs = result.data
 
-  const [name, setName] = useState(null)
-
   useEffect(() => {
-    const loggedUserJSON = localStorage.getItem("loggedUser")
-    if (loggedUserJSON) {
-      const name = localStorage.getItem("loggedName")
-      setName(name)
-    } else {
-      setName(null)
+    const loggedUserJSON = JSON.parse(localStorage.getItem("loggedUser"))
+    if (loggedUserJSON && loggedUserJSON.name) {
+      setUserData(authDispatch, { name: loggedUserJSON.name, username: loggedUserJSON.username, token: loggedUserJSON.token })
     }
-  }, [])
+  }, [authDispatch])
 
   if (result.isLoading) {
     return <div>Loading data...</div>
   }
 
-  const loginUser = (user, token) => {
-    setName(user)
-  }
-
   const handleLogout = () => {
     window.localStorage.clear()
-    setName(null)
+    clearUserData(authDispatch)
+    // console.log(authState)
   }
 
   const handleMessages = (object, type) => {
@@ -52,10 +47,10 @@ const App = () => {
     }
   }
 
-  if (name === null) {
+  if (!authState) {
     return (
       <>
-        <Login userMethod={loginUser} handleMessages={handleMessages} />
+        <Login dispatch={dispatch} authDispatch={authDispatch} />
         {
           state.error && (
             <div className='errorMessage'>
@@ -79,7 +74,7 @@ const App = () => {
         )
       }
 
-      <p>{name} logged in</p>
+      <p>{authState.name} logged in</p>
       <button onClick={handleLogout}>
         Log out
       </button>
@@ -87,7 +82,7 @@ const App = () => {
       <NewBlog handleMessages={handleMessages} />
 
       {blogs.map(blog =>
-        <Blog key={blog.id} dispatch={dispatch} blog={blog} userName={name} blogs={blogs} />
+        <Blog key={blog.id} dispatch={dispatch} blog={blog} userName={authState.name} blogs={blogs} />
       )}
       {
         state.error && (
