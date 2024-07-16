@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useEffect } from "react"
 import { useQuery } from "@tanstack/react-query"
 
 import blogService from "./services/blogs"
@@ -36,7 +36,6 @@ const App = () => {
   const handleLogout = () => {
     window.localStorage.clear()
     clearUserData(authDispatch)
-    // console.log(authState)
   }
 
   const handleMessages = (object, type) => {

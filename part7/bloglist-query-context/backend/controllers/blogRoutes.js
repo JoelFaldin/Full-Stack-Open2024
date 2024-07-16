@@ -1,4 +1,6 @@
 const blogRouter = require("express").Router();
+const ObjectId = require("mongodb").ObjectId;
+
 const Blog = require("../models/blog");
 const logger = require("../utils/logger");
 
@@ -59,13 +61,20 @@ blogRouter.post("/", async (req, res) => {
 
 blogRouter.delete("/:id", async (req, res) => {
   const userRequest = req.user;
-  const blog = await Blog.findOne({ _id: req.params.id }).populate("user", {
+  const id = req.params.id;
+  const blog = await Blog.findOne({ _id: id }).populate("user", {
     username: 1,
   });
 
   if (userRequest._id.toString() === blog.user._id.toString()) {
     await Blog.findByIdAndDelete(req.params.id);
-    res.status(204).json({ message: "BLog deleted!" });
+
+    const newBlogs = userRequest.blogs;
+    const deletedId = new ObjectId(id);
+    userRequest.blogs = newBlogs.filter((id) => !id.equals(deletedId));
+    await userRequest.save();
+
+    res.status(204).json({ message: "Blog deleted!" });
   } else {
     res.status(401).json({ error: "You are not the creator of the blog!" });
   }
