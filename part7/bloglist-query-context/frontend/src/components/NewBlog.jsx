@@ -2,12 +2,12 @@ import { useState } from "react"
 import blogService from "../services/blogs"
 import PropTypes from "prop-types"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { useNotification } from "../context/notificationContext"
+import { useNotifContext } from "../context/notificationContext"
 import { setErrorNotif, setSuccessNotif } from "../actions/notificationActions"
 
 const NewBlog = () => {
   const queryClient = useQueryClient()
-  const { dispatch } = useNotification()
+  const { dispatch } = useNotifContext()
 
   const [title, setTitle] = useState("")
   const [author, setAuthor] = useState("")

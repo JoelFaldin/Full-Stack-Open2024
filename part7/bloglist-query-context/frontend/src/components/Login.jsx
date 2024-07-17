@@ -4,10 +4,13 @@ import PropTypes from "prop-types"
 import { useMutation } from "@tanstack/react-query"
 import { setErrorNotif, setSuccessNotif } from "../actions/notificationActions"
 import { setUserData } from "../actions/authActions"
+import { useNavigate } from "react-router-dom"
 
 const Login = ({ dispatch, authDispatch }) => {
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
+  const navigate = useNavigate();
+
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const authMutation = useMutation({
     mutationFn: loginService.login,
@@ -16,6 +19,7 @@ const Login = ({ dispatch, authDispatch }) => {
       window.localStorage.setItem("loggedUser", JSON.stringify(response))
 
       setSuccessNotif(dispatch, response.message, 5000)
+      navigate("/")
     },
     onError: (error) => {
       setErrorNotif(dispatch, error.response.data.error, 5000)
