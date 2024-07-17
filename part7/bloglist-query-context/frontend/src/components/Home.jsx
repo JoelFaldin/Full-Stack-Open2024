@@ -1,12 +1,10 @@
 import { useEffect } from "react"
-import { useQuery } from "@tanstack/react-query"
 
-import blogService from "../services/blogs"
 import Blog from "./Blog"
 import Login from "./Login"
 import NewBlog from "./NewBlog"
 import { setErrorNotif, setSuccessNotif } from "../actions/notificationActions"
-import { clearUserData, setUserData } from "../actions/authActions"
+import { setUserData } from "../actions/authActions"
 
 const Home = ({ result, state, dispatch, authState, authDispatch }) => {
   const blogs = result.data
@@ -17,11 +15,6 @@ const Home = ({ result, state, dispatch, authState, authDispatch }) => {
       setUserData(authDispatch, { name: loggedUserJSON.name, username: loggedUserJSON.username, token: loggedUserJSON.token })
     }
   }, [authDispatch])
-
-  const handleLogout = () => {
-    window.localStorage.clear()
-    clearUserData(authDispatch)
-  }
 
   const handleMessages = (object, type) => {
     if (type === "success") {
@@ -52,13 +45,6 @@ const Home = ({ result, state, dispatch, authState, authDispatch }) => {
 
   return (
     <div>
-      {/* <h2>blogs</h2>
-
-      <p>{authState.name} logged in</p> */}
-      <button onClick={handleLogout}>
-        Log out
-      </button>
-
       <NewBlog handleMessages={handleMessages} />
 
       {blogs.map(blog =>
