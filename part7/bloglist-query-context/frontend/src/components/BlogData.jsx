@@ -1,11 +1,16 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useMatch } from "react-router-dom"
+import { useState } from "react";
 
 import messageService from "../services/messages"
+import { setErrorNotif } from "../actions/notificationActions"
 
-const BlogData = ({ blogs, updateLikes, handleDelete }) => {
+const BlogData = ({ dispatch, blogs, updateLikes, handleDelete }) => {
+  const queryClient = useQueryClient();
   const match = useMatch("/blogs/:id");
   const blogId = match.params.id
+
+  const [comment, setComment] = useState("")
 
   const messages = useQuery({
     queryKey: ["messages", blogId],
@@ -13,6 +18,24 @@ const BlogData = ({ blogs, updateLikes, handleDelete }) => {
     retry: 1,
     enabled: !!blogId
   })
+
+  const messageMutation = useMutation({
+    mutationFn: messageService.postMessage,
+    onSuccess: ({ response }) => {
+      const messages = queryClient.getQueryData(["messages", blogId])
+
+      queryClient.setQueryData(["messages", blogId], [...messages, response.message])
+    },
+    onError: (error) => {
+      queryClient.setQueryData(["messages"], messages)
+      setErrorNotif(dispatch, "There was an error trying to save the comment.", 5000)
+    }
+  })
+
+  const sendMessage = async () => {
+    messageMutation.mutate({ comment, blogId, messages: messages.data })
+    setComment("")
+  }
 
   if (blogs.isLoading || messages.isLoading) {
     return <div>Loading blog data...</div>
@@ -34,8 +57,8 @@ const BlogData = ({ blogs, updateLikes, handleDelete }) => {
       <h3>Comments</h3>
 
       <label htmlFor="comment"></label>
-      <input id="comment"></input>
-      <button>comment</button>
+      <input id="comment" value={comment} onChange={event => setComment(event.target.value)}></input>
+      <button onClick={sendMessage}>comment</button>
 
       {messages.data.length === 0 ? (
         <p>There are no comments in this blog.</p>

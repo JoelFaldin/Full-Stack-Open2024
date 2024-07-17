@@ -7,30 +7,16 @@ const getAll = async () => {
 };
 
 const newBlog = async ({ title, author, url, token }) => {
-  const response = await axios.post(
-    baseUrl,
-    { title, author, url },
-    { headers: { Authorization: `Bearer ${token}` } },
-  );
+  const response = await axios.post(baseUrl, { title, author, url }, { headers: { Authorization: `Bearer ${token}` } });
   return response.data;
 };
 
-const addLike = async ({
-  blog,
-  blogs,
-  blogId,
-  username,
-  likes,
-  author,
-  title,
-  url,
-  token,
-}) => {
+const addLike = async ({ blog, blogs, blogId, username, likes, author, title, url, token }) => {
   try {
     const response = await axios.put(
       `${baseUrl}/${blogId}`,
       { username, likes, author, title, url },
-      { headers: { Authorization: `Bearer ${token}` } },
+      { headers: { Authorization: `Bearer ${token}` } }
     );
     return { status: response.status, blog, blogs };
   } catch (error) {

@@ -114,7 +114,7 @@ const App = () => {
           <Route path="/login" element={<Login dispatch={dispatch} authDispatch={authDispatch} />} />
           <Route path="/users" element={<Users />} />
           <Route path="/users/:id" element={<UserData userId={userId} name={name} />} />
-          <Route path="/blogs/:id" element={<BlogData blogs={result} updateLikes={updateLikes} handleDelete={handleDelete} />} />
+          <Route path="/blogs/:id" element={<BlogData dispatch={dispatch} blogs={result} updateLikes={updateLikes} handleDelete={handleDelete} />} />
         </Routes>
 
         {state.success && (

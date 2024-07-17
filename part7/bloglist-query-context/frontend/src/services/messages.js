@@ -6,4 +6,13 @@ const getMessages = async (id) => {
   return response.data;
 };
 
-export default { getMessages };
+const postMessage = async ({ comment, blogId, messages }) => {
+  try {
+    const response = await axios.post(`${baseUrl}/new`, { comment, blogId });
+    return { response: response.data };
+  } catch (error) {
+    return { error, messages };
+  }
+};
+
+export default { getMessages, postMessage };

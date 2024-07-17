@@ -1,4 +1,5 @@
 const messageRouter = require("express").Router();
+const mongoose = require("mongoose");
 
 const Message = require("../models/messages");
 const Blog = require("../models/blog");
@@ -18,8 +19,10 @@ messageRouter.get("/:id", async (req, res) => {
 messageRouter.post("/new", async (req, res) => {
   const body = req.body;
 
-  if (body.message === "" || body.blogId === "") {
+  if (!body.comment || !body.blogId) {
     return res.status(400).json({ error: "Message and blog id shouldnt be empty!" });
+  } else if (!mongoose.Types.ObjectId.isValid(body.blogId)) {
+    return res.status(400).json({ error: "Invalid blog id." });
   }
 
   try {
@@ -30,13 +33,14 @@ messageRouter.post("/new", async (req, res) => {
     }
 
     const message = new Message({
-      message: body.message,
+      message: body.comment,
       blogId: body.blogId,
     });
 
     await message.save();
     return res.status(201).json({ message: "Message saved!", message });
   } catch (error) {
+    console.log(error);
     return res.status(500).json({ error: "There was a problem trying to save the message.", error });
   }
 });
