@@ -1,7 +1,9 @@
-import { useState } from "react"
-import loginService from "../services/login"
 import PropTypes from "prop-types"
+import { useState } from "react"
 import { useMutation } from "@tanstack/react-query"
+import { TextField, Box, Button, Typography } from "@mui/material"
+
+import loginService from "../services/login"
 import { setErrorNotif, setSuccessNotif } from "../actions/notificationActions"
 import { setUserData } from "../actions/authActions"
 import { useNavigate } from "react-router-dom"
@@ -33,34 +35,37 @@ const Login = ({ dispatch, authDispatch }) => {
 
   return (
     <>
-      <h1>Log in the app</h1>
+      <Typography variant="h5" component="h2" gutterBottom>
+        Log in the app
+      </Typography>
       <form>
-        <div>
-          <label htmlFor="username" id="username-label">Username:</label>
-          <input
+        <Box mb={2}>
+          <TextField
             id="username"
             type="text"
+            label="Username"
             onChange={(event) => setUsername(event.target.value)}
           />
-        </div>
+        </Box>
 
-        <div>
-          <label htmlFor="password" id="password-label">Password:</label>
-          <input
+        <Box mb={2}>
+          <TextField
             id="password"
             type="password"
+            label="Password"
             onChange={(event) => setPassword(event.target.value)}
           />
-        </div>
+        </Box>
 
-        <button
+        <Button
+          variant="contained"
           type="button"
           onClick={(event) => handleSubmit(event)}
         >
           Log in
-        </button>
+        </Button>
 
-      </form>
+      </form >
     </>
   )
 }

@@ -1,4 +1,5 @@
 import { useEffect } from "react"
+import { TableContainer, Paper, Table, TableBody, Box } from "@mui/material"
 
 import Blog from "./Blog"
 import Login from "./Login"
@@ -45,11 +46,20 @@ const Home = ({ result, state, dispatch, authState, authDispatch }) => {
 
   return (
     <div>
-      <NewBlog handleMessages={handleMessages} />
+      <Box sx={{ pt: 2, pb: 2 }}>
+        <NewBlog handleMessages={handleMessages} />
+      </Box>
 
-      {blogs.map(blog =>
-        <Blog key={blog.id} dispatch={dispatch} blog={blog} userName={authState.name} blogs={blogs} />
-      )}
+
+      <TableContainer component={Paper}>
+        <Table>
+          <TableBody>
+            {blogs.map(blog =>
+              <Blog key={blog.id} dispatch={dispatch} blog={blog} userName={authState.name} blogs={blogs} />
+            )}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </div>
   )
 }

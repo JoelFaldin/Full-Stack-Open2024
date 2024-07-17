@@ -1,6 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useMatch } from "react-router-dom"
 import { useState } from "react";
+import { Box, Button, Link, List, ListItem, ListItemIcon, ListItemText, TextField, Typography } from "@mui/material";
+import Person from "@mui/icons-material/Person";
 
 import messageService from "../services/messages"
 import { setErrorNotif } from "../actions/notificationActions"
@@ -45,30 +47,60 @@ const BlogData = ({ dispatch, blogs, updateLikes, handleDelete }) => {
 
   return (
     <>
-      <h2>{blogData.title}</h2>
-      <a href={blogData.url}>{blogData.url}</a>
-      <p>
-        <span>{blogData.likes} likes</span>
-        <button onClick={() => updateLikes(blogData, blogs.data)}>like</button>
-      </p>
-      <p>added by <strong>{blogData.author}</strong></p>
-      <button onClick={() => handleDelete(blogData)}>delete blog</button>
+      <Typography variant="h4" component="h2" gutterBottom>
+        {blogData.title}
+      </Typography>
 
-      <h3>Comments</h3>
+      <Link href={blogData.url} underline="hover">
+        <Typography variant="body1">
+          {blogData.url}
+        </Typography>
+      </Link>
 
-      <label htmlFor="comment"></label>
-      <input id="comment" value={comment} onChange={event => setComment(event.target.value)}></input>
-      <button onClick={sendMessage}>comment</button>
+      <Box sx={{ pt: 2, pb: 2 }}>
+        <Typography variant="body1">
+          {blogData.likes} likes
+        </Typography>
+        <Button variant="contained" onClick={() => updateLikes(blogData, blogs.data)}>
+          like
+        </Button>
+      </Box>
 
-      {messages.data.length === 0 ? (
-        <p>There are no comments in this blog.</p>
-      ) : (
-        <ul>
-          {messages.data.map(item => (
-            <li key={item.id}>{item.message}</li>
-          ))}
-        </ul>
-      )}
+      <Box sx={{ pt: 2, pb: 2 }}>
+        <Typography variant="body1">added by <strong>{blogData.author}</strong></Typography>
+      </Box>
+
+      <Button variant="contained" color="error" onClick={() => handleDelete(blogData)}>
+        delete blog
+      </Button>
+
+      <Box sx={{ pt: 4 }}>
+        <Typography variant="h6" component="h4">
+          Comments
+        </Typography>
+
+        {messages.data.length === 0 ? (
+          <p>There are no comments in this blog.</p>
+        ) : (
+          <List>
+            {messages.data.map(item => (
+              <ListItem key={item.id}>
+                <ListItemIcon>
+                  <Person />
+                </ListItemIcon>
+                <ListItemText>
+                  {item.message}
+                </ListItemText>
+              </ListItem>
+            ))}
+          </List>
+        )}
+
+        <TextField value={comment} onChange={event => setComment(event.target.value)} />
+        <Box sx={{ pt: 2 }}>
+          <Button variant="contained" onClick={sendMessage}>comment</Button>
+        </Box>
+      </Box>
     </>
   )
 }

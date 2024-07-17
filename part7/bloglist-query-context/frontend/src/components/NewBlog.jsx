@@ -4,6 +4,7 @@ import PropTypes from "prop-types"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useNotifContext } from "../context/notificationContext"
 import { setErrorNotif, setSuccessNotif } from "../actions/notificationActions"
+import { Box, Button, TextField, Typography } from "@mui/material"
 
 const NewBlog = () => {
   const queryClient = useQueryClient()
@@ -39,47 +40,51 @@ const NewBlog = () => {
 
   return isVisible ? (
     <>
-      <h1>Create a new blog:</h1>
+      <Typography variant="h4" component="h1" gutterBottom>Create a new blog:</Typography>
       <form>
-        <div>
-          <label htmlFor="title">Title:</label>
-          <input
+        <Box mb={2}>
+          <TextField
+            label="Title"
             id="title"
             type="text"
             onChange={event => setTitle(event.target.value)}
             placeholder="Blog title"
           />
-        </div>
+        </Box>
 
-        <div>
-          <label htmlFor="author">Author:</label>
-          <input
+        <Box mb={2}>
+          <TextField
+            label="Author"
             id="author"
             type="text"
             onChange={event => setAuthor(event.target.value)}
             placeholder="Blog author"
           />
-        </div>
+        </Box>
 
-        <div>
-          <label htmlFor="url">Url:</label>
-          <input
+        <Box mb={2}>
+          <TextField
+            label="Url"
             id="url"
             type="text"
             onChange={event => setUrl(event.target.value)}
             placeholder="Blog url"
           />
-        </div>
-        <button onClick={event => handleCreate(event)}>
-          Create
-        </button>
+        </Box>
+        <Box mb={2}>
+          <Button variant="contained" onClick={event => handleCreate(event)}>
+            Create
+          </Button>
+        </Box>
       </form>
-      <button onClick={() => setIsVisible(false)}>cancel</button>
+      <Button variant="contained" color="error" onClick={() => setIsVisible(false)}>
+        cancel
+      </Button>
     </>
   ) : (
-    <div>
-      <button className="showForm" id="showForm" onClick={() => setIsVisible(true)}>new blog</button>
-    </div>
+    <Button variant="contained" onClick={() => setIsVisible(true)}>
+      new blog
+    </Button>
   )
 }
 

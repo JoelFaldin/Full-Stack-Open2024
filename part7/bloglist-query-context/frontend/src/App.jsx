@@ -1,17 +1,18 @@
 import { useEffect } from "react"
 import { Routes, Route, useMatch, useNavigate, Link } from "react-router-dom"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
+import { Alert, AppBar, Box, Button, Container, IconButton, Toolbar, Typography } from "@mui/material"
 
 import blogService from "./services/blogs"
 import Login from "./components/Login"
 import Home from "./components/Home"
 import Users from "./components/Users"
+import UserData from "./components/UserData"
+import BlogData from "./components/BlogData"
 import { useNotifContext } from "./context/notificationContext"
 import { setErrorNotif, setSuccessNotif } from "./actions/notificationActions"
 import { useAuthContext } from "./context/AuthContext"
 import { setUserData, clearUserData } from "./actions/authActions"
-import UserData from "./components/UserData"
-import BlogData from "./components/BlogData"
 
 const App = () => {
   const { state, dispatch } = useNotifContext();
@@ -90,25 +91,35 @@ const App = () => {
   }
 
   return (
-    <>
-      <Link style={padding} to="/">Blogs</Link>
-      <Link style={padding} to="/users">Users</Link>
-      {authState && (
-        <>
-          <h2>blogs</h2>
-          <p>{authState.name} logged in</p>
-          <button onClick={handleLogout}>
-            Log out
-          </button>
-        </>
-      )}
-      <div>
-        {state.error && (
-          <div className='errorMessage'>
-            <p className='text'>{state.error}</p>
-          </div>
-        )}
+    <Container>
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton edge="start" color="inherit" aria-label="menu" />
 
+          <Button color="inherit">
+            <Link to="/">Blogs</Link>
+          </Button>
+          <Button color="inherit">
+            <Link to="/users">Users</Link>
+          </Button>
+        </Toolbar>
+      </AppBar>
+
+      {authState && (
+        <Box sx={{ pt: 2, pb: 2 }}>
+          <Typography variant="h2">
+            Blogs
+          </Typography>
+          <Typography variant="body1">
+            {authState.name} logged in
+          </Typography>
+          <Button variant="contained" color="secondary" onClick={handleLogout}>
+            Log out
+          </Button>
+        </Box>
+      )}
+
+      <div>
         <Routes>
           <Route path="/" element={authState ? <Home result={result} state={state} dispatch={dispatch} authState={authState} authDispatch={authDispatch} /> : <Login dispatch={dispatch} authDispatch={authDispatch} />} />
           <Route path="/login" element={<Login dispatch={dispatch} authDispatch={authDispatch} />} />
@@ -118,12 +129,17 @@ const App = () => {
         </Routes>
 
         {state.success && (
-          <div className='message'>
+          <Alert severity="success">
             <p className='text'>{state.success}</p>
-          </div>
+          </Alert>
+        )}
+        {state.error && (
+          <Alert severity="error">
+            <p className='text'>{state.error}</p>
+          </Alert>
         )}
       </div>
-    </>
+    </Container>
   )
 }
 

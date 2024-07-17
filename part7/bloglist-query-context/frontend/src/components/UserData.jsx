@@ -1,5 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
 import userService from "../services/users"
+import { Box, List, ListItem, ListItemIcon, ListItemText, Typography } from "@mui/material"
+import BookmarkIcon from "@mui/icons-material/Bookmark";
 
 const UserData = ({ name, userId }) => {
   const result = useQuery({
@@ -11,20 +13,31 @@ const UserData = ({ name, userId }) => {
   const blogs = result.data
 
   if (result.isLoading) {
-    return <div>Loading user blogs...</div>
+    return <Typography>Loading user blogs...</Typography>
   } else if (result.data.length === 0) {
-    return <h3>This user has no submitted blogs.</h3>
+    return <Typography>This user has no submitted blogs.</Typography>
   }
 
   return (
     <>
-      <h2>{name}</h2>
-      <h3>Added blogs:</h3>
-      <ul>
+      <Box sx={{ pt: 2, pb: 2 }}>
+        <Typography variant="h5">
+          {name}
+        </Typography>
+      </Box>
+      <Typography>Added blogs:</Typography>
+      <List>
         {blogs.map(blog => (
-          <li key={blog.id}>{blog.title}</li>
+          <ListItem key={blog.id}>
+            <ListItemIcon>
+              <BookmarkIcon />
+            </ListItemIcon>
+            <ListItemText>
+              {blog.title}
+            </ListItemText>
+          </ListItem>
         ))}
-      </ul>
+      </List>
     </>
   )
 }
