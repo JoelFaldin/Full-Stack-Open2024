@@ -1,6 +1,9 @@
 const userRouter = require("express").Router();
-const User = require("../models/user");
 const bcrypt = require("bcrypt");
+const ObjectId = require("mongoose").ObjectId;
+
+const User = require("../models/user");
+const Blog = require("../models/blog");
 
 userRouter.get("/", async (req, res) => {
   const users = await User.find({}).populate("blogs", {
@@ -15,6 +18,33 @@ userRouter.get("/", async (req, res) => {
   });
 
   res.status(200).json(formattedUsers);
+});
+
+userRouter.get("/user/:id", async (req, res) => {
+  const id = req.params.id;
+
+  if (id.length !== 24) {
+    return res.status(400).json({ error: "Invalid id format." });
+  }
+
+  try {
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ error: "There are no users with that id." });
+    }
+
+    const blogs = await Blog.find({
+      _id: { $in: user.blogs.map((id) => id) },
+    });
+
+    return res.status(201).json(blogs);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(error);
+  }
 });
 
 userRouter.post("/", async (req, res) => {

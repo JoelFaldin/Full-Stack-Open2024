@@ -1,12 +1,15 @@
 import { useEffect } from "react"
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom"
+import { Routes, Route, useMatch } from "react-router-dom"
+import { useQuery } from "@tanstack/react-query"
 
+import blogService from "./services/blogs"
 import Login from "./components/Login"
 import Home from "./components/Home"
 import Users from "./components/Users"
 import { useNotifContext } from "./context/notificationContext"
 import { useAuthContext } from "./context/AuthContext"
 import { setUserData } from "./actions/authActions"
+import UserData from "./components/UserData"
 
 const App = () => {
   const { state, dispatch } = useNotifContext();
@@ -19,8 +22,18 @@ const App = () => {
     }
   }, [authDispatch])
 
+  const result = useQuery({
+    queryKey: ["blogs"],
+    queryFn: () => blogService.getAll(),
+    retry: 1
+  })
+
+  const name = authState ? authState.name : null
+  const match = useMatch("/users/:id");
+  const id = match ? match.params.id : null
+
   return (
-    <Router>
+    <>
       {authState && (
         <>
           <h2>blogs</h2>
@@ -35,9 +48,10 @@ const App = () => {
         )}
 
         <Routes>
-          <Route path="/" element={authState ? <Home state={state} dispatch={dispatch} authState={authState} authDispatch={authDispatch} /> : <Login dispatch={dispatch} authDispatch={authDispatch} />} />
+          <Route path="/" element={authState ? <Home result={result} state={state} dispatch={dispatch} authState={authState} authDispatch={authDispatch} /> : <Login dispatch={dispatch} authDispatch={authDispatch} />} />
           <Route path="/login" element={<Login dispatch={dispatch} authDispatch={authDispatch} />} />
           <Route path="/users" element={<Users />} />
+          <Route path="/users/:id" element={<UserData userId={id} name={name} />} />
         </Routes>
 
         {state.success && (
@@ -46,7 +60,7 @@ const App = () => {
           </div>
         )}
       </div>
-    </Router>
+    </>
   )
 }
 

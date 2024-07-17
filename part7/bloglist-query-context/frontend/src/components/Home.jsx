@@ -8,13 +8,7 @@ import NewBlog from "./NewBlog"
 import { setErrorNotif, setSuccessNotif } from "../actions/notificationActions"
 import { clearUserData, setUserData } from "../actions/authActions"
 
-const Home = ({ state, dispatch, authState, authDispatch }) => {
-  const result = useQuery({
-    queryKey: ["blogs"],
-    queryFn: () => blogService.getAll(),
-    retry: 1
-  })
-
+const Home = ({ result, state, dispatch, authState, authDispatch }) => {
   const blogs = result.data
 
   useEffect(() => {
