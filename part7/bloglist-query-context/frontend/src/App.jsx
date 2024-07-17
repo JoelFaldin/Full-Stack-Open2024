@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import { Routes, Route, useMatch, useNavigate } from "react-router-dom"
+import { Routes, Route, useMatch, useNavigate, Link } from "react-router-dom"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 
 import blogService from "./services/blogs"
@@ -85,8 +85,14 @@ const App = () => {
     }
   }
 
+  const padding = {
+    paddingRight: 5
+  }
+
   return (
     <>
+      <Link style={padding} to="/">Blogs</Link>
+      <Link style={padding} to="/users">Users</Link>
       {authState && (
         <>
           <h2>blogs</h2>
