@@ -86,10 +86,6 @@ const App = () => {
     }
   }
 
-  const padding = {
-    paddingRight: 5
-  }
-
   return (
     <Container>
       <AppBar position="static">

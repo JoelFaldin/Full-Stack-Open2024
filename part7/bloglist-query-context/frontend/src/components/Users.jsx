@@ -17,15 +17,6 @@ const Users = () => {
     return <div>Loading user data...</div>
   }
 
-  const tableStyle = {
-    borderCollapse: "collapse"
-  }
-
-  const cellStyle = {
-    border: "1px solid black",
-    padding: 8
-  }
-
   return (
     <>
       <Typography variant="h4">
@@ -33,7 +24,7 @@ const Users = () => {
       </Typography>
 
       <TableContainer>
-        <Table style={tableStyle}>
+        <Table>
           <TableHead>
             <TableRow>
               <TableCell>
