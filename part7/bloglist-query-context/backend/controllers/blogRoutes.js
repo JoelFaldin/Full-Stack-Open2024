@@ -71,7 +71,7 @@ blogRouter.delete("/:id", async (req, res) => {
 
     const newBlogs = userRequest.blogs;
     const deletedId = new ObjectId(id);
-    userRequest.blogs = newBlogs.filter((id) => !id.equals(deletedId));
+    userRequest.blogs = newBlogs.filter(id => !id.equals(deletedId));
     await userRequest.save();
 
     res.status(204).json({ message: "Blog deleted!" });
