@@ -1,6 +1,7 @@
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { setUsersData } from "../reducers/userDataReducer"
+import { Link } from "react-router-dom"
 
 const User = () => {
   const dispatch = useDispatch()
@@ -37,7 +38,9 @@ const User = () => {
         <tbody>
           {userData.map(data => (
             <tr key={data._id}>
-              <td style={cellStyle}>{data.username}</td>
+              <td style={cellStyle}>
+                <Link to={`/users/${data._id}`}>{data.username}</Link>
+              </td>
               <td style={cellStyle}>{data.blogs}</td>
             </tr>
           ))}
