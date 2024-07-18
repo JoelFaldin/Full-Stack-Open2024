@@ -6,12 +6,11 @@ import { useSelector } from "react-redux";
 import { addLike, deleteBlog } from "../reducers/blogReducer";
 import { newErrorNotif } from "../reducers/errNotifReducer";
 import { newNotif } from "../reducers/notificationReducer";
+import { Link } from "react-router-dom";
 
 const Blog = ({ blog, blogs }) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-
-  const [viewDetails, setViewDetails] = useState(false);
 
   const updateLikes = async () => {
     try {
@@ -33,36 +32,14 @@ const Blog = ({ blog, blogs }) => {
     }
   };
 
-  return !viewDetails ? (
+  return (
     <div className="blog">
-      <span className="blog-title">{blog.title} </span>-
+      <span className="blog-title">
+        <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+      </span> -
       <span className="blog-author"> {blog.author}</span>
-      <button onClick={() => setViewDetails(true)}>show details</button>
     </div>
-  ) : (
-    <div className="details">
-      <p>
-        <span className="blog-title">{blog.title}</span>-
-        <span className="blog-author">{blog.author}</span>
-      </p>
-      <p className="blog-url">{blog.url}</p>
-      <p>
-        <span className="blog-likes">
-          <span id="like-number">{blog.likes}</span> likes
-        </span>
-        <button className="like-button" onClick={() => updateLikes()}>
-          like
-        </button>
-      </p>
-      <button onClick={() => setViewDetails(false)}>hide details</button>
-      <br />
-      {user.username === blog.user.name ? (
-        <button onClick={handleDelete}>delete blog</button>
-      ) : (
-        ""
-      )}
-    </div>
-  );
+  )
 };
 
 Blog.propTypes = {
