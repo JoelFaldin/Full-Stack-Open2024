@@ -6,6 +6,7 @@ import blogReducer from "./blogReducer";
 import userReducer from "./userReducer";
 import userDataReducer from "./userDataReducer";
 import userBlogsReducer from "./userBlogsReducer";
+import commentsReducer from "./commentsReducer";
 
 const rootReducer = combineReducers({
   notification: notificationReducer,
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   user: userReducer,
   userData: userDataReducer,
   userBlogs: userBlogsReducer,
+  comments: commentsReducer,
 });
 
 export default rootReducer;
