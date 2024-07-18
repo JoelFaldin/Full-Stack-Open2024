@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Route, Routes } from "react-router-dom"
+import { Link, Route, Routes } from "react-router-dom"
 
 import Home from "./components/Home";
 import Login from "./components/Login";
@@ -39,8 +39,15 @@ const App = () => {
     );
   }
 
+  const padding = {
+    paddingRight: 5
+  }
+
   return (
     <>
+      <Link to="/" style={padding}>blogs</Link>
+      <Link to="/users" style={padding}>users</Link>
+
       <h2>blogs</h2>
 
       <p>{user.name} logged in</p>
