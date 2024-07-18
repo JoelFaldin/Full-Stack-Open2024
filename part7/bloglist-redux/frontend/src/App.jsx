@@ -1,19 +1,18 @@
-import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Route, Routes } from "react-router-dom"
 
-import Blog from "./components/Blog";
+import Home from "./components/Home";
 import Login from "./components/Login";
-import NewBlog from "./components/NewBlog";
 import Notification from "./components/Notification";
 import ErrorNotification from "./components/ErrorNotification";
 import { logOutUser, setUserData } from "./reducers/userReducer";
 import { initializeBlogs } from "./reducers/blogReducer";
+import User from "./components/User";
 
 const App = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user)
-  const blogs = useSelector((state) => state.blogs)
 
   useEffect(() => {
     dispatch(initializeBlogs())
@@ -39,27 +38,20 @@ const App = () => {
   }
 
   return (
-    <div>
+    <>
       <h2>blogs</h2>
-
-      <Notification />
 
       <p>{user.name} logged in</p>
       <button onClick={handleLogout}>Log out</button>
 
-      <NewBlog />
-
-      {blogs.map((blog) => (
-        <Blog
-          key={blog.id}
-          blog={blog}
-          userName={user.name}
-          blogs={blogs}
-          setBlogs={() => null}
-        />
-      ))}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/users" element={<User />} />
+      </Routes>
+      <Notification />
       <ErrorNotification />
-    </div>
+    </>
   );
 };
 

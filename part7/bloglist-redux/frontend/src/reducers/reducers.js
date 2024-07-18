@@ -4,12 +4,14 @@ import notificationReducer from "./notificationReducer";
 import errNotifReducer from "./errNotifReducer";
 import blogReducer from "./blogReducer";
 import userReducer from "./userReducer";
+import userDataReducer from "./userDataReducer";
 
 const rootReducer = combineReducers({
   notification: notificationReducer,
   errNotification: errNotifReducer,
   blogs: blogReducer,
   user: userReducer,
+  userData: userDataReducer,
 });
 
 export default rootReducer;
