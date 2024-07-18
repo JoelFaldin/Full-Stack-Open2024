@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Box, Button, TextField, Typography } from "@mui/material";
 
 import { createBlog } from "../reducers/blogReducer";
 import { newErrorNotif } from "../reducers/errNotifReducer";
@@ -31,51 +32,58 @@ const NewBlog = () => {
 
   return isVisible ? (
     <>
-      <h1>Create a new blog:</h1>
+      <Typography variant="h5" component="h2">Create a new blog:</Typography>
       <form>
-        <div>
-          <label htmlFor="title">Title:</label>
-          <input
+        <Box sx={{ paddingTop: 1 }}>
+          <TextField
+            label="Title"
             id="title"
             type="text"
             onChange={(event) => setTitle(event.target.value)}
             placeholder="Blog title"
           />
-        </div>
+        </Box>
 
-        <div>
-          <label htmlFor="author">Author:</label>
-          <input
+        <Box sx={{ paddingTop: 1 }}>
+          <TextField
+            label="Author"
             id="author"
             type="text"
             onChange={(event) => setAuthor(event.target.value)}
             placeholder="Blog author"
           />
-        </div>
+        </Box>
 
-        <div>
-          <label htmlFor="url">Url:</label>
-          <input
+        <Box sx={{ paddingTop: 1 }}>
+          <TextField
+            label="Url"
             id="url"
             type="text"
             onChange={(event) => setUrl(event.target.value)}
             placeholder="Blog url"
           />
-        </div>
-        <button onClick={handleCreate}>Create</button>
+        </Box>
+
+        <Box sx={{ paddingTop: 2 }}>
+          <Button variant="contained" onClick={handleCreate}>Create</Button>
+        </Box>
       </form>
-      <button onClick={() => setIsVisible(false)}>cancel</button>
+
+      <Box sx={{ paddingTop: 2 }}>
+        <Button variant="contained" color="error" onClick={() => setIsVisible(false)}>cancel</Button>
+      </Box>
     </>
   ) : (
-    <div>
-      <button
+    <Box sx={{ paddingTop: 1, paddingBottom: 1 }}>
+      <Button
+        variant="contained"
         className="showForm"
         id="showForm"
         onClick={() => setIsVisible(true)}
       >
         new blog
-      </button>
-    </div>
+      </Button>
+    </Box>
   );
 };
 

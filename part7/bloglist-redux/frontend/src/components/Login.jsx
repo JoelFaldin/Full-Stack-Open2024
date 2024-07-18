@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { Box, Button, TextField, Typography } from "@mui/material"
 
 import { loginUser } from "../reducers/userReducer";
 import { newNotif } from "../reducers/notificationReducer";
@@ -24,25 +25,19 @@ const Login = () => {
 
   return (
     <>
-      <h1>Log in the app</h1>
+      <Typography variant="h4" component="h2">Log in the app</Typography>
       <form>
-        <div>
-          <label htmlFor="username" id="username-label">
-            Username:
-          </label>
-          <input id="username" type="text" onChange={(event) => setUsername(event.target.value)} />
-        </div>
+        <Box sx={{ paddingTop: 1, paddingBottom: 1 }}>
+          <TextField label="Username" type="text" onChange={(event) => setUsername(event.target.value)} />
+        </Box>
 
-        <div>
-          <label htmlFor="password" id="password-label">
-            Password:
-          </label>
-          <input id="password" type="password" onChange={(event) => setPassword(event.target.value)} />
-        </div>
+        <Box sx={{ paddingTop: 1, paddingBottom: 1 }}>
+          <TextField label="password" type="password" onChange={(event) => setPassword(event.target.value)} />
+        </Box>
 
-        <button type="button" onClick={handleSubmit}>
+        <Button variant="contained" type="button" onClick={handleSubmit}>
           Log in
-        </button>
+        </Button>
       </form>
     </>
   );

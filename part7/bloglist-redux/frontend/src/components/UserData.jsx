@@ -1,6 +1,8 @@
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useMatch } from "react-router-dom"
+import { Box, List, ListItem, ListItemIcon, Typography } from "@mui/material"
+import ArrowRightIcon from "@mui/icons-material/ArrowRight"
 
 import { initializeUserBlogs } from "../reducers/userBlogsReducer"
 import { setUsersData } from "../reducers/userDataReducer"
@@ -19,26 +21,32 @@ const UserData = () => {
   }, [dispatch, id])
 
   if (!userBlogs || !userData) {
-    return <div>Loading user data...</div>
+    return <Typography>Loading user data...</Typography>
   }
 
   const singularUser = userData.find(item => item._id === id)
 
   return (
-    <>
-      <h2>{singularUser.username}</h2>
-      <h3>Added blogs</h3>
+    <Box sx={{ paddingTop: 2, paddingBottom: 2 }}>
+      <Typography variant="h4" component="h4">{singularUser.username}</Typography>
+
+      <Box sx={{ paddingTop: 3 }}>
+        <Typography variant="h6">Added blogs</Typography>
+      </Box>
 
       {userBlogs.length === 0 ? (
-        <div>This user has no blogs submitted.</div>
+        <Typography variant="body1">This user has no blogs submitted.</Typography>
       ) : (
-        <ul>
+        <List>
           {userBlogs.map(blog => (
-            <li key={blog.id}>{blog.title}</li>
+            <ListItem key={blog.id}>
+              <ArrowRightIcon />
+              <Typography variant="body2">{blog.title}</Typography>
+            </ListItem>
           ))}
-        </ul >
+        </List >
       )}
-    </>
+    </Box>
   )
 }
 

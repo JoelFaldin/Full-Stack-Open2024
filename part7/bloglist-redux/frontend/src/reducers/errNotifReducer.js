@@ -19,7 +19,7 @@ const { setErrorNotif, removeErrorNotif } = errNotifSlice.actions;
 
 export const newErrorNotif = (message, time) => {
   return (dispatch) => {
-    dispatch(setErrorNotif(message));
+    dispatch(setErrorNotif(message.message));
 
     setTimeout(() => {
       dispatch(removeErrorNotif());

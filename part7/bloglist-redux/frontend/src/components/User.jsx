@@ -1,7 +1,9 @@
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { setUsersData } from "../reducers/userDataReducer"
 import { Link } from "react-router-dom"
+import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from "@mui/material"
+
+import { setUsersData } from "../reducers/userDataReducer"
 
 const User = () => {
   const dispatch = useDispatch()
@@ -12,41 +14,32 @@ const User = () => {
   }, [dispatch])
 
   if (!userData) {
-    return <div>Loading data...</div>
-  }
-
-  const tableStyle = {
-    borderCollapse: "collapse"
-  }
-
-  const cellStyle = {
-    border: "1px solid black",
-    padding: 8
+    return <Typography>Loading data...</Typography>
   }
 
   return (
-    <>
-      <h1>Users</h1>
+    <Box sx={{ paddingTop: 2, paddingBottom: 2 }}>
+      <Typography variant="h5">Users</Typography>
 
-      <table style={tableStyle}>
-        <thead>
-          <tr>
-            <td style={cellStyle}></td>
-            <td style={cellStyle}>blogs created</td>
-          </tr>
-        </thead>
-        <tbody>
-          {userData.map(data => (
-            <tr key={data._id}>
-              <td style={cellStyle}>
-                <Link to={`/users/${data._id}`}>{data.username}</Link>
-              </td>
-              <td style={cellStyle}>{data.blogs}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableBody>
+            <TableRow>
+              <TableCell></TableCell>
+              <TableCell>blogs created</TableCell>
+            </TableRow>
+            {userData.map(data => (
+              <TableRow key={data._id}>
+                <TableCell>
+                  <Link to={`/users/${data._id}`}>{data.username}</Link>
+                </TableCell>
+                <TableCell>{data.blogs}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Box>
   )
 }
 

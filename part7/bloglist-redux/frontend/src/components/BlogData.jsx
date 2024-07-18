@@ -1,7 +1,9 @@
 import { useDispatch, useSelector } from "react-redux"
 import { useMatch, useNavigate } from "react-router-dom"
-
 import { useEffect, useState } from "react"
+import { Box, Button, Link, List, ListItem, TextField, Typography } from "@mui/material"
+import ArrowRightIcon from "@mui/icons-material/ArrowRight"
+
 import { initializeComments } from "../reducers/commentsReducer"
 import { submitComment } from "../reducers/commentsReducer"
 import { newNotif } from "../reducers/notificationReducer"
@@ -37,7 +39,7 @@ const BlogData = () => {
   const matchingBlog = blogs.find(blog => blog.id === id)
 
   if (!matchingBlog || !messages) {
-    return <div>Loading data...</div>
+    return <Typography>Loading data...</Typography>
   }
 
   const updateLikes = async () => {
@@ -62,30 +64,39 @@ const BlogData = () => {
   };
 
   return (
-    <>
-      <h2>{matchingBlog.title}</h2>
-      <a href={matchingBlog.url}>{matchingBlog.url}</a>
+    <Box sx={{ paddingTop: 4, paddingBottom: 4 }}>
+      <Typography variant="h4">{matchingBlog.title}</Typography>
+      <Link variant="body2" underline="hover" href={matchingBlog.url}>{matchingBlog.url}</Link>
 
-      <p>
-        <span>{matchingBlog.likes} likes</span>
-        <button onClick={updateLikes}>like</button>
-      </p>
+      <Box sx={{ paddingTop: 2, paddingBottom: 2 }}>
+        <Typography variant="body1">{matchingBlog.likes} likes</Typography>
+      </Box>
+      <Button variant="contained" onClick={updateLikes}>like</Button>
 
-      <p>Added by <strong>{matchingBlog.author}</strong></p>
+      <Box sx={{ paddingTop: 2, paddingBottom: 2 }}>
+        <Typography variant="subtitle1">Added by <strong>{matchingBlog.author}</strong></Typography>
+      </Box>
 
-      <button onClick={handleDelete}>delete blog</button>
+      <Button variant="contained" color="error" onClick={handleDelete}>delete blog</Button>
 
-      <h3>comments</h3>
+      <Box sx={{ paddingTop: 3, paddingBottom: 3 }}>
+        <Typography variant="subtitle1"><strong>Comments</strong></Typography>
 
-      <input value={message} onChange={event => setMessage(event.target.value)} />
-      <button onClick={sendComment}>add comment</button>
+        <TextField label="Comment" value={message} onChange={event => setMessage(event.target.value)} />
+        <Box sx={{ paddingTop: 2, paddingBottom: 2 }}>
+          <Button variant="contained" onClick={sendComment}>add comment</Button>
+        </Box>
 
-      <ul>
-        {messages.map(message => (
-          <li key={message.id}>{message.message}</li>
-        ))}
-      </ul>
-    </>
+        <List>
+          {messages.map(message => (
+            <ListItem key={message.id}>
+              <ArrowRightIcon />
+              <Typography variant="body2">{message.message}</Typography>
+            </ListItem>
+          ))}
+        </List>
+      </Box>
+    </Box>
   )
 }
 

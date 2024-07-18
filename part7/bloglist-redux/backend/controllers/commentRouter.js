@@ -16,7 +16,6 @@ commentRouter.get("/:id", async (req, res) => {
 
 commentRouter.post("/new", async (req, res) => {
   const body = req.body;
-  console.log(body);
 
   if (!body.message || !body.blogId) {
     return res

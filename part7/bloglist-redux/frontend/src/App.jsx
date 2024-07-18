@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Route, Routes } from "react-router-dom"
+import { AppBar, Box, Button, Container, IconButton, Toolbar, Typography } from "@mui/material"
 
 import Home from "./components/Home";
 import Login from "./components/Login";
@@ -44,14 +45,26 @@ const App = () => {
   }
 
   return (
-    <>
-      <Link to="/" style={padding}>blogs</Link>
-      <Link to="/users" style={padding}>users</Link>
+    <Container>
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton edge="start" color="inherit" aria-label="menu" />
 
-      <h2>blogs</h2>
+          <Button color="inherit">
+            <Link to="/">blogs</Link>
+          </Button>
+          <Button color="inherit">
+            <Link to="/users">users</Link>
+          </Button>
+        </Toolbar>
+      </AppBar>
 
-      <p>{user.name} logged in</p>
-      <button onClick={handleLogout}>Log out</button>
+      <Typography variant="h4">Blogs</Typography>
+
+      <Typography>{user.name} logged in</Typography>
+      <Box sx={{ paddingTop: 1, paddingBottom: 1 }}>
+        <Button variant="contained" color="secondary" onClick={handleLogout}>Log out</Button>
+      </Box>
 
       <Routes>
         <Route path="/" element={<Home />} />
@@ -62,7 +75,7 @@ const App = () => {
       </Routes>
       <Notification />
       <ErrorNotification />
-    </>
+    </Container >
   );
 };
 

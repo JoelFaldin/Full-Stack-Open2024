@@ -1,14 +1,15 @@
+import { TableCell } from "@mui/material";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
 const Blog = ({ blog }) => {
   return (
-    <div className="blog">
-      <span className="blog-title">
+    <>
+      <TableCell>
         <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
-      </span> -
-      <span className="blog-author"> {blog.author}</span>
-    </div>
+      </TableCell>
+      <TableCell className="blog-author"> {blog.author}</TableCell>
+    </>
   )
 };
 
