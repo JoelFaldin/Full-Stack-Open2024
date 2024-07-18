@@ -9,15 +9,29 @@ const commentsSlice = createSlice({
     setComments(state, action) {
       return action.payload;
     },
+    appendComment(state, action) {
+      state.push(action.payload);
+    },
   },
 });
 
-const { setComments } = commentsSlice.actions;
+const { setComments, appendComment } = commentsSlice.actions;
 
 export const initializeComments = (id) => {
   return async (dispatch) => {
     const comments = await commentService.getComments(id);
     dispatch(setComments(comments));
+  };
+};
+
+export const submitComment = (message, blogId) => {
+  return async (dispatch) => {
+    try {
+      const newComment = await commentService.addComment(message, blogId);
+      dispatch(appendComment(newComment.comment));
+    } catch (error) {
+      throw new Error(error.response.data.error);
+    }
   };
 };
 
