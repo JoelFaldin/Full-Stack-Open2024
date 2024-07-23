@@ -10,7 +10,6 @@ describe('Blog app', () => {
         }
         
         cy.request('POST', 'http://localhost:3003/api/users', newUser)
-
     })
   
     it('Login form is shown', () => {
