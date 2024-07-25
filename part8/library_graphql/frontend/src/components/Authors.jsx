@@ -26,7 +26,7 @@ const Authors = ({ show, data, setError }) => {
         </tbody>
       </table>
 
-      <UpdateBirthYear setError={setError} />
+      <UpdateBirthYear setError={setError} authors={data.allAuthors} />
     </div>
   )
 }

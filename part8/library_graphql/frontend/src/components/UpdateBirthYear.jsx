@@ -1,10 +1,11 @@
 import { useMutation } from "@apollo/client"
 import { useState } from "react"
 import { PropTypes } from "prop-types"
+import Select from "react-select"
 
 import { ALL_AUTHORS, SET_BIRTHYEAR } from "../queries"
 
-const UpdateBirthYear = ({ setError }) => {
+const UpdateBirthYear = ({ setError, authors }) => {
   const [name, setName] = useState("")
   const [born, setBorn] = useState("")
 
@@ -27,26 +28,29 @@ const UpdateBirthYear = ({ setError }) => {
 
     updateAuthor({
       variables: {
-        name,
+        name: name.value,
         birthyear: Number(born)
       }
     })
 
-    setName("")
+    setName(null)
     setBorn("")
   }
+  
+  const formattedAuthors = authors.map(a => {
+    return { value: a.name, label: a.name }
+  })
 
   return (
     <>
       <h2>Set birthyear</h2>
       <form onSubmit={updateYear}>
-        <div>
-          name
-          <input
-            value={name}
-            onChange={(event) => setName(event.target.value)}
-          />
-        </div>
+        <Select
+          value={name}
+          onChange={setName}
+          options={formattedAuthors}
+          isClearable
+        />
         <div>
           born
           <input
@@ -62,7 +66,16 @@ const UpdateBirthYear = ({ setError }) => {
 }
 
 UpdateBirthYear.propTypes = {
-  setError: PropTypes.func.isRequired
+  setError: PropTypes.func.isRequired,
+  authors: PropTypes.arrayOf(
+    PropTypes.shape({
+      __typename: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      born: PropTypes.number,
+      id: PropTypes.string.isRequired,
+      bookCount: PropTypes.number
+    })
+  )
 }
 
 export default UpdateBirthYear
