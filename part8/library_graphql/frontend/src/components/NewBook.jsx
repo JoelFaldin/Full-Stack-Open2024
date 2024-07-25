@@ -1,20 +1,47 @@
+import { useMutation } from '@apollo/client'
 import { useState } from 'react'
+import { PropTypes } from 'prop-types'
 
-const NewBook = (props) => {
+import { ADD_BOOK, ALL_AUTHORS, ALL_BOOKS } from '../queries'
+
+const NewBook = ({ setError }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [published, setPublished] = useState('')
   const [genre, setGenre] = useState('')
   const [genres, setGenres] = useState([])
 
-  if (!props.show) {
-    return null
-  }
+  const [createBook] = useMutation(ADD_BOOK, {
+    refetchQueries: [{ query: ALL_BOOKS }, { query: ALL_AUTHORS }],
+    onError: (error) => {
+      const errorMsg = error.graphQLErrors.map(e => e.message).join("/n")
+      setError(errorMsg)
+    }
+  })
 
   const submit = async (event) => {
     event.preventDefault()
 
+    if (!title) {
+      return setError("Please provide a title!")
+    } else if (!author) {
+      return setError("You should provide an author.")
+    } else if (!published) {
+      return setError("You must indicate when was the book published.")
+    } else if (genres.length === 0) {
+      return setError("Please select at least one genre.")
+    }
+
     console.log('add book...')
+
+    createBook({
+      variables: {
+        title,
+        published: Number(published),
+        author,
+        genres
+      }
+    })
 
     setTitle('')
     setPublished('')
@@ -67,6 +94,10 @@ const NewBook = (props) => {
       </form>
     </div>
   )
+}
+
+NewBook.propTypes = {
+  setError: PropTypes.func.isRequired
 }
 
 export default NewBook
