@@ -3,9 +3,7 @@ import { PropTypes } from "prop-types"
 const Authors = ({ show, data }) => {
   if (show) {
     return null
-  }
-  console.log(data)
-  
+  }  
 
   return (
     <div>

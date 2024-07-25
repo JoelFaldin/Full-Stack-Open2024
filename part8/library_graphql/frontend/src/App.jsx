@@ -4,10 +4,11 @@ import { useQuery } from "@apollo/client";
 import Authors from "./components/Authors";
 import Books from "./components/Books";
 import NewBook from "./components/NewBook";
-import { ALL_AUTHORS } from "./queries";
+import { ALL_AUTHORS, ALL_BOOKS } from "./queries";
 
 const App = () => {
-  const result = useQuery(ALL_AUTHORS)
+  const authorResult = useQuery(ALL_AUTHORS)
+  const booksResult = useQuery(ALL_BOOKS)
 
   return (
     <div>
@@ -18,8 +19,8 @@ const App = () => {
       </div>
 
       <Routes>
-        <Route path="/" element={<Authors show={result.loading} data={result.data} />} />
-        <Route path="/books" element={<Books />} />
+        <Route path="/" element={<Authors show={authorResult.loading} data={authorResult.data} />} />
+        <Route path="/books" element={<Books show={booksResult.loading} data={booksResult.data} />} />
         <Route path="/add" element={<NewBook />} />
       </Routes>
     </div>

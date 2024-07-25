@@ -1,9 +1,9 @@
-const Books = (props) => {
-  if (!props.show) {
+import { PropTypes } from "prop-types"
+
+const Books = ({ show, data }) => {
+  if (show) {
     return null
   }
-
-  const books = []
 
   return (
     <div>
@@ -16,7 +16,7 @@ const Books = (props) => {
             <th>author</th>
             <th>published</th>
           </tr>
-          {books.map((a) => (
+          {data.allBooks.map((a) => (
             <tr key={a.title}>
               <td>{a.title}</td>
               <td>{a.author}</td>
@@ -27,6 +27,24 @@ const Books = (props) => {
       </table>
     </div>
   )
+}
+
+Books.propTypes = {
+  show: PropTypes.bool.isRequired,
+  data: PropTypes.shape({
+    allBooks: PropTypes.arrayOf(
+      PropTypes.shape({
+        __typename: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired,
+        published: PropTypes.number.isRequired,
+        author: PropTypes.string.isRequired,
+        id: PropTypes.string.isRequired,
+        genres: PropTypes.arrayOf(
+          PropTypes.string
+        )
+      })
+    ).isRequired
+  })
 }
 
 export default Books
