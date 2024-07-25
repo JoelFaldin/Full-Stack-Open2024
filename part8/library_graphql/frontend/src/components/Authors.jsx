@@ -1,10 +1,11 @@
 import { PropTypes } from "prop-types"
+import UpdateBirthYear from "./UpdateBirthYear"
 
-const Authors = ({ show, data }) => {
+const Authors = ({ show, data, setError }) => {
   if (show) {
     return null
-  }  
-
+  }
+  
   return (
     <div>
       <h2>authors</h2>
@@ -24,6 +25,8 @@ const Authors = ({ show, data }) => {
           ))}
         </tbody>
       </table>
+
+      <UpdateBirthYear setError={setError} />
     </div>
   )
 }
@@ -37,10 +40,11 @@ Authors.propTypes = {
         name: PropTypes.string.isRequired,
         born: PropTypes.number,
         id: PropTypes.string.isRequired,
-        bookCount: PropTypes.number.isRequired
+        bookCount: PropTypes.number
       })
     ).isRequired
-  })
+  }),
+  setError: PropTypes.func.isRequired
 }
 
 export default Authors

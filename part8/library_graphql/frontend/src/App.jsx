@@ -31,7 +31,7 @@ const App = () => {
       </div>
 
       <Routes>
-        <Route path="/" element={<Authors show={authorResult.loading} data={authorResult.data} />} />
+        <Route path="/" element={<Authors show={authorResult.loading} data={authorResult.data} setError={alertUser} />} />
         <Route path="/books" element={<Books show={booksResult.loading} data={booksResult.data} />} />
         <Route path="/add" element={<NewBook setError={alertUser} />} />
       </Routes>
