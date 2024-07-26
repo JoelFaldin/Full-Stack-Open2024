@@ -100,7 +100,7 @@ const resolvers = {
   Mutation: {
     addBook: async (root, args) => {
       try {
-        const author = await Author.findOne({ name: args.author })
+        let author = await Author.findOne({ name: args.author })
   
         if (!author) {
           author = new Author({ name: args.author })
@@ -118,7 +118,7 @@ const resolvers = {
         const populated = await Book.findOne({ _id: savedBook._id }).populate('author').exec()
         return populated
       } catch (error) {
-        throw new GraphQLError('Adding book failed', {
+        throw new GraphQLError(error.toString(), {
           code: 'BAD_USER_INPUT',
           error
         })
@@ -134,7 +134,7 @@ const resolvers = {
         const newAuthor = await Author.findOneAndUpdate({ _id: user._id }, { born: args.setBornTo }, { new: true })
         return newAuthor
       } catch (error) {
-        throw new GraphQLError('Couldnt update author birthday', {
+        throw new GraphQLError(error.toString(), {
           code: 'BAD_USER_INPUT',
           error
         })
