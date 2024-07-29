@@ -39,7 +39,7 @@ Authors.propTypes = {
         __typename: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
         born: PropTypes.number,
-        id: PropTypes.string.isRequired,
+        _id: PropTypes.string.isRequired,
         bookCount: PropTypes.number
       })
     ).isRequired

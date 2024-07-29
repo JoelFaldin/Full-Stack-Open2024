@@ -16,7 +16,7 @@ const UpdateBirthYear = ({ setError, authors }) => {
       setError(errorMsg)
     }
   })
-
+  
   const updateYear = (event) => {
     event.preventDefault()
 
@@ -72,7 +72,7 @@ UpdateBirthYear.propTypes = {
       __typename: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
       born: PropTypes.number,
-      id: PropTypes.string.isRequired,
+      _id: PropTypes.string.isRequired,
       bookCount: PropTypes.number
     })
   )

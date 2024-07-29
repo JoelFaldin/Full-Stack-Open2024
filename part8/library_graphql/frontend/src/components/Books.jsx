@@ -19,7 +19,7 @@ const Books = ({ show, data }) => {
           {data.allBooks.map((a) => (
             <tr key={a.title}>
               <td>{a.title}</td>
-              <td>{a.author}</td>
+              <td>{a.author.name}</td>
               <td>{a.published}</td>
             </tr>
           ))}
@@ -37,7 +37,12 @@ Books.propTypes = {
         __typename: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
         published: PropTypes.number.isRequired,
-        author: PropTypes.string.isRequired,
+        author: PropTypes.shape({
+          __typename: PropTypes.string.isRequired,
+          name: PropTypes.string.isRequired,
+          _id: PropTypes.string.isRequired,
+
+        }),
         id: PropTypes.string.isRequired,
         genres: PropTypes.arrayOf(
           PropTypes.string
