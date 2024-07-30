@@ -32,8 +32,6 @@ const NewBook = ({ setError }) => {
       return setError("Please select at least one genre.")
     }
 
-    console.log('add book...')
-
     createBook({
       variables: {
         title,

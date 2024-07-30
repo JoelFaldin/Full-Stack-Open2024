@@ -6,6 +6,7 @@ import { PropTypes } from "prop-types"
 import Authors from "./components/Authors";
 import Books from "./components/Books";
 import NewBook from "./components/NewBook";
+import Login from "./components/Login";
 import { ALL_AUTHORS, ALL_BOOKS } from "./queries";
 
 const App = () => {
@@ -13,12 +14,26 @@ const App = () => {
   const booksResult = useQuery(ALL_BOOKS)
 
   const [errorMessage, setErrorMessage] = useState(null)
+  const [token, setToken] = useState(null)
 
   const alertUser = (message) => {
     setErrorMessage(message)
     setTimeout(() => {
       setErrorMessage(null)
     }, 10000)
+  }
+
+  if (!token) {
+    return (
+      <>
+        <Notification errorMessage={errorMessage} />
+        <h2>Login</h2>
+        <Login
+          setToken={setToken}
+          alertUser={alertUser}
+        />
+      </>
+    )
   }
 
   return (
