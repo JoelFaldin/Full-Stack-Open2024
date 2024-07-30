@@ -130,7 +130,7 @@ const resolvers = {
             code: 'BAD_USER_INPUT',
             error
           }
-        })        
+        })
       }
     }
   },

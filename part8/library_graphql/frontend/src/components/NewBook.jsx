@@ -2,9 +2,9 @@ import { useMutation } from '@apollo/client'
 import { useState } from 'react'
 import { PropTypes } from 'prop-types'
 
-import { ADD_BOOK, ALL_AUTHORS, ALL_BOOKS } from '../queries'
+import { ADD_BOOK, ALL_BOOKS, FILTER_BOOKS } from '../queries'
 
-const NewBook = ({ setError }) => {
+const NewBook = ({ setError, favGenre }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [published, setPublished] = useState('')
@@ -12,10 +12,32 @@ const NewBook = ({ setError }) => {
   const [genres, setGenres] = useState([])
 
   const [createBook] = useMutation(ADD_BOOK, {
-    refetchQueries: [{ query: ALL_BOOKS }, { query: ALL_AUTHORS }],
     onError: (error) => {
       const errorMsg = error.graphQLErrors.map(e => e.message).join("/n")
       setError(errorMsg)
+    },
+    update: (cache, { data: { addBook } }) => {
+      cache.updateQuery({ query: ALL_BOOKS }, (oldData) => {
+        if (!oldData) {
+          return { allBooks: [addBook] }
+        }
+  
+        return {
+          allBooks: oldData.allBooks.concat(addBook)
+        }
+      })
+
+      if (addBook.genres.includes(favGenre)) {
+        cache.updateQuery({ query: FILTER_BOOKS, variables: { genre: favGenre } }, (oldData) => {
+          if (!oldData) {
+            return { filterBooks: [addBook] }
+          }
+
+          return {
+            filterBooks: oldData.filterBooks.concat(addBook)
+          }
+        })
+      }
     }
   })
 
@@ -97,7 +119,8 @@ const NewBook = ({ setError }) => {
 }
 
 NewBook.propTypes = {
-  setError: PropTypes.func.isRequired
+  setError: PropTypes.func.isRequired,
+  favGenre: PropTypes.string.isRequired
 }
 
 export default NewBook

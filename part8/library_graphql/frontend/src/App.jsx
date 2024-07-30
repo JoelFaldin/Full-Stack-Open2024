@@ -59,7 +59,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Authors show={authorResult.loading} data={authorResult.data} setError={alertUser} />} />
         <Route path="/books" element={<Books show={booksResult.loading} data={booksResult.data} />} />
-        <Route path="/add" element={<NewBook setError={alertUser} />} />
+        <Route path="/add" element={<NewBook setError={alertUser} favGenre={user.data.me.favoriteGenre} />} />
         <Route path="/recommend" element={<Recommended user={user.data.me} />} />
       </Routes>
     </div>
