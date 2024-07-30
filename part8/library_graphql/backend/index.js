@@ -55,6 +55,7 @@ const typeDefs = `
     allBooks(author: String, genre: String): [Books!]!
     allAuthors: [Author!]!
     me: User
+    filterBooks(genre: String): [Books!]!
   }
 
   type Mutation {
@@ -118,6 +119,19 @@ const resolvers = {
     },
     me: async (root, args, context) => {
       return context.currentUser
+    },
+    filterBooks: async (root, args) => {
+      try {
+        const searchBooks = await Book.find({ genres: { $in: [args.genre] } }).populate('author').exec()
+        return searchBooks
+      } catch (error) {
+        throw new GraphQLError(error.toString(), {
+          extensions: {
+            code: 'BAD_USER_INPUT',
+            error
+          }
+        })        
+      }
     }
   },
   Mutation: {

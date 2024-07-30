@@ -1,8 +1,16 @@
+import { useQuery } from "@apollo/client"
 import { PropTypes } from "prop-types"
+import { FILTER_BOOKS } from "../queries"
 
-const Recommended = ({ user, data }) => {
-  const filteredData = data.allBooks.filter(books => books.genres.includes(user.favoriteGenre))
-  
+const Recommended = ({ user }) => {
+  const recommendations = useQuery(FILTER_BOOKS, {
+    variables: { genre: user.favoriteGenre }
+  })
+
+  if (recommendations.loading) {
+    return <p>Loading data...</p>
+  }
+
   return (
     <>
       <h2>Book recommendations</h2>
@@ -15,7 +23,7 @@ const Recommended = ({ user, data }) => {
             <th><strong>author</strong></th>
             <th><strong>published</strong></th>
           </tr>
-          {filteredData.map(item => (
+          {recommendations.data.filterBooks.map(item => (
             <tr key={item.id}>
               <td>{item.title}</td>
               <td>{item.author.name}</td>
@@ -36,24 +44,5 @@ Recommended.propTypes = {
     name: PropTypes.string.isRequired,
     favoriteGenre: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired
-  }),
-  data: PropTypes.shape({
-    allBooks: PropTypes.arrayOf(
-      PropTypes.shape({
-        __typename: PropTypes.string.isRequired,
-        title: PropTypes.string.isRequired,
-        published: PropTypes.number.isRequired,
-        author: PropTypes.shape({
-          __typename: PropTypes.string.isRequired,
-          name: PropTypes.string.isRequired,
-          _id: PropTypes.string.isRequired,
-
-        }),
-        id: PropTypes.string.isRequired,
-        genres: PropTypes.arrayOf(
-          PropTypes.string
-        )
-      })
-    ).isRequired
   })
 }
