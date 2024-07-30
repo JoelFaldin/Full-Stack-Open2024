@@ -1,14 +1,27 @@
 import { PropTypes } from "prop-types"
+import { useState } from "react"
 
 const Books = ({ show, data }) => {
+  const [filter, setFilter] = useState(null)
+
   if (show) {
     return null
   }
+  
+  const genres = data.allBooks.map(g => g.genres).flat()
+  const uniqueGenres = [...new Set(genres)]
+
+  const filteredData = filter ? data.allBooks.filter(b => b.genres.includes(filter)) : data.allBooks
 
   return (
     <div>
       <h2>books</h2>
 
+      {filter ? (
+        <p>Selected genre: <strong>{filter}</strong></p>
+      ) : (
+        <></>
+      )}
       <table>
         <tbody>
           <tr>
@@ -16,7 +29,7 @@ const Books = ({ show, data }) => {
             <th>author</th>
             <th>published</th>
           </tr>
-          {data.allBooks.map((a) => (
+          {filteredData.map((a) => (
             <tr key={a.title}>
               <td>{a.title}</td>
               <td>{a.author.name}</td>
@@ -25,6 +38,9 @@ const Books = ({ show, data }) => {
           ))}
         </tbody>
       </table>
+      {uniqueGenres.map(g => (
+        <button key={g} onClick={() => setFilter(g)}>{g}</button>
+      ))}
     </div>
   )
 }
