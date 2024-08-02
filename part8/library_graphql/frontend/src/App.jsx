@@ -1,5 +1,5 @@
 import { Link, Routes, Route } from "react-router-dom";
-import { useQuery } from "@apollo/client";
+import { useQuery, useSubscription } from "@apollo/client";
 import { useState } from "react";
 import { PropTypes } from "prop-types"
 
@@ -7,7 +7,7 @@ import Authors from "./components/Authors";
 import Books from "./components/Books";
 import NewBook from "./components/NewBook";
 import Login from "./components/Login";
-import { ALL_AUTHORS, ALL_BOOKS, ME } from "./queries";
+import { ALL_AUTHORS, ALL_BOOKS, BOOK_ADDED, ME } from "./queries";
 import Recommended from "./components/Recommended";
 
 const App = () => {
@@ -24,6 +24,12 @@ const App = () => {
       setErrorMessage(null)
     }, 10000)
   }
+
+  useSubscription(BOOK_ADDED, {
+    onData: ({ data }) => {
+      alert(`Added book ${data.data.bookAdded.title}!`)
+    }
+  })
 
   if (!token) {
     return (

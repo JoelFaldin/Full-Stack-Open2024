@@ -94,3 +94,25 @@ export const FILTER_BOOKS = gql`
     }
   }
 `
+
+const BOOK_DETAILS = gql`
+  fragment BookDetails on Books {
+    title
+    published
+    author {
+      name
+      _id
+    }
+    id
+    genres
+  }
+`
+
+export const BOOK_ADDED = gql`
+  subscription {
+    bookAdded {
+      ...BookDetails
+    }
+  }
+  ${BOOK_DETAILS}
+`
