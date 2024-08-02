@@ -1,7 +1,8 @@
 import { Link, Routes, Route } from "react-router-dom";
-import { useQuery, useSubscription } from "@apollo/client";
+import { useApolloClient, useQuery, useSubscription } from "@apollo/client";
 import { useState } from "react";
 import { PropTypes } from "prop-types"
+import { gql } from "@apollo/client"
 
 import Authors from "./components/Authors";
 import Books from "./components/Books";
@@ -25,9 +26,32 @@ const App = () => {
     }, 10000)
   }
 
+  const client = useApolloClient()
   useSubscription(BOOK_ADDED, {
     onData: ({ data }) => {
       alert(`Info: Added book ${data.data.bookAdded.title}!`)
+
+      client.cache.modify({
+        fields: {
+          allBooks(existing = []) {
+            const newBookRef = client.cache.writeFragment({
+              data: data.data.bookAdded,
+              fragment: gql`
+                fragment NewBook on Books {
+                  id
+                  title
+                  author {
+                    name
+                  }
+                  published
+                  genres
+                }
+              `
+            })
+            return [...existing, newBookRef]
+          }
+        }
+      })
     }
   })
 
