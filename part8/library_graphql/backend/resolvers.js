@@ -32,10 +32,16 @@ const resolvers = {
     },
     allAuthors: async () => {
       try {
+        // Only 2 queries are made to the database, avoiding the n+1 problem:
         const authors = await Author.find({})
         const books = await Book.find({})
         
-        const finalAuthors = authors.map(author => ({ ...author.toObject(), bookCount: books.filter(b => b.author.toString() === author._id.toString()).length }))
+        const finalAuthors = authors.map(author => {
+          return ({
+            ...author.toObject(),
+            bookCount: books.filter(b => b.author.toString() === author._id.toString()).length
+          })
+        })
         return finalAuthors
       } catch (error) {
         throw new GraphQLError('Couldnt retrieve authors from the database', {
