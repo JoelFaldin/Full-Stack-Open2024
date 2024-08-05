@@ -12,13 +12,13 @@ interface Values {
 }
 
 export const parseArgs = (args: string[]): Values => {
-  if (args.length < 4) throw new Error('You are missing an argument.')
-  if (args.length > 4) throw new Error('Too many arguments!')
+  if (args.length < 2) throw new Error('You are missing an argument.')
+  if (args.length > 2) throw new Error('Too many arguments!')
 
-  if (!isNaN(Number(args[2])) && !isNaN(Number(args[3]))) {
+  if (!isNaN(Number(args[0])) && !isNaN(Number(args[1]))) {
     return {
-      height: Number(args[2]),
-      weight: Number(args[3])
+      height: Number(args[0]),
+      weight: Number(args[1])
     }
   } else {
     throw new Error('You should provide valid height and weight values!')
