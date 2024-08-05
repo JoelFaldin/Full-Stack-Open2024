@@ -1,3 +1,5 @@
+import { parseValues } from "./utils/parsing"
+
 interface Result {
   periodLength: number,
   trainningDays: number,
@@ -49,4 +51,12 @@ const calculateExercises = (array: number[], target: number): Result => {
   }
 }
 
-console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2))
+try {
+  const args = parseValues(process.argv)
+  const target = args.shift()
+  console.log(calculateExercises(args, target))
+} catch (error) {
+  if (error instanceof Error) {
+    console.log(error.message)
+  }
+}

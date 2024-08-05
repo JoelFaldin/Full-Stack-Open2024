@@ -13,5 +13,8 @@
     "TS"
   ],
   "author": "Joel F",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^22.1.0"
+  }
 }

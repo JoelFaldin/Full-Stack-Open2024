@@ -1,4 +1,10 @@
+import { parseArgs } from "./utils/parsing"
+
 const calculateBmi = (height: number, weight: number): string => {
+  if (height === 0 || weight === 0) {
+    throw new Error('Please input valid arguments!')
+  }
+
   const result = weight / ((height * 0.01) ** 2)
   switch (true) {
     case (result < 16):
@@ -22,4 +28,11 @@ const calculateBmi = (height: number, weight: number): string => {
   }
 }
 
-console.log(calculateBmi(180, 74))
+try {
+  const { height, weight } = parseArgs(process.argv)
+  console.log(calculateBmi(height, weight))
+} catch (error) {
+  if (error instanceof Error) {
+    console.log(error.message)
+  }
+}
