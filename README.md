@@ -23,6 +23,8 @@ part5
     bloglist_backend
     bloglist_frontend
 part6
+    query-anecdotes
+    redux-anecdotes
     unicafe-redux
 
 
