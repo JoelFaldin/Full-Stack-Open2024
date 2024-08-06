@@ -1,30 +1,30 @@
 export const calculateBmi = (height: number, weight: number): string => {
   if (height === 0 || weight === 0) {
-    throw new Error('Please input valid arguments!')
+    throw new Error('Please input valid arguments!');
   }
 
-  const result = weight / ((height * 0.01) ** 2)
+  const result = weight / ((height * 0.01) ** 2);
   switch (true) {
     case (result < 16):
-      return 'Underweight (Severe thinness)'
+      return 'Underweight (Severe thinness)';
     case (16 < result && result < 16.9):
-      return 'Underweight (Moderate thinness)'
+      return 'Underweight (Moderate thinness)';
     case (17 < result && result < 18.4):
-      return 'Underweight (Mild thinness)'
+      return 'Underweight (Mild thinness)';
     case (18.5 < result && result < 24.9):
-      return 'Normal (healthy weight)'
+      return 'Normal (healthy weight)';
     case (25 < result && result < 29.9):
-      return 'Overweight (Pre-obese)'
+      return 'Overweight (Pre-obese)';
     case (30 < result && result < 34.9):
-      return 'Obsese (Class I)'
+      return 'Obsese (Class I)';
     case (35 < result && result < 39.9):
-      return 'Obsese (Class II)'
+      return 'Obsese (Class II)';
     case (result >= 40):
-      return 'Obese (Class IV)'
+      return 'Obese (Class IV)';
     default:
-      return 'Invalid input.'
+      return 'Invalid input.';
   }
-}
+};
 
 // try {
 //   const { height, weight } = parseArgs(process.argv)

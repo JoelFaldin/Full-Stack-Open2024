@@ -1,4 +1,4 @@
-import { parseValues } from "./utils/parsing"
+import { parseValues } from "./utils/parsing";
 
 interface Result {
   periodLength: number,
@@ -11,33 +11,33 @@ interface Result {
 }
 
 const calculateExercises = (array: number[], target: number): Result => {
-  const trainning = array.filter(item => item > 0)
-  let time = 0
-  array.map(hours => time += hours)
-  const avg = time / array.length
+  const trainning = array.filter(item => item > 0);
+  let time = 0;
+  array.map(hours => time += hours);
+  const avg = time / array.length;
 
-  const targetDivision = target / 3
+  const targetDivision = target / 3;
 
-  let rating = 0
+  let rating = 0;
   switch (true) {
     case (avg < targetDivision):
-      rating = 1
-      break
+      rating = 1;
+      break;
     case (targetDivision < avg && avg < targetDivision * 3):
-      rating = 2
-      break
+      rating = 2;
+      break;
     case (avg > targetDivision):
-      rating = 3
-      break
+      rating = 3;
+      break;
   }
 
-  let desc = ''
+  let desc = '';
   if (rating === 1) {
-    desc = 'Not really close. You should put more effort!'
+    desc = 'Not really close. You should put more effort!';
   } else if (rating === 2) {
-    desc = 'Not bad, but you can do better!'
+    desc = 'Not bad, but you can do better!';
   } else if (rating === 3) {
-    desc = 'Congrats! You did great!'
+    desc = 'Congrats! You did great!';
   }
 
   return {
@@ -48,15 +48,16 @@ const calculateExercises = (array: number[], target: number): Result => {
     ratingDescription: desc,
     target,
     average: avg
-  }
-}
+  };
+};
 
 try {
-  const args = parseValues(process.argv)
-  const target = args.shift()
-  console.log(calculateExercises(args, target))
+  const args = parseValues(process.argv);
+  const target = args.shift();
+  if (!target) throw new Error('Error: missing arguments.');
+  console.log(calculateExercises(args, target));
 } catch (error) {
   if (error instanceof Error) {
-    console.log(error.message)
+    console.log(error.message);
   }
 }
