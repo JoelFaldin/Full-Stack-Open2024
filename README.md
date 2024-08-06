@@ -32,6 +32,10 @@ part7
     country-hook
     routed-anecdotes
     ultimate-hooks
+part8
+    library_graphql
+        backend
+        frontend
 
 
 ~~~
