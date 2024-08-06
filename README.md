@@ -1,4 +1,4 @@
-# Full-Stack-Open2023 🖥️🚀🌠
+# Full-Stack-Open2024 🖥️🚀🌠
 Exercises submitted for [Full Stack Open course](https://fullstackopen.com/en/)!
 
 ___
