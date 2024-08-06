@@ -36,6 +36,8 @@ part8
     library_graphql
         backend
         frontend
+part9
+    typescript
 
 
 ~~~
