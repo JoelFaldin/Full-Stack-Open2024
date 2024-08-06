@@ -38,13 +38,14 @@ app.get('/bmi', (req, res) => {
 
 app.post('/exercises', (req, res) => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const { daily, target } = req.body;
+  const { daily_exercises, target } = req.body;
 
   try {
-    if (!daily || !target) return res.status(400).json({ error: 'parameters missing' });
+    if (!daily_exercises || !target) return res.status(400).json({ error: 'parameters missing' });
+    if (!Array.isArray(daily_exercises) || isNaN(Number(target))) return res.status(400).json({ error: 'malformatted parameters' });
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    const args = parseValues([String(target), daily].flat());
+    const args = parseValues([String(target), daily_exercises].flat());
     const targetValue = args.shift();
     if (!targetValue) throw new Error('Error: missing arguments.');
 
