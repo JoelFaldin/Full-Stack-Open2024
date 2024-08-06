@@ -1,4 +1,4 @@
-import { parseValues } from "./utils/parsing";
+// import { parseValues } from "./utils/parsing";
 
 interface Result {
   periodLength: number,
@@ -10,7 +10,7 @@ interface Result {
   average: number
 }
 
-const calculateExercises = (array: number[], target: number): Result => {
+export const calculateExercises = (array: number[], target: number): Result => {
   const trainning = array.filter(item => item > 0);
   let time = 0;
   array.map(hours => time += hours);
@@ -51,13 +51,13 @@ const calculateExercises = (array: number[], target: number): Result => {
   };
 };
 
-try {
-  const args = parseValues(process.argv);
-  const target = args.shift();
-  if (!target) throw new Error('Error: missing arguments.');
-  console.log(calculateExercises(args, target));
-} catch (error) {
-  if (error instanceof Error) {
-    console.log(error.message);
-  }
-}
+// try {
+//   const args = parseValues(process.argv);
+//   const target = args.shift();
+//   if (!target) throw new Error('Error: missing arguments.');
+//   console.log(calculateExercises(args, target));
+// } catch (error) {
+//   if (error instanceof Error) {
+//     console.log(error.message);
+//   }
+// }
