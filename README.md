@@ -26,6 +26,12 @@ part6
     query-anecdotes
     redux-anecdotes
     unicafe-redux
+part7
+    bloglist-query-context
+    bloglist-redux
+    country-hook
+    routed-anecdotes
+    ultimate-hooks
 
 
 ~~~
