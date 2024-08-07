@@ -5,3 +5,16 @@ export interface DiagnoseData {
   name: string,
   latin?: string
 }
+
+export type Gender = 'male' | 'female' | 'other';
+
+export type NonSSNPatient = Omit<PatientData, 'ssn'>;
+
+export interface PatientData {
+  id: string,
+  name: string,
+  dateOfBirth: string,
+  ssn?: string,
+  gender: Gender,
+  occupation: string
+}
