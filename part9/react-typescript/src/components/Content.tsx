@@ -1,15 +1,15 @@
-interface Content {
-  data: {
-    name: string,
-    exerciseCount: number
-  }[]
+import CoursePart from "../types"
+import Part from "./Part"
+
+interface ContentProps {
+  courseParts: CoursePart[]
 }
 
-const Content = (props: Content) => {
+const Content = (props: ContentProps) => {
   return (
     <>
-      {props.data.map(item => (
-        <p key={item.name}>{item.name} {item.exerciseCount}</p>
+      {props.courseParts.map(item => (
+        <Part key={item.name} item={item} />
       ))}
     </>
   )
