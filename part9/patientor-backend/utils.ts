@@ -37,7 +37,6 @@ const isDate = (date: string): boolean => {
 };
 
 const parseDate = (arg: unknown): string => {
-  console.log(arg);
   if (!isString(arg) || !isDate(arg)) {
     throw new Error('Invalid or missing date of birth field.');
   }
