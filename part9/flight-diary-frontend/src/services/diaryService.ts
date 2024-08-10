@@ -9,8 +9,16 @@ const getDiaries = async () => {
 }
 
 const submitDiary = async (object: NonIdDiary) => {
-  const response = await axios.post<DiariesType>(baseUrl, object)
-  return response.data
+  try {
+    const response = await axios.post<DiariesType>(baseUrl, object)
+    return response.data
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(error.response?.data)
+    } else {
+      throw new Error('There was an error. Try again later.')
+    }
+  }
 }
 
 export default { getDiaries, submitDiary }

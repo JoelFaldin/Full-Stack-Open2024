@@ -14,6 +14,8 @@ const DiaryForm: React.FC<FormInterface> = ({ diaries, setDiaries }) => {
   const [weather, setWeather] = useState('')
   const [comment, setComment] = useState('')
 
+  const [errorMsg, setErrorMsg] = useState<string | null>(null)
+
   const sendEntry = async (event: React.SyntheticEvent) => {
     event.preventDefault()
 
@@ -24,19 +26,29 @@ const DiaryForm: React.FC<FormInterface> = ({ diaries, setDiaries }) => {
       comment
     }
 
-    const data = await diaryService.submitDiary(newEntry)
-
-    setDiaries(diaries.concat(data))
-
-    setDate('')
-    setVisibility('')
-    setWeather('')
-    setComment('')
+    try {
+      const data = await diaryService.submitDiary(newEntry) as DiariesType;
+      
+      setDiaries(diaries.concat(data))
+  
+      setDate('')
+      setVisibility('')
+      setWeather('')
+      setComment('')
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setErrorMsg(error.message)
+      }
+    }
   }
 
   return (
     <>
       <h2>Add new entry</h2>
+
+      {
+        errorMsg ?? <p>{errorMsg}</p>
+      }
 
       <form onSubmit={sendEntry}>
         <div>
