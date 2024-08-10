@@ -55,25 +55,33 @@ const DiaryForm: React.FC<FormInterface> = ({ diaries, setDiaries }) => {
           <label htmlFor="date">date</label>
           <input
             id="date"
+            type="date"
             value={date}
             onChange={e => setDate(e.target.value)}
           />
         </div>
         <div>
-          <label htmlFor="visibility">visibility</label>
-          <input
-            id="visibility"
-            value={visibility}
-            onChange={e => setVisibility(e.target.value)}
-          />
+          <label htmlFor="visibility">
+            <strong>visibility:</strong>
+          </label>
+          <br />
+
+          great <input type="radio" onChange={() => setVisibility('great')} /><br />
+          good <input type="radio" onChange={() => setVisibility('good')} /><br />
+          ok <input type="radio" onChange={() => setVisibility('ok')} /><br />
+          poor <input type="radio" onChange={() => setVisibility('poor')} />
         </div>
         <div>
-          <label htmlFor="weather">weather</label>
-          <input
-            id="weather"
-            value={weather}
-            onChange={e => setWeather(e.target.value)}
-          />
+          <label htmlFor="weather">
+            <strong>weather:</strong>
+          </label>
+          <br />
+
+          sunny <input type="radio" onChange={() => setWeather('sunny')} /><br />
+          rainy <input type="radio" onChange={() => setWeather('rainy')} /><br />
+          cloudy <input type="radio" onChange={() => setWeather('cloudy')} /><br />
+          stormy <input type="radio" onChange={() => setWeather('stormy')} /><br />
+          windy <input type="radio" onChange={() => setWeather('windy')} />
         </div>
         <div>
           <label htmlFor="comment">comment</label>
