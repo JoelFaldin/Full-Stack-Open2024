@@ -1,16 +1,11 @@
-import { useEffect, useState } from "react"
-
 import { DiariesType } from "../types"
-import diaryService from "../services/diaryService"
 
-const Diaries = () => {
-  const [diaries, setDiaries] = useState<DiariesType[]>([])
+interface DiariesInterface {
+  diaries: DiariesType[]
+}
 
-  useEffect(() => {
-    diaryService.getDiaries().then(res => {
-      setDiaries(res)
-    })
-  }, [])
+const Diaries: React.FC<DiariesInterface> = ({ diaries }) => {
+  
 
  if (diaries.length === 0) {
   return <p>Loading data...</p>
@@ -20,7 +15,7 @@ const Diaries = () => {
     <>
       {
         diaries.map(diary => (
-          <>
+          <span key={diary.id}>
             <h2>{diary.date}</h2>
             <p>
               <span>visibility: {diary.visibility}</span>
@@ -33,7 +28,7 @@ const Diaries = () => {
                 ) : (<></>)
               }
             </p>
-          </>
+          </span>
         ))
       }
     </>
