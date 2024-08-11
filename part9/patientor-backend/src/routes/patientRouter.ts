@@ -26,4 +26,19 @@ patientRouter.post('/', (req, res) => {
   }
 });
 
+patientRouter.get('/:id', (req, res) => {
+  const id = req.params.id;
+  
+  try {
+    const searchPatient = patientService.findPatient(id);
+    return res.status(200).json(searchPatient);
+  } catch (error: unknown) {
+    let msg = 'There was an error: ';
+    if (error instanceof Error) {
+      msg += error.message;
+    }
+    return res.status(400).json({ error: msg });
+  }
+});
+
 export default patientRouter;

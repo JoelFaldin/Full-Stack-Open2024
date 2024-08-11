@@ -11,7 +11,8 @@ const toAddPatient = (data: unknown): NewPatient => {
       dateOfBirth: parseDate(data.dateOfBirth),
       ssn: parseSSN(data.ssn),
       gender: parseGender(data.gender),
-      occupation: parseOccupation(data.occupation)
+      occupation: parseOccupation(data.occupation),
+      entries: []
     };
 
     return newPatient;

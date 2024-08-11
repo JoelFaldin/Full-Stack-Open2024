@@ -47,7 +47,7 @@ const DiaryForm: React.FC<FormInterface> = ({ diaries, setDiaries }) => {
       <h2>Add new entry</h2>
 
       {
-        errorMsg ?? <p>{errorMsg}</p>
+        errorMsg ?? <p style={{ color: 'red' }}>There was a problem: {errorMsg}</p>
       }
 
       <form onSubmit={sendEntry}>

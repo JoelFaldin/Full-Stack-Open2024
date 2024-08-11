@@ -1,9 +1,9 @@
 import { v1 as uuid } from 'uuid';
 
 import data from "../../data/patients";
-import { NewPatient, NonSSNPatient, PatientData } from "../../types";
+import { NewPatient, NonSensitivePatient, Patient } from "../../types";
 
-const getPatients = (): NonSSNPatient[] => {
+const getPatients = (): NonSensitivePatient[] => {
   return data.map(({ id, name, dateOfBirth, gender, occupation }) => ({
     id,
     name,
@@ -13,7 +13,7 @@ const getPatients = (): NonSSNPatient[] => {
   }));
 };
 
-const addPatient = (patient: NewPatient): PatientData => {
+const addPatient = (patient: NewPatient): Patient => {
   const id: string = uuid();
   const newPatient = {
     id,
@@ -24,4 +24,14 @@ const addPatient = (patient: NewPatient): PatientData => {
   return newPatient;
 };
 
-export default { getPatients, addPatient };
+const findPatient = (id: string): Patient | null => {
+  const patient = data.find(d => d.id === id);
+
+  if (!patient) {
+    throw new Error('Patient not found.');
+  } else {
+    return patient;
+  }
+};
+
+export default { getPatients, addPatient, findPatient };

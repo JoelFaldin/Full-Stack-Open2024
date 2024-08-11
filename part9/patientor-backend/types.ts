@@ -12,15 +12,22 @@ export enum Gender {
   Other = 'other'
 };
 
-export type NonSSNPatient = Omit<PatientData, 'ssn'>;
+export type NonSSNPatient = Omit<Patient, 'ssn'>;
 
-export interface PatientData {
-  id: string,
-  name: string,
-  dateOfBirth: string,
-  ssn?: string,
-  gender: Gender,
-  occupation: string
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export interface Entry {
 }
 
-export type NewPatient = Omit<PatientData, 'id'>;
+export interface Patient {
+  id: string;
+  name: string;
+  ssn: string;
+  occupation: string;
+  gender: Gender;
+  dateOfBirth: string;
+  entries: Entry[]
+}
+
+export type NewPatient = Omit<Patient, 'id'>;
+
+export type NonSensitivePatient = Omit<Patient, 'ssn' | 'entries'>;
