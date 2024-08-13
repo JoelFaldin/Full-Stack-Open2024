@@ -16,11 +16,11 @@ const Entries = ({ patient }: EntryInterface) => {
             <p>Description: <i>{entry.description}</i></p>
 
             {
-              entry.diagnosisCodes ? (
-                <DiagnosisCodes codes={entry.diagnosisCodes} />
-              ) : (
-                <></>
-              )
+            entry.diagnosisCodes ? entry.diagnosisCodes.map(code => (
+              <DiagnosisCodes key={code} code={code} />
+            )) : (
+              <></>
+            )
             }
           </div>
         ))

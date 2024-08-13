@@ -1,15 +1,29 @@
+import { useEffect, useState } from "react";
+
+import diagnosisService from "../../services/diagnosis";
+import { DescInterface } from "../../types";
+
 interface DiagnosisInterface {
-  codes: string[]
+  code: string
 }
 
-const DiagnosisCodes = ({ codes }: DiagnosisInterface) => {
+const DiagnosisCodes = ({ code }: DiagnosisInterface) => {
+  const [desc, setDesc] = useState<DescInterface[]>([]);
+
+  useEffect(() => {
+    const getDesc = async () => {
+      const descInfo = await diagnosisService.getDescInfo();
+      setDesc(descInfo);
+    };
+
+    getDesc();
+  }, []);
+  
+  const diagnosisData = desc?.find(diag => diag.code === code);
+
   return (
     <ul>
-      {
-        codes.map(code => (
-          <li key={code}>{code}</li>
-        ))
-      }
+      <li>{code}: {diagnosisData?.name}</li>
     </ul>
   );
 };
