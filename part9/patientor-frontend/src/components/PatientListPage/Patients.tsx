@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 
 import { Patient } from "../../types";
 import patientService from "../../services/patients";
+import Entries from "./Entries";
 
 const PatientsDetails = () => {
   const [patient, setPatient] = useState<Patient | null>(null);
@@ -43,6 +44,14 @@ const PatientsDetails = () => {
       <span>ssh: {patient?.ssn}</span>
       <br />
       <span>occupation: {patient?.occupation}</span>
+
+      {
+        patient.entries.length !== 0 ? (
+          <Entries patient={patient} />
+        ) : (
+          <></>
+        )
+      }
     </>
   );
 };
