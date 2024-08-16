@@ -1,5 +1,4 @@
 import { Patient } from "../../types";
-// import DiagnosisCodes from "./DiagnosisCodes";
 import HealthCheckEntry from "./Entries/HealthCheckEntry";
 import HospitalEntry from "./Entries/HospitalEntry";
 import OccupationalEntry from "./Entries/OccupationalEntry";
@@ -28,18 +27,6 @@ const Entries = ({ patient }: EntryInterface) => {
             default:
               return assertNever(entry);
           }
-          // <div key={entry.id}>
-          //   <span>{entry.date}</span>
-          //   <p>Description: <i>{entry.description}</i></p>
-
-          //   {
-          //   entry.diagnosisCodes ? entry.diagnosisCodes.map(code => (
-          //     <DiagnosisCodes key={code} code={code} />
-          //   )) : (
-          //     <></>
-          //   )
-          //   }
-          // </div>
         })
       }
     </>
