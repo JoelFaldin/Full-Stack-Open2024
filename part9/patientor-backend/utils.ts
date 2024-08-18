@@ -170,7 +170,7 @@ const toAddEntry = (data: unknown): NewEntry => {
             healthCheckRating: parseHealthCheck(entry.healthCheckRating),
             type: entry.type
           };
-
+          
           if ('diagnosisCodes' in entry) {
             return {
               ...addEntry,
@@ -230,13 +230,13 @@ const parseCriteria = (arg: unknown): string => {
   return arg;
 };
 
-const parseCodes = (object: unknown): Array<DiagnoseData['code']> => {
-  if (!object || typeof object !== 'object' || !('diagnosisCodes' in object)) {
+const parseCodes = (array: unknown): Array<DiagnoseData['code']> => {
+  if (!array || !Array.isArray(array)) {
     // we will just trust the data to be in correct form
     return [] as Array<DiagnoseData['code']>;
   }
 
-  return object.diagnosisCodes as Array<DiagnoseData['code']>;
+  return array as Array<DiagnoseData['code']>;
 };
 
 const parseEmployer = (arg: unknown): string => {
