@@ -51,8 +51,8 @@ patientRouter.post('/:id/entries', (req, res) => {
 
     return res.status(201).json(saveEntry);
   } catch (error: unknown) {
-    let errorMsg = 'There was an error trying to save the entry. ';
-    if (error instanceof Error) {
+    let errorMsg = '';
+    if (error instanceof Error) { 
       errorMsg += error.message;
     }
 

@@ -2,13 +2,18 @@ import { useMatch } from "react-router-dom";
 import FemaleIcon from '@mui/icons-material/Female';
 import MaleIcon from '@mui/icons-material/Male';
 import { useEffect, useState } from "react";
+import { Button } from "@mui/material";
 
 import { Patient } from "../../types";
 import patientService from "../../services/patients";
 import Entries from "./Entries";
+import EntryForm from "./EntryForm/EntryForm";
+import ErrorNotif from "../ErrorNotif";
 
 const PatientsDetails = () => {
   const [patient, setPatient] = useState<Patient | null>(null);
+  const [showEntryForm, setShowEntryForm] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   
   const match = useMatch('/patients/:id');
 
@@ -25,6 +30,13 @@ const PatientsDetails = () => {
   if (!patient) {
     return <p>Loading user...</p>;
   }
+
+  const showError = (message: string) => {
+    setErrorMsg(message);
+    setTimeout(() => {
+      setErrorMsg(null);
+    }, 5000);
+  };
 
   return (
     <>
@@ -44,7 +56,33 @@ const PatientsDetails = () => {
       <span>ssh: {patient?.ssn}</span>
       <br />
       <span>occupation: {patient?.occupation}</span>
+      <br />
 
+      {
+        errorMsg ? (
+          <ErrorNotif error={errorMsg} />
+        ) : (
+          <></>
+        )
+      }
+
+      <Button variant="contained" color="secondary" onClick={() => setShowEntryForm(!showEntryForm)}>
+        {
+          showEntryForm ? "Hide entry form" : "Add new Entry"
+        }
+      </Button>
+      {
+        showEntryForm ? (
+          <EntryForm
+            patientId={patient.id}
+            setPatient={setPatient}
+            hideForm={() => setShowEntryForm(false)}
+            setErrorMsg={showError}
+          />
+        ) : (
+          <></>
+        )
+      }
       {
         patient.entries.length !== 0 ? (
           <Entries patient={patient} />

@@ -1,18 +1,18 @@
-import { DiagnoseData, Gender, HealthCheckRating, NewEntry, NewPatient } from "./types";
+import { DiagnoseData, Entry, Gender, HealthCheckRating, NewEntry, NewPatient } from "./types";
 
 const toAddPatient = (data: unknown): NewPatient => {
   if (!data || typeof data !== 'object') {
     throw new Error('Invalid or missing data.');
   }
 
-  if ('name' in data && 'dateOfBirth' in data && 'ssn' in data && 'gender' in data && 'occupation' in data) {
+  if ('name' in data && 'dateOfBirth' in data && 'ssn' in data && 'gender' in data && 'occupation' in data && 'entries' in data) {
     const newPatient = {
       name: parseName(data.name),
       dateOfBirth: parseDate(data.dateOfBirth),
       ssn: parseSSN(data.ssn),
       gender: parseGender(data.gender),
       occupation: parseOccupation(data.occupation),
-      entries: []
+      entries: data.entries as Entry[]
     };
 
     return newPatient;
