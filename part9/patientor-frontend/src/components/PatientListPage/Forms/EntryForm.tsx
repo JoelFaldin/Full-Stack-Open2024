@@ -1,8 +1,9 @@
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, Input, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, TextField } from "@mui/material";
 import { useState } from "react";
 
 import patientService from '../../../services/patients';
 import { NewEntry, Patient } from "../../../types";
+import { codesConstant } from "../../../constants";
 
 interface EntryFormInterface {
   patientId: string,
@@ -19,38 +20,18 @@ enum FormEnum {
 
 const EntryForm = ({ patientId, setPatient, hideForm, setErrorMsg }: EntryFormInterface) => {
   const [description, setDescription] = useState('');
-  const [date, setDate] = useState('');
+  const [date, setDate] = useState<string>('');
   const [specialist, setSpecialist] = useState('');
   const [codes, setCodes] = useState<Array<string>>([]);
-  const [codeValue, setCode] = useState('');
 
   const [dischargeDate, setDischargeDate] = useState('');
   const [dischargeCriteria, setDischargeCriteria] = useState('');
   const [employer, setEmployer] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
-  const [health, setHealth] = useState(0);
+  const [health, setHealth] = useState<number | ''>('');
 
   const [form, setForm] = useState<FormEnum>(FormEnum.Hospital);
-
-  const handleCodes = () => {
-    if (codeValue.length === 0) {
-      return alert('You should enter some input!');
-    }
-
-    const findCode = codes.indexOf(codeValue);
-    if (findCode !== -1 && codes.length !== 0) {
-      return alert('The code already exists. Try another one.');
-    }
-
-    const updatedCodes = [
-      ...codes,
-      codeValue
-    ];
-    setCodes(updatedCodes);
-
-    setCode('');
-  };
 
   const submitEntry = async (event: React.SyntheticEvent) => {
     event.preventDefault();
@@ -85,7 +66,6 @@ const EntryForm = ({ patientId, setPatient, hideForm, setErrorMsg }: EntryFormIn
         })
       }
     };
-    console.log(customEntry);
 
     try {
       const res = await patientService.createEntry(patientId, customEntry as unknown as NewEntry);
@@ -103,7 +83,6 @@ const EntryForm = ({ patientId, setPatient, hideForm, setErrorMsg }: EntryFormIn
       setDate('');
       setSpecialist('');
       setCodes([]);
-      setCode('');
       setHealth(0);
 
       hideForm();
@@ -114,6 +93,19 @@ const EntryForm = ({ patientId, setPatient, hideForm, setErrorMsg }: EntryFormIn
         alert(JSON.stringify(error));
       }
     }
+  };
+
+  const handleHealthRating = (event: SelectChangeEvent<number>) => {
+    setHealth(Number(event.target.value));
+  };
+
+  const handleChangeCode = (event: SelectChangeEvent<typeof codes>) => {
+    const {
+      target: { value },
+    } = event;
+    setCodes(
+      typeof value === 'string' ? value.split(',') : value,
+    );
   };
 
   return (
@@ -129,7 +121,7 @@ const EntryForm = ({ patientId, setPatient, hideForm, setErrorMsg }: EntryFormIn
         </Box>
 
         <Box sx={{ paddingTop: 1, paddingBottom: 1 }}>
-          <TextField label="Date" type="text" value={date} onChange={event => setDate(event.target.value)} />
+          <Input type="date" value={date} onChange={event => setDate(event.target.value)} />
         </Box>
 
         <Box sx={{ paddingTop: 1, paddingBottom: 1 }}>
@@ -137,26 +129,34 @@ const EntryForm = ({ patientId, setPatient, hideForm, setErrorMsg }: EntryFormIn
         </Box>
 
         <Box sx={{ paddingTop: 1, paddingBottom: 1 }}>
-          <TextField label="Diagnosis codes" type="text" value={codeValue} onChange={event => setCode(event.target.value)} />
-        </Box>
-        <p>
-          codes:
-          {
-            codes.map(item => (
-              <span key={item}> {item}</span>
-            ))
-          }
-        </p>
-
-        <Box sx={{ paddingTop: 1, paddingBottom: 1 }}>
-          <Button color="primary" variant="contained" value={codeValue} onClick={handleCodes}>Add</Button>
+          <InputLabel id="multiple-codes-label">Diagnosis codes</InputLabel>
+          <Select
+            labelId="multiple-codes-label"
+            id="multiple-codes"
+            multiple
+            value={codes}
+            onChange={handleChangeCode}
+            input={<OutlinedInput label="Codes" />}
+          >
+            {
+              codesConstant.map(codeValue => (
+                <MenuItem
+                  key={codeValue}
+                  value={codeValue}
+                >
+                  {codeValue}
+                </MenuItem>
+              ))
+            }
+          </Select>
         </Box>
 
         {
           form === "Hospital" ? (
             <>
+              <p>Discharge:</p>
               <Box sx={{ paddingTop: 1, paddingBottom: 1 }}>
-                <TextField label="Discharge date" value={dischargeDate} onChange={event => setDischargeDate(event.target.value)} />
+                <Input type="date" value={dischargeDate} onChange={event => setDischargeDate(event.target.value)} />
               </Box>
               <Box sx={{ paddingTop: 1, paddingBottom: 1 }}>
                 <TextField label="Discharge Criteria" value={dischargeCriteria} onChange={event => setDischargeCriteria(event.target.value)} />
@@ -167,16 +167,35 @@ const EntryForm = ({ patientId, setPatient, hideForm, setErrorMsg }: EntryFormIn
               <Box sx={{ paddingTop: 1, paddingBottom: 1 }}>
                 <TextField label="Employer name" value={employer} onChange={event => setEmployer(event.target.value)} />
               </Box>
+              <p>Sickleave info:</p>
               <Box sx={{ paddingTop: 1, paddingBottom: 1 }}>
-                <TextField label="Sickleave start" value={startDate} onChange={event => setStartDate(event.target.value)} />
+                <p>Start date:</p>
+                <Input type="date" value={startDate} onChange={event => setStartDate(event.target.value)} />
               </Box>
               <Box sx={{ paddingTop: 1, paddingBottom: 1 }}>
-                <TextField label="Sickleave end" value={endDate} onChange={event => setEndDate(event.target.value)} />
+                <p>End date:</p>
+                <Input type="date" value={endDate} onChange={event => setEndDate(event.target.value)} />
               </Box>
             </>
           ) : (
             <Box sx={{ paddingTop: 1, paddingBottom: 1 }}>
-              <TextField label="HealthCheck rating" type="number" value={health} onChange={event => setHealth(Number(event.target.value))} />
+              <InputLabel id="health">HealthCheck rating</InputLabel>
+              <Select
+                labelId="health"
+                id="health-input"
+                value={health}
+                onChange={handleHealthRating}
+              >
+                <MenuItem disabled>
+                  <em>Select an option</em>
+                </MenuItem>
+                <MenuItem value={0}>Healthy</MenuItem>
+                <MenuItem value={1}>Low Risk</MenuItem>
+                <MenuItem value={2}>High Risk</MenuItem>
+                <MenuItem value={3}>Critial Risk</MenuItem>
+              </Select>
+
+              {/* <TextField label="HealthCheck rating" type="number" value={health} onChange={event => setHealth(Number(event.target.value))} /> */}
             </Box>
           )
         }
