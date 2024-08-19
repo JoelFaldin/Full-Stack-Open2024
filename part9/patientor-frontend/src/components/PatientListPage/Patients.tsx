@@ -7,7 +7,7 @@ import { Button } from "@mui/material";
 import { Patient } from "../../types";
 import patientService from "../../services/patients";
 import Entries from "./Entries";
-import EntryForm from "./EntryForm/EntryForm";
+import EntryForm from "./Forms/EntryForm";
 import ErrorNotif from "../ErrorNotif";
 
 const PatientsDetails = () => {
